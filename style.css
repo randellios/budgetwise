@@ -1,0 +1,491 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* ========== MAIN LAYOUT GRID ========== */
+.app-container {
+  display: grid;
+  grid-template-rows: 72px 1fr;
+  grid-template-columns: 380px 1fr 400px;
+  height: 100vh;
+  gap: 24px;
+  background: #f8fafc;
+  padding: 0 24px 24px 24px;
+}
+
+/* ========== HEADER ========== */
+.app-header {
+  grid-column: 1 / -1;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  z-index: 10;
+  margin: 0 24px;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.app-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+}
+
+.header-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-item {
+  padding: 10px 20px;
+  color: #64748b;
+  text-decoration: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-item:hover {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.nav-item.active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #166534;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #16a34a;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-radius: 24px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.user-menu:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
+
+.user-name {
+  font-size: 14px;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* ========== PANEL BASE STYLES ========== */
+.panel {
+  background: #ffffff;
+  overflow-y: auto;
+  border-radius: 20px;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  position: relative;
+  border: 1px solid #f1f5f9;
+}
+
+/* ========== LEFT PANEL - Budget Management ========== */
+.left-panel {
+  padding: 32px;
+  background: #ffffff;
+}
+
+.panel-header {
+  margin-bottom: 32px;
+}
+
+.month-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  background: #f8fafc;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.month-nav {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+
+.month-nav:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #374151;
+}
+
+.current-month {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+}
+
+.month-status {
+  font-size: 13px;
+  color: #64748b;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* ========== CENTER PANEL - Financial Story Dashboard ========== */
+.center-panel {
+  background: #ffffff;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+}
+
+/* Financial Confidence Hero */
+.confidence-hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  border-radius: 24px;
+  padding: 48px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.confidence-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      rgba(59, 130, 246, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 80%,
+      rgba(16, 185, 129, 0.1) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+}
+
+.confidence-content {
+  position: relative;
+  z-index: 2;
+}
+
+.confidence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.confidence-title {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+
+.confidence-message {
+  font-size: 20px;
+  color: #cbd5e1;
+  margin-bottom: 40px;
+  line-height: 1.6;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Story Grid Area */
+.story-section {
+  flex: 1;
+  background: #f8fafc;
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ========== RIGHT PANEL - Real-time Impact & Intelligence ========== */
+.right-panel {
+  background: #ffffff;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+}
+
+.panel-header-right {
+  text-align: center;
+}
+
+.panel-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.panel-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Scenario Planning Section */
+.scenario-section {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+}
+
+.scenario-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.scenario-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.scenario-desc {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Live Impact Section */
+.impact-section {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.impact-section.active {
+  border-color: #2563eb;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.15);
+}
+
+.impact-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.impact-icon {
+  width: 10px;
+  height: 10px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.impact-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #374151;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 1200px) {
+  .app-container {
+    grid-template-columns: 340px 1fr 360px;
+    gap: 20px;
+    padding: 0 20px 20px 20px;
+  }
+
+  .left-panel,
+  .center-panel,
+  .right-panel {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .app-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 72px auto auto auto;
+    gap: 16px;
+    padding: 0 16px 16px 16px;
+  }
+
+  .confidence-hero {
+    padding: 32px;
+  }
+
+  .confidence-title {
+    font-size: 32px;
+  }
+
+  .confidence-message {
+    font-size: 16px;
+  }
+}
+
+/* ========== ACCESSIBILITY & FOCUS STATES ========== */
+.nav-item:focus,
+.month-nav:focus,
+.user-menu:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* ========== LOADING STATE ========== */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Content areas for future development */
+.content-placeholder {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+}
