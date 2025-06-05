@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Management - Left Panel</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        background: #f1f5f9;
+        color: #1e293b;
+        line-height: 1.5;
+      }
+
+      .app-container {
+        display: grid;
+        grid-template-rows: 64px 1fr;
+        grid-template-columns: 360px 1fr 380px;
+        height: 100vh;
+        gap: 24px;
+        background: #f1f5f9;
+        padding: 0 24px 24px 24px;
+      }
+
+      /* Header */
+      .app-header {
+        grid-column: 1 / -1;
+        background: #ffffff;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        z-index: 10;
+        margin: 0 24px;
+        border-radius: 0 0 16px 16px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .app-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+      }
+
+      .app-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0f172a;
+      }
+
+      .header-nav {
+        display: flex;
+        gap: 8px;
+      }
+
+      .nav-item {
+        padding: 8px 16px;
+        color: #64748b;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .nav-item:hover {
+        background: #f1f5f9;
+        color: #334155;
+      }
+
+      .nav-item.active {
+        background: #eff6ff;
+        color: #2563eb;
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .header-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        background: #f0fdf4;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #166534;
+      }
+
+      .status-dot {
+        width: 6px;
+        height: 6px;
+        background: #16a34a;
+        border-radius: 50%;
+      }
+
+      .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: #f8fafc;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .user-menu:hover {
+        background: #f1f5f9;
+      }
+
+      .user-avatar {
+        width: 24px;
+        height: 24px;
+        background: #e2e8f0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: 500;
+        color: #64748b;
+      }
+
+      .user-name {
+        font-size: 13px;
+        color: #374151;
+        font-weight: 500;
+      }
+
+      .panel {
+        background: #ffffff;
+        overflow-y: auto;
+        border-radius: 16px;
+        box-shadow:
+          0 1px 3px 0 rgba(0, 0, 0, 0.1),
+          0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        position: relative;
+      }
+
+      /* Left Panel - Budget Management */
+      .left-panel {
+        padding: 24px;
+        position: relative;
+      }
+
+      .panel-header {
+        margin-bottom: 24px;
+      }
+
+      .month-selector {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+
+      .month-nav {
+        background: none;
+        border: none;
+        color: #64748b;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+
+      .month-nav:hover {
+        background: #f1f5f9;
+        color: #334155;
+      }
+
+      .current-month {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0f172a;
+      }
+
+      .month-status {
+        font-size: 12px;
+        color: #64748b;
+        text-align: center;
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 24px;
+      }
+
+      .quick-action {
+        flex: 1;
+        padding: 8px 12px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #374151;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.2s;
+      }
+
+      .quick-action:hover {
+        background: #eff6ff;
+        border-color: #3b82f6;
+        color: #1e40af;
+      }
+
+      /* Income Section */
+      .income-section {
+        margin-bottom: 20px;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+
+      .section-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .edit-icon {
+        color: #64748b;
+        cursor: pointer;
+        font-size: 14px;
+        padding: 4px;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+
+      .edit-icon:hover {
+        background: #f1f5f9;
+        color: #3b82f6;
+      }
+
+      .income-card {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 12px;
+        padding: 16px;
+        position: relative;
+      }
+
+      .income-amount {
+        font-size: 20px;
+        font-weight: 600;
+        color: #059669;
+        margin-bottom: 4px;
+      }
+
+      .income-range {
+        font-size: 12px;
+        color: #059669;
+        opacity: 0.8;
+      }
+
+      .income-status {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 10px;
+        background: #16a34a;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+
+      /* Expense Tiers */
+      .expense-section {
+        margin-bottom: 16px;
+      }
+
+      .tier-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 12px;
+      }
+
+      .tier-header {
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 500;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .tier-essential .tier-header {
+        background: #fef2f2;
+        border-left: 4px solid #dc2626;
+        color: #991b1b;
+      }
+
+      .tier-important .tier-header {
+        background: #fffbeb;
+        border-left: 4px solid #d97706;
+        color: #92400e;
+      }
+
+      .tier-lifestyle .tier-header {
+        background: #f0fdf4;
+        border-left: 4px solid #16a34a;
+        color: #166534;
+      }
+
+      .tier-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tier-name {
+        font-weight: 500;
+      }
+
+      .tier-count {
+        font-size: 11px;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 2px 6px;
+        border-radius: 10px;
+      }
+
+      .tier-amount {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tier-spent {
+        font-size: 11px;
+        opacity: 0.7;
+      }
+
+      .tier-toggle {
+        font-size: 12px;
+        transition: transform 0.2s;
+      }
+
+      .tier-card.collapsed .tier-toggle {
+        transform: rotate(-90deg);
+      }
+
+      .expense-list {
+        background: white;
+        display: none;
+      }
+
+      .tier-card.expanded .expense-list {
+        display: block;
+      }
+
+      .expense-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 16px;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 13px;
+        position: relative;
+      }
+
+      .expense-item:last-child {
+        border-bottom: none;
+      }
+
+      .expense-item:hover {
+        background: #f8fafc;
+      }
+
+      .expense-info {
+        flex: 1;
+      }
+
+      .expense-name {
+        color: #374151;
+        font-weight: 500;
+      }
+
+      .expense-frequency {
+        font-size: 11px;
+        color: #64748b;
+      }
+
+      .expense-amounts {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+      }
+
+      .expense-planned {
+        font-weight: 500;
+        color: #1e293b;
+      }
+
+      .expense-spent {
+        font-size: 11px;
+        color: #64748b;
+      }
+
+      .expense-over {
+        color: #dc2626;
+      }
+
+      .expense-under {
+        color: #059669;
+      }
+
+      .add-expense {
+        padding: 10px 16px;
+        color: #3b82f6;
+        font-size: 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+      }
+
+      .add-expense:hover {
+        background: #f8fafc;
+      }
+
+      /* Goals Section */
+      .goals-section {
+        margin-top: 20px;
+      }
+
+      .goals-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+
+      .goals-grid {
+        display: grid;
+        gap: 8px;
+      }
+
+      .goal-item {
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 13px;
+      }
+
+      .goal-name {
+        font-weight: 500;
+        color: #1e40af;
+        margin-bottom: 4px;
+      }
+
+      .goal-progress {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .goal-amount {
+        font-weight: 600;
+        color: #1e40af;
+      }
+
+      .goal-status {
+        font-size: 11px;
+        color: #64748b;
+      }
+
+      /* Center and Right panels placeholders */
+      .center-panel {
+        background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);
+        color: white;
+        padding: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .right-panel {
+        padding: 24px;
+        background: #fafbfc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #64748b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <div class="app-logo">
+            <div class="logo-icon">B</div>
+            <span class="app-name">BudgetWise</span>
+          </div>
+          <nav class="header-nav">
+            <a href="#" class="nav-item active">Budget</a>
+            <a href="#" class="nav-item">Reports</a>
+            <a href="#" class="nav-item">Goals</a>
+            <a href="#" class="nav-item">Settings</a>
+          </nav>
+        </div>
+        <div class="header-right">
+          <div class="header-status">
+            <div class="status-dot"></div>
+            <span>On Track</span>
+          </div>
+          <div class="user-menu">
+            <div class="user-avatar">JD</div>
+            <span class="user-name">John Doe</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Left Panel: Budget Management -->
+      <div class="panel left-panel">
+        <div class="panel-header">
+          <div class="month-selector">
+            <button class="month-nav">‹</button>
+            <div>
+              <div class="current-month">June 2025</div>
+              <div class="month-status">85% through month</div>
+            </div>
+            <button class="month-nav">›</button>
+          </div>
+
+          <div class="quick-actions">
+            <button class="quick-action">+ Income</button>
+            <button class="quick-action">+ Expense</button>
+            <button class="quick-action">+ Goal</button>
+          </div>
+        </div>
+
+        <!-- Income Section -->
+        <div class="income-section">
+          <div class="section-header">
+            <div class="section-title">Income</div>
+            <div class="edit-icon">✏️</div>
+          </div>
+          <div class="income-card">
+            <div class="income-status">This Month</div>
+            <div class="income-amount">$4,200</div>
+            <div class="income-range">Range: $4,000 - $6,500</div>
+          </div>
+        </div>
+
+        <!-- Essential Needs -->
+        <div class="expense-section">
+          <div class="tier-card tier-essential expanded">
+            <div class="tier-header">
+              <div class="tier-info">
+                <span class="tier-name">Essential Needs</span>
+                <span class="tier-count">4 items</span>
+              </div>
+              <div class="tier-amount">
+                <span>$2,380</span>
+                <span class="tier-spent">of $2,400</span>
+                <span class="tier-toggle">▼</span>
+              </div>
+            </div>
+            <div class="expense-list">
+              <div class="expense-item">
+                <div class="expense-info">
+                  <div class="expense-name">Rent</div>
+                  <div class="expense-frequency">Monthly</div>
+                </div>
+                <div class="expense-amounts">
+                  <div class="expense-planned">$1,800</div>
+                  <div class="expense-spent">$1,800</div>
+                </div>
+              </div>
+              <div class="expense-item">
+                <div class="expense-info">
+                  <div class="expense-name">Minimum Debt Payments</div>
+                  <div class="expense-frequency">Monthly</div>
+                </div>
+                <div class="expense-amounts">
+                  <div class="expense-planned">$300</div>
+                  <div class="expense-spent">$300</div>
+                </div>
+              </div>
+              <div class="expense-item">
+                <div class="expense-info">
+                  <div class="expense-name">Basic Utilities</div>
+                  <div class="expense-frequency">Monthly</div>
+                </div>
+                <div class="expense-amounts">
+                  <div class="expense-planned">$180</div>
+                  <div class="expense-spent expense-under">$160</div>
+                </div>
+              </div>
+              <div class="expense-item">
+                <div class="expense-info">
+                  <div class="expense-name">Minimum Food</div>
+                  <div class="expense-frequency">Monthly</div>
+                </div>
+                <div class="expense-amounts">
+                  <div class="expense-planned">$120</div>
+                  <div class="expense-spent expense-over">$140</div>
+                </div>
+              </div>
+              <div class="add-expense"><span>+</span> Add Essential Need</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Important Basics -->
+        <div class="expense-section">
+          <div class="tier-card tier-important collapsed">
+            <div class="tier-header">
+              <div class="tier-info">
+                <span class="tier-name">Important Basics</span>
+                <span class="tier-count">4 items</span>
+              </div>
+              <div class="tier-amount">
+                <span>$785</span>
+                <span class="tier-spent">of $800</span>
+                <span class="tier-toggle">▼</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lifestyle Wants -->
+        <div class="expense-section">
+          <div class="tier-card tier-lifestyle collapsed">
+            <div class="tier-header">
+              <div class="tier-info">
+                <span class="tier-name">Lifestyle Wants</span>
+                <span class="tier-count">3 items</span>
+              </div>
+              <div class="tier-amount">
+                <span>$420</span>
+                <span class="tier-spent">of $450</span>
+                <span class="tier-toggle">▼</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Financial Goals -->
+        <div class="goals-section">
+          <div class="goals-header">
+            <div class="section-title">Financial Goals</div>
+            <div class="edit-icon">✏️</div>
+          </div>
+          <div class="goals-grid">
+            <div class="goal-item">
+              <div class="goal-name">Emergency Fund</div>
+              <div class="goal-progress">
+                <div class="goal-amount">$300/mo</div>
+                <div class="goal-status">On track</div>
+              </div>
+            </div>
+            <div class="goal-item">
+              <div class="goal-name">Debt Payoff Extra</div>
+              <div class="goal-progress">
+                <div class="goal-amount">$350/mo</div>
+                <div class="goal-status">Ahead</div>
+              </div>
+            </div>
+            <div class="goal-item">
+              <div class="goal-name">Vacation Fund</div>
+              <div class="goal-progress">
+                <div class="goal-amount">$100/mo</div>
+                <div class="goal-status">On track</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Panel: Status + Story Dashboard -->
+      <div class="panel center-panel">
+        <div>
+          <h2 style="font-size: 28px; margin-bottom: 16px">
+            Your Financial Story
+          </h2>
+          <p style="opacity: 0.9">
+            Center panel would show the Status + Story dashboard with confidence
+            building messages and contextual insights.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Panel: Real-time Impact & Intelligence -->
+      <div class="panel right-panel">
+        <div>
+          <h3 style="margin-bottom: 16px">Live Impact & Intelligence</h3>
+          <p>
+            Right panel would display real-time calculations, scenario planning,
+            and smart suggestions.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

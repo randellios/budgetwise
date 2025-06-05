@@ -1,0 +1,817 @@
+<!-- Budget Setup Flow Strategy:
+1. Progressive Guided Experience
+
+Start with empty but hopeful interface showing potential
+Step-by-step guidance integrated into the main layout
+Real-time confidence building as each piece gets added
+Impact feedback shows how each input improves their financial picture
+
+2. Emotional Journey
+
+"Let's build your financial foundation" → "You're creating something powerful" → "Look what you've accomplished!" -->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financial Goals Setup</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        background: #f1f5f9;
+        color: #1e293b;
+        line-height: 1.5;
+      }
+
+      .setup-container {
+        display: grid;
+        grid-template-rows: 64px 1fr;
+        grid-template-columns: 300px 1fr 320px;
+        height: 100vh;
+        gap: 24px;
+        background: #f1f5f9;
+        padding: 0 24px 24px 24px;
+      }
+
+      /* Header */
+      .app-header {
+        grid-column: 1 / -1;
+        background: #ffffff;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        z-index: 10;
+        margin: 0 24px;
+        border-radius: 0 0 16px 16px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .app-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+      }
+
+      .app-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0f172a;
+      }
+
+      .setup-progress {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: #eff6ff;
+        padding: 8px 16px;
+        border-radius: 20px;
+      }
+
+      .progress-bar {
+        width: 200px;
+        height: 6px;
+        background: #e2e8f0;
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #3b82f6 0%, #1e40af 100%);
+        border-radius: 3px;
+        width: 80%;
+      }
+
+      .progress-text {
+        font-size: 13px;
+        color: #1e40af;
+        font-weight: 500;
+      }
+
+      .panel {
+        background: #ffffff;
+        overflow-y: auto;
+        border-radius: 16px;
+        box-shadow:
+          0 1px 3px 0 rgba(0, 0, 0, 0.1),
+          0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        position: relative;
+      }
+
+      /* Left Panel - Progress Checklist */
+      .left-panel {
+        padding: 24px;
+      }
+
+      .checklist-header {
+        margin-bottom: 24px;
+      }
+
+      .checklist-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #0f172a;
+        margin-bottom: 8px;
+      }
+
+      .checklist-subtitle {
+        font-size: 13px;
+        color: #64748b;
+      }
+
+      .checklist-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+
+      .checklist-item:last-child {
+        border-bottom: none;
+      }
+
+      .check-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .check-icon.complete {
+        background: #10b981;
+        color: white;
+      }
+
+      .check-icon.active {
+        background: #eff6ff;
+        color: #3b82f6;
+        border: 2px solid #3b82f6;
+      }
+
+      .checklist-content {
+        flex: 1;
+      }
+
+      .checklist-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 2px;
+      }
+
+      .checklist-desc {
+        font-size: 12px;
+        color: #64748b;
+      }
+
+      .checklist-item.complete .checklist-name {
+        color: #059669;
+      }
+
+      .checklist-item.active .checklist-name {
+        color: #3b82f6;
+      }
+
+      .checklist-item.active {
+        background: #f8fafc;
+        border-radius: 8px;
+        margin: 0 -8px;
+        padding: 12px 8px;
+      }
+
+      /* Center Panel - Financial Goals */
+      .center-panel {
+        background: #ffffff;
+        padding: 48px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .step-header {
+        text-align: center;
+        margin-bottom: 48px;
+      }
+
+      .step-icon {
+        font-size: 64px;
+        margin-bottom: 20px;
+      }
+
+      .step-title {
+        font-size: 32px;
+        font-weight: 600;
+        color: #0f172a;
+        margin-bottom: 12px;
+      }
+
+      .step-subtitle {
+        font-size: 18px;
+        color: #64748b;
+        line-height: 1.6;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .step-content {
+        flex: 1;
+        max-width: 600px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .tier-intro {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 32px;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .tier-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+
+      .tier-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #0f172a;
+        margin-bottom: 12px;
+      }
+
+      .tier-description {
+        font-size: 16px;
+        color: #64748b;
+        line-height: 1.6;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .goals-section {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      .goal-category {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 24px;
+      }
+
+      .category-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .expense-form {
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 20px;
+      }
+
+      .form-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 16px;
+        text-align: center;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .form-input {
+        flex: 1;
+        padding: 16px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.2s;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      .add-button {
+        background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+        color: white;
+        border: none;
+        padding: 16px 32px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        width: 100%;
+      }
+
+      .add-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+      }
+
+      .expenses-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .expense-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .expense-name {
+        font-size: 16px;
+        font-weight: 500;
+        color: #374151;
+      }
+
+      .expense-amount {
+        font-size: 16px;
+        font-weight: 600;
+        color: #059669;
+      }
+
+      .step-navigation {
+        margin-top: 48px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-button {
+        padding: 16px 32px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        color: #374151;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .nav-button:hover {
+        background: #f8fafc;
+      }
+
+      .nav-button.primary {
+        background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+        color: white;
+        border-color: transparent;
+      }
+
+      .nav-button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(22, 163, 74, 0.3);
+      }
+
+      /* Right Panel - Live Impact */
+      .right-panel {
+        padding: 24px;
+        background: #fafbfc;
+      }
+
+      .impact-header {
+        margin-bottom: 24px;
+      }
+
+      .impact-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #0f172a;
+        margin-bottom: 8px;
+      }
+
+      .impact-subtitle {
+        font-size: 13px;
+        color: #64748b;
+      }
+
+      .impact-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .impact-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .impact-card.active {
+        border-color: #3b82f6;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+      }
+
+      .impact-card.positive {
+        border-color: #10b981;
+        background: #f0fdf4;
+      }
+
+      .impact-card.warning {
+        border-color: #f59e0b;
+        background: #fffbeb;
+      }
+
+      .card-label {
+        font-size: 12px;
+        color: #64748b;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+
+      .card-value {
+        font-size: 20px;
+        font-weight: 600;
+        color: #374151;
+      }
+
+      .impact-card.positive .card-value {
+        color: #059669;
+      }
+
+      .impact-card.warning .card-value {
+        color: #d97706;
+      }
+
+      .confidence-meter {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      .confidence-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 12px;
+      }
+
+      .confidence-level {
+        font-size: 24px;
+        font-weight: 600;
+        color: #10b981;
+        margin-bottom: 8px;
+      }
+
+      .confidence-description {
+        font-size: 12px;
+        color: #64748b;
+      }
+
+      .goals-summary {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+      }
+
+      .summary-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 16px;
+        text-align: center;
+      }
+
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+
+      .summary-item:last-child {
+        border-bottom: none;
+      }
+
+      .summary-label {
+        font-size: 13px;
+        color: #64748b;
+      }
+
+      .summary-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+      }
+
+      .total-goals {
+        background: #eff6ff;
+        border-radius: 8px;
+        padding: 12px;
+        margin-top: 12px;
+      }
+
+      .total-goals .summary-label {
+        color: #1e40af;
+        font-weight: 500;
+      }
+
+      .total-goals .summary-value {
+        color: #1e40af;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="setup-container">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <div class="app-logo">
+            <div class="logo-icon">B</div>
+            <span class="app-name">BudgetWise</span>
+          </div>
+        </div>
+        <div class="setup-progress">
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+          <span class="progress-text">80% Complete</span>
+        </div>
+      </header>
+
+      <!-- Left Panel: Progress Checklist -->
+      <div class="panel left-panel">
+        <div class="checklist-header">
+          <h3 class="checklist-title">Setup Progress</h3>
+          <p class="checklist-subtitle">Building your financial foundation</p>
+        </div>
+
+        <div class="checklist-item complete">
+          <div class="check-icon complete">✓</div>
+          <div class="checklist-content">
+            <div class="checklist-name">Income Range</div>
+            <div class="checklist-desc">$4,000 - $6,500</div>
+          </div>
+        </div>
+
+        <div class="checklist-item complete">
+          <div class="check-icon complete">✓</div>
+          <div class="checklist-content">
+            <div class="checklist-name">Essential Needs</div>
+            <div class="checklist-desc">$2,400 monthly</div>
+          </div>
+        </div>
+
+        <div class="checklist-item complete">
+          <div class="check-icon complete">✓</div>
+          <div class="checklist-content">
+            <div class="checklist-name">Important Basics</div>
+            <div class="checklist-desc">$800 monthly</div>
+          </div>
+        </div>
+
+        <div class="checklist-item complete">
+          <div class="check-icon complete">✓</div>
+          <div class="checklist-content">
+            <div class="checklist-name">Lifestyle Wants</div>
+            <div class="checklist-desc">$450 monthly</div>
+          </div>
+        </div>
+
+        <div class="checklist-item active">
+          <div class="check-icon active">5</div>
+          <div class="checklist-content">
+            <div class="checklist-name">Financial Goals</div>
+            <div class="checklist-desc">Savings & debt payoff</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Panel: Financial Goals -->
+      <div class="panel center-panel">
+        <div class="step-header">
+          <div class="step-icon">🎯</div>
+          <h2 class="step-title">Financial Goals</h2>
+          <p class="step-subtitle">
+            Savings, debt payoff, and building your financial future.
+          </p>
+        </div>
+
+        <div class="step-content">
+          <div class="tier-intro">
+            <div class="tier-icon">🚀</div>
+            <h3 class="tier-title">Building Your Future</h3>
+            <p class="tier-description">
+              This is where the magic happens: emergency funds, debt
+              elimination, and savings goals. Every dollar here works toward
+              your financial freedom.
+            </p>
+          </div>
+
+          <div class="goals-section">
+            <div class="goal-category">
+              <h4 class="category-title">💰 Savings Goals</h4>
+              <div class="expense-form">
+                <div class="form-title">Add a Savings Goal</div>
+                <div class="form-row">
+                  <input
+                    type="text"
+                    class="form-input"
+                    placeholder="Goal name (e.g., Emergency Fund)"
+                    value=""
+                  />
+                  <input
+                    type="number"
+                    class="form-input"
+                    placeholder="Monthly amount"
+                    value=""
+                  />
+                </div>
+                <button class="add-button">Add Savings Goal</button>
+              </div>
+              <div class="expenses-list">
+                <div class="expense-item">
+                  <span class="expense-name">Emergency Fund</span>
+                  <span class="expense-amount">$300</span>
+                </div>
+                <div class="expense-item">
+                  <span class="expense-name">Vacation Fund</span>
+                  <span class="expense-amount">$100</span>
+                </div>
+                <div class="expense-item">
+                  <span class="expense-name">House Down Payment</span>
+                  <span class="expense-amount">$200</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="goal-category">
+              <h4 class="category-title">💳 Debt Payoff</h4>
+              <div class="expense-form">
+                <div class="form-title">Add Extra Debt Payment</div>
+                <div class="form-row">
+                  <input
+                    type="text"
+                    class="form-input"
+                    placeholder="Debt name (e.g., Credit Card Extra Payment)"
+                    value=""
+                  />
+                  <input
+                    type="number"
+                    class="form-input"
+                    placeholder="Extra monthly payment"
+                    value=""
+                  />
+                </div>
+                <button class="add-button">Add Debt Payment</button>
+              </div>
+              <div class="expenses-list">
+                <div class="expense-item">
+                  <span class="expense-name">Credit Card Extra Payment</span>
+                  <span class="expense-amount">$200</span>
+                </div>
+                <div class="expense-item">
+                  <span class="expense-name">Student Loan Extra</span>
+                  <span class="expense-amount">$150</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-navigation">
+            <button class="nav-button">← Back to Lifestyle Wants</button>
+            <button class="nav-button primary">🎉 Complete Your Budget</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel: Live Impact -->
+      <div class="panel right-panel">
+        <div class="impact-header">
+          <h3 class="impact-title">Live Impact</h3>
+          <p class="impact-subtitle">See how your goals affect your budget</p>
+        </div>
+
+        <div class="impact-cards">
+          <div class="impact-card active">
+            <div class="card-label">Monthly Income</div>
+            <div class="card-value">$4,000</div>
+          </div>
+
+          <div class="impact-card active">
+            <div class="card-label">Total Expenses</div>
+            <div class="card-value">$3,650</div>
+          </div>
+
+          <div class="impact-card positive">
+            <div class="card-label">Total Goals</div>
+            <div class="card-value">$950</div>
+          </div>
+
+          <div class="impact-card warning">
+            <div class="card-label">Budget Status</div>
+            <div class="card-value">-$600 over</div>
+          </div>
+        </div>
+
+        <div class="confidence-meter">
+          <div class="confidence-title">Financial Confidence</div>
+          <div class="confidence-level">Very High</div>
+          <div class="confidence-description">
+            You're prioritizing your future! Consider adjusting to balance your
+            budget.
+          </div>
+        </div>
+
+        <div class="goals-summary">
+          <div class="summary-title">Goals Breakdown</div>
+          <div class="summary-item">
+            <span class="summary-label">Emergency Fund</span>
+            <span class="summary-value">$300</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Vacation Fund</span>
+            <span class="summary-value">$100</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">House Down Payment</span>
+            <span class="summary-value">$200</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Credit Card Extra</span>
+            <span class="summary-value">$200</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Student Loan Extra</span>
+            <span class="summary-value">$150</span>
+          </div>
+          <div class="total-goals">
+            <div class="summary-item">
+              <span class="summary-label">Total Monthly Goals</span>
+              <span class="summary-value">$950</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
