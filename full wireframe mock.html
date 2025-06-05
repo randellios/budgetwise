@@ -111,6 +111,64 @@
         gap: 16px;
       }
 
+      /* Smart Alert System */
+      .smart-alert {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: #fffbeb;
+        border: 1px solid #f59e0b;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #92400e;
+        cursor: pointer;
+        transition: all 0.2s;
+        max-width: 280px;
+      }
+
+      .smart-alert:hover {
+        background: #fef3c7;
+        transform: translateY(-1px);
+      }
+
+      .alert-icon {
+        font-size: 16px;
+        animation: pulse-alert 2s infinite;
+      }
+
+      @keyframes pulse-alert {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.6;
+        }
+      }
+
+      .alert-text {
+        flex: 1;
+        line-height: 1.3;
+      }
+
+      .alert-action {
+        background: #f59e0b;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .alert-action:hover {
+        background: #d97706;
+      }
+
       .header-status {
         display: flex;
         align-items: center;
@@ -178,6 +236,100 @@
       .left-panel {
         padding: 24px;
         position: relative;
+      }
+
+      /* Irregular Expenses Section */
+      .irregular-section {
+        margin-bottom: 20px;
+      }
+
+      .irregular-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 12px;
+      }
+
+      .irregular-header {
+        padding: 12px 16px;
+        background: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        color: #92400e;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 500;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .irregular-list {
+        background: white;
+        display: none;
+      }
+
+      .irregular-card.expanded .irregular-list {
+        display: block;
+      }
+
+      .irregular-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 16px;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 13px;
+        position: relative;
+      }
+
+      .irregular-item:last-child {
+        border-bottom: none;
+      }
+
+      .irregular-item.warning {
+        background: #fffbeb;
+        border-left: 3px solid #f59e0b;
+      }
+
+      .irregular-item.healthy {
+        background: #f0fdf4;
+        border-left: 3px solid #10b981;
+      }
+
+      .irregular-name {
+        color: #374151;
+        font-weight: 500;
+      }
+
+      .irregular-schedule {
+        font-size: 11px;
+        color: #64748b;
+      }
+
+      .irregular-fund {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+      }
+
+      .fund-status {
+        font-weight: 500;
+        color: #1e293b;
+      }
+
+      .fund-target {
+        font-size: 11px;
+        color: #64748b;
+      }
+
+      .fund-warning {
+        color: #dc2626;
+      }
+
+      .fund-healthy {
+        color: #059669;
       }
 
       .panel-header {
@@ -278,12 +430,251 @@
         color: #3b82f6;
       }
 
+      /* Variable Income Intelligence */
       .income-card {
         background: #f0fdf4;
         border: 1px solid #bbf7d0;
         border-radius: 12px;
         padding: 16px;
         position: relative;
+      }
+
+      .income-surplus {
+        background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+        border: 2px solid #10b981;
+        margin-top: 12px;
+        padding: 16px;
+        border-radius: 12px;
+        animation: glow-success 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes glow-success {
+        from {
+          box-shadow: 0 0 5px rgba(16, 185, 129, 0.3);
+        }
+        to {
+          box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+        }
+      }
+
+      .surplus-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .surplus-icon {
+        font-size: 20px;
+      }
+
+      .surplus-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #059669;
+      }
+
+      .surplus-amount {
+        font-size: 18px;
+        font-weight: 700;
+        color: #059669;
+        margin-bottom: 8px;
+      }
+
+      .surplus-impact {
+        font-size: 12px;
+        color: #059669;
+        background: rgba(16, 185, 129, 0.1);
+        padding: 6px 10px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+      }
+
+      .optimize-button {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        width: 100%;
+      }
+
+      .optimize-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      }
+
+      /* Redistribution Modal */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        backdrop-filter: blur(4px);
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .redistribution-modal {
+        background: white;
+        border-radius: 24px;
+        padding: 40px;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        position: relative;
+      }
+
+      .modal-header {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .modal-icon {
+        font-size: 64px;
+        margin-bottom: 16px;
+      }
+
+      .modal-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 12px;
+      }
+
+      .modal-subtitle {
+        font-size: 16px;
+        color: #64748b;
+        line-height: 1.5;
+      }
+
+      .reallocation-options {
+        display: grid;
+        gap: 16px;
+        margin-bottom: 32px;
+      }
+
+      .reallocation-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 20px;
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .reallocation-item:hover {
+        background: #f1f5f9;
+        border-color: #3b82f6;
+      }
+
+      .reallocation-item.recommended {
+        background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+        border-color: #10b981;
+      }
+
+      .reallocation-priority {
+        width: 32px;
+        height: 32px;
+        background: #3b82f6;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+
+      .reallocation-item.recommended .reallocation-priority {
+        background: #10b981;
+      }
+
+      .reallocation-info {
+        flex: 1;
+      }
+
+      .reallocation-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 4px;
+      }
+
+      .reallocation-description {
+        font-size: 14px;
+        color: #64748b;
+        margin-bottom: 8px;
+      }
+
+      .reallocation-impact {
+        font-size: 12px;
+        color: #059669;
+        font-weight: 500;
+        background: rgba(16, 185, 129, 0.1);
+        padding: 4px 8px;
+        border-radius: 6px;
+        display: inline-block;
+      }
+
+      .reallocation-amount {
+        font-size: 18px;
+        font-weight: 700;
+        color: #374151;
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+      }
+
+      .modal-button {
+        padding: 16px 32px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+      }
+
+      .modal-button.primary {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+      }
+
+      .modal-button.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+      }
+
+      .modal-button.secondary {
+        background: #f8fafc;
+        color: #374151;
+        border: 2px solid #e2e8f0;
+      }
+
+      .modal-button.secondary:hover {
+        background: #f1f5f9;
       }
 
       .income-amount {
@@ -542,6 +933,15 @@
         overflow: hidden;
       }
 
+      .confidence-hero.warning {
+        background: linear-gradient(
+          135deg,
+          #92400e 0%,
+          #d97706 50%,
+          #f59e0b 100%
+        );
+      }
+
       .confidence-hero::before {
         content: '';
         position: absolute;
@@ -570,6 +970,60 @@
         font-size: 14px;
         font-weight: 500;
         margin-bottom: 20px;
+      }
+
+      .confidence-badge.momentum {
+        background: rgba(59, 130, 246, 0.15);
+        border-color: rgba(59, 130, 246, 0.3);
+        color: #3b82f6;
+      }
+
+      .confidence-badge.warning {
+        background: rgba(239, 68, 68, 0.15);
+        border-color: rgba(239, 68, 68, 0.3);
+        color: #ef4444;
+      }
+
+      .momentum-indicator {
+        background: rgba(59, 130, 246, 0.15);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        color: #60a5fa;
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 16px;
+        display: inline-block;
+      }
+
+      .divergence-alert {
+        background: rgba(239, 68, 68, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #f87171;
+        padding: 16px 20px;
+        border-radius: 12px;
+        margin-top: 16px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.4;
+      }
+
+      .rebalance-cta {
+        background: #ef4444;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 12px;
+      }
+
+      .rebalance-cta:hover {
+        background: #dc2626;
+        transform: translateY(-2px);
       }
 
       .confidence-title {
@@ -915,13 +1369,168 @@
       }
 
       /* ========== RIGHT PANEL - Real-time Impact & Intelligence ========== */
+      /* Scenario Planning */
+      .scenario-section {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-radius: 16px;
+        padding: 20px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .scenario-assumptions {
+        background: white;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 16px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .assumptions-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        cursor: pointer;
+      }
+
+      .assumptions-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+      }
+
+      .assumptions-toggle {
+        font-size: 12px;
+        color: #64748b;
+        transition: transform 0.2s;
+      }
+
+      .scenario-assumptions.collapsed .assumptions-toggle {
+        transform: rotate(-90deg);
+      }
+
+      .assumptions-content {
+        display: none;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        font-size: 11px;
+      }
+
+      .scenario-assumptions.expanded .assumptions-content {
+        display: grid;
+      }
+
+      .assumption-item {
+        background: #f8fafc;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border-left: 3px solid #3b82f6;
+      }
+
+      .assumption-label {
+        color: #64748b;
+        font-weight: 500;
+        margin-bottom: 2px;
+      }
+
+      .assumption-value {
+        color: #374151;
+        font-weight: 600;
+      }
+
+      /* Right Panel Organization */
       .right-panel {
         background: #ffffff;
         padding: 24px;
         display: flex;
         flex-direction: column;
-        gap: 24px;
+        gap: 20px;
         position: relative;
+      }
+
+      .panel-section {
+        transition: all 0.3s ease;
+      }
+
+      .panel-section.priority {
+        order: -1;
+      }
+
+      .panel-section.collapsible {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .section-header-collapsible {
+        background: #f8fafc;
+        padding: 12px 16px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s;
+      }
+
+      .section-header-collapsible:hover {
+        background: #f1f5f9;
+      }
+
+      .section-title-collapsible {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+      }
+
+      .section-toggle {
+        font-size: 12px;
+        color: #64748b;
+        transition: transform 0.2s;
+      }
+
+      .panel-section.collapsed .section-toggle {
+        transform: rotate(-90deg);
+      }
+
+      .section-content {
+        padding: 16px;
+        display: block;
+      }
+
+      .panel-section.collapsed .section-content {
+        display: none;
+      }
+
+      /* Priority Indicators */
+      .priority-indicator {
+        width: 8px;
+        height: 8px;
+        background: #ef4444;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 8px;
+        animation: pulse-priority 1.5s infinite;
+      }
+
+      @keyframes pulse-priority {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.6;
+          transform: scale(1.2);
+        }
+      }
+
+      .priority-indicator.medium {
+        background: #f59e0b;
+      }
+
+      .priority-indicator.low {
+        background: #6b7280;
+        animation: none;
       }
 
       .panel-header-right {
@@ -939,14 +1548,6 @@
       .panel-subtitle {
         font-size: 13px;
         color: #64748b;
-      }
-
-      /* Scenario Planning */
-      .scenario-section {
-        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-        border-radius: 16px;
-        padding: 20px;
-        border: 1px solid #e2e8f0;
       }
 
       .scenario-header {
@@ -1354,36 +1955,14 @@
         margin-bottom: 6px;
       }
 
-      .suggestion-item {
-        background: #f8fafc;
-        border-radius: 12px;
-        padding: 14px;
-        margin-bottom: 12px;
-        border-left: 3px solid #3b82f6;
-        transition: all 0.2s;
-        cursor: pointer;
-      }
-
-      .suggestion-item:hover {
-        background: #eff6ff;
-        transform: translateX(2px);
-      }
-
-      .suggestion-item:last-child {
-        margin-bottom: 0;
-      }
-
-      .suggestion-text {
-        font-size: 13px;
-        color: #374151;
-        line-height: 1.4;
-        margin-bottom: 6px;
-      }
-
       .suggestion-impact {
         font-size: 11px;
         color: #3b82f6;
         font-weight: 500;
+      }
+
+      .suggestion-item.priority .suggestion-impact {
+        color: #059669;
       }
 
       /* Budget Balance Analysis */
@@ -1974,59 +2553,6 @@
         font-size: 11px;
         color: #64748b;
       }
-
-      .suggestion-item {
-        background: #f8fafc;
-        border-radius: 12px;
-        padding: 16px;
-        margin-bottom: 12px;
-        border-left: 3px solid #3b82f6;
-        transition: all 0.2s;
-        cursor: pointer;
-        display: flex;
-        gap: 12px;
-        align-items: flex-start;
-      }
-
-      .suggestion-item.priority {
-        border-left-color: #10b981;
-        background: linear-gradient(135deg, #f0fdf4 0%, #f8fafc 100%);
-      }
-
-      .suggestion-item:hover {
-        background: #eff6ff;
-        transform: translateX(2px);
-      }
-
-      .suggestion-item:last-child {
-        margin-bottom: 0;
-      }
-
-      .suggestion-icon {
-        font-size: 16px;
-        margin-top: 2px;
-      }
-
-      .suggestion-content {
-        flex: 1;
-      }
-
-      .suggestion-text {
-        font-size: 13px;
-        color: #374151;
-        line-height: 1.4;
-        margin-bottom: 6px;
-      }
-
-      .suggestion-impact {
-        font-size: 11px;
-        color: #3b82f6;
-        font-weight: 500;
-      }
-
-      .suggestion-item.priority .suggestion-impact {
-        color: #059669;
-      }
     </style>
   </head>
   <body>
@@ -2046,6 +2572,15 @@
           </nav>
         </div>
         <div class="header-right">
+          <!-- Smart Alert System -->
+          <div class="smart-alert">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-text">
+              Car insurance due next month - fund needs $120 top-up
+            </div>
+            <button class="alert-action">Fix</button>
+          </div>
+
           <div class="header-status">
             <div class="status-dot"></div>
             <span>On Track</span>
@@ -2086,6 +2621,89 @@
             <div class="income-status">This Month</div>
             <div class="income-amount">$5,500</div>
             <div class="income-range">Range: $4,000 - $6,500</div>
+
+            <!-- Variable Income Intelligence -->
+            <div class="income-surplus">
+              <div class="surplus-header">
+                <div class="surplus-icon">🚀</div>
+                <div class="surplus-title">Surplus Detected!</div>
+              </div>
+              <div class="surplus-amount">+$1,500 above minimum</div>
+              <div class="surplus-impact">
+                Could accelerate debt freedom by 4 months
+              </div>
+              <button
+                class="optimize-button"
+                onclick="showRedistributionModal()"
+              >
+                Optimize Allocation
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Irregular Expenses -->
+        <div class="irregular-section">
+          <div class="section-header">
+            <div class="section-title">Irregular Expenses</div>
+            <div class="edit-icon">✏️</div>
+          </div>
+          <div class="irregular-card expanded">
+            <div class="irregular-header">
+              <div class="tier-info">
+                <span class="tier-name">Virtual Funds</span>
+                <span class="tier-count">4 items</span>
+              </div>
+              <div class="tier-amount">
+                <span>$1,180</span>
+                <span class="tier-spent">of $1,300 needed</span>
+                <span class="tier-toggle">▼</span>
+              </div>
+            </div>
+            <div class="irregular-list">
+              <div class="irregular-item healthy">
+                <div class="irregular-info">
+                  <div class="irregular-name">Car Maintenance</div>
+                  <div class="irregular-schedule">
+                    Every 6 months - Next: Oct 2025
+                  </div>
+                </div>
+                <div class="irregular-fund">
+                  <div class="fund-status fund-healthy">$380</div>
+                  <div class="fund-target">of $400</div>
+                </div>
+              </div>
+              <div class="irregular-item warning">
+                <div class="irregular-info">
+                  <div class="irregular-name">Car Insurance</div>
+                  <div class="irregular-schedule">Annual - Due: July 2025</div>
+                </div>
+                <div class="irregular-fund">
+                  <div class="fund-status fund-warning">$480</div>
+                  <div class="fund-target">of $600 needed</div>
+                </div>
+              </div>
+              <div class="irregular-item healthy">
+                <div class="irregular-info">
+                  <div class="irregular-name">Holiday Gifts</div>
+                  <div class="irregular-schedule">December 2025</div>
+                </div>
+                <div class="irregular-fund">
+                  <div class="fund-status fund-healthy">$200</div>
+                  <div class="fund-target">of $300</div>
+                </div>
+              </div>
+              <div class="irregular-item healthy">
+                <div class="irregular-info">
+                  <div class="irregular-name">Home Repairs</div>
+                  <div class="irregular-schedule">As needed</div>
+                </div>
+                <div class="irregular-fund">
+                  <div class="fund-status fund-healthy">$120</div>
+                  <div class="fund-target">Emergency buffer</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -2220,15 +2838,18 @@
         <!-- Financial Confidence Hero Section -->
         <div class="confidence-hero">
           <div class="confidence-content">
-            <div class="confidence-badge">
-              <span>🎯</span>
-              <span>Building Strong Foundations</span>
+            <div class="confidence-badge momentum">
+              <span>📈</span>
+              <span>Accelerating Progress</span>
             </div>
             <h1 class="confidence-title">You're 3 Months Ahead</h1>
             <p class="confidence-message">
               Your financial plan is working beautifully. You're building real
               security and making excellent progress toward debt freedom.
             </p>
+            <div class="momentum-indicator">
+              🚀 Debt payoff accelerating: 23% faster than original plan
+            </div>
             <div class="confidence-metrics">
               <div class="metric-item">
                 <span class="metric-value">4.2 months</span>
@@ -2490,334 +3111,387 @@
           <p class="panel-subtitle">Live analysis and projections</p>
         </div>
 
+        <!-- Priority: Smart Suggestions -->
+        <div class="panel-section priority">
+          <div class="suggestions-section">
+            <div class="suggestions-header">
+              <h3 class="suggestions-title">
+                <span class="priority-indicator"></span>
+                Urgent Recommendations
+              </h3>
+              <p class="suggestions-subtitle">
+                Critical actions for your surplus
+              </p>
+            </div>
+
+            <div class="suggestion-item priority">
+              <div class="suggestion-icon">🎯</div>
+              <div class="suggestion-content">
+                <div class="suggestion-text">
+                  Apply $600 extra to credit card (19% APR) for maximum interest
+                  savings
+                </div>
+                <div class="suggestion-impact">
+                  Saves $340 in interest, 3 months faster payoff
+                </div>
+              </div>
+            </div>
+
+            <div class="suggestion-item">
+              <div class="suggestion-icon">⚠️</div>
+              <div class="suggestion-content">
+                <div class="suggestion-text">
+                  Top up irregular expense fund with $120 to fully cover car
+                  insurance
+                </div>
+                <div class="suggestion-impact">
+                  Prevents budget disruption next month
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Scenario Planning -->
-        <div class="scenario-section">
-          <div class="scenario-header">
-            <h3 class="scenario-title">Future Scenarios</h3>
-            <p class="scenario-desc">Explore different financial outcomes</p>
+        <div class="panel-section collapsible expanded">
+          <div class="section-header-collapsible">
+            <h3 class="section-title-collapsible">
+              <span class="priority-indicator medium"></span>
+              Future Scenarios
+            </h3>
+            <span class="section-toggle">▼</span>
           </div>
+          <div class="section-content">
+            <div class="scenario-section">
+              <div class="scenario-header">
+                <p class="scenario-desc">
+                  Explore different financial outcomes
+                </p>
+              </div>
 
-          <!-- Timeframe Selector -->
-          <div class="timeframe-selector">
-            <div class="timeframe-label">Project to:</div>
-            <div class="timeframe-buttons">
-              <button class="timeframe-btn" data-months="6">6 months</button>
-              <button class="timeframe-btn active" data-months="12">
-                1 year
-              </button>
-              <button class="timeframe-btn" data-months="36">3 years</button>
-              <button class="timeframe-btn" data-months="60">5 years</button>
-              <button class="timeframe-btn" data-months="full">
-                Full term
-              </button>
-            </div>
-          </div>
+              <!-- Scenario Assumptions -->
+              <div class="scenario-assumptions expanded">
+                <div class="assumptions-header">
+                  <div class="assumptions-title">
+                    Current Scenario Assumptions
+                  </div>
+                  <div class="assumptions-toggle">▼</div>
+                </div>
+                <div class="assumptions-content">
+                  <div class="assumption-item">
+                    <div class="assumption-label">Income Range</div>
+                    <div class="assumption-value">$4,200 avg</div>
+                  </div>
+                  <div class="assumption-item">
+                    <div class="assumption-label">Overspend Risk</div>
+                    <div class="assumption-value">15% likelihood</div>
+                  </div>
+                  <div class="assumption-item">
+                    <div class="assumption-label">Inflation Rate</div>
+                    <div class="assumption-value">3% annually</div>
+                  </div>
+                  <div class="assumption-item">
+                    <div class="assumption-label">Bonus Frequency</div>
+                    <div class="assumption-value">Twice yearly</div>
+                  </div>
+                </div>
+              </div>
 
-          <div class="scenario-slider">
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value="50"
-              class="slider"
-              id="scenarioSlider"
-            />
-            <div class="slider-labels">
-              <span>Conservative</span>
-              <span>Current Plan</span>
-              <span>Optimistic</span>
-            </div>
-          </div>
+              <!-- Timeframe Selector -->
+              <div class="timeframe-selector">
+                <div class="timeframe-label">Project to:</div>
+                <div class="timeframe-buttons">
+                  <button class="timeframe-btn" data-months="6">
+                    6 months
+                  </button>
+                  <button class="timeframe-btn active" data-months="12">
+                    1 year
+                  </button>
+                  <button class="timeframe-btn" data-months="36">
+                    3 years
+                  </button>
+                  <button class="timeframe-btn" data-months="60">
+                    5 years
+                  </button>
+                  <button class="timeframe-btn" data-months="full">
+                    Full term
+                  </button>
+                </div>
+              </div>
 
-          <div class="current-scenario">
-            <div class="scenario-name">Current Plan Scenario</div>
-            <div class="scenario-details">
-              Budget followed, minimal overspend
-            </div>
-          </div>
+              <div class="scenario-slider">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  class="slider"
+                  id="scenarioSlider"
+                />
+                <div class="slider-labels">
+                  <span>Conservative</span>
+                  <span>Current Plan</span>
+                  <span>Optimistic</span>
+                </div>
+              </div>
 
-          <div class="scenario-results">
-            <div class="result-item">
-              <span class="result-label">Projection Date</span>
-              <span class="result-value" id="projection-date">June 2026</span>
-            </div>
-            <div class="result-item">
-              <span class="result-label">Debt Remaining</span>
-              <span class="result-value" id="debt-remaining">$1,200</span>
-            </div>
-            <div class="result-item">
-              <span class="result-label">Emergency Fund</span>
-              <span class="result-value positive" id="emergency-projection"
-                >$12,600</span
-              >
-            </div>
-            <div class="result-item">
-              <span class="result-label">Net Worth</span>
-              <span class="result-value positive" id="net-worth-projection"
-                >$18,400</span
-              >
-            </div>
-            <div class="result-item">
-              <span class="result-label">Interest Saved</span>
-              <span class="result-value positive" id="interest-saved"
-                >$2,340</span
-              >
+              <div class="current-scenario">
+                <div class="scenario-name">Current Plan Scenario</div>
+                <div class="scenario-details">
+                  Budget followed, minimal overspend
+                </div>
+              </div>
+
+              <div class="scenario-results">
+                <div class="result-item">
+                  <span class="result-label">Debt-Free Date</span>
+                  <span class="result-value positive" id="debt-free-date"
+                    >March 2026</span
+                  >
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Emergency Fund</span>
+                  <span class="result-value positive" id="emergency-projection"
+                    >$12,600</span
+                  >
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Interest Saved</span>
+                  <span class="result-value positive" id="interest-saved"
+                    >$2,340</span
+                  >
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Scenario Explorer -->
-        <div class="impact-section active">
-          <div class="impact-header">
-            <div class="impact-icon"></div>
-            <h3 class="impact-title">Scenario Explorer</h3>
+        <div class="panel-section collapsible expanded">
+          <div class="section-header-collapsible">
+            <h3 class="section-title-collapsible">
+              <span class="priority-indicator medium"></span>
+              What-If Explorer
+            </h3>
+            <span class="section-toggle">▼</span>
           </div>
+          <div class="section-content">
+            <div class="impact-section active">
+              <div class="impact-header">
+                <div class="impact-icon"></div>
+                <h3 class="impact-title">Test Your Scenarios</h3>
+              </div>
 
-          <div class="explorer-tabs">
-            <button class="tab-button active" data-tab="raise">💰 Raise</button>
-            <button class="tab-button" data-tab="expense">
-              💳 New Expense
-            </button>
-            <button class="tab-button" data-tab="bonus">🎉 Bonus</button>
-          </div>
+              <div class="explorer-tabs">
+                <button class="tab-button active" data-tab="raise">
+                  💰 Raise
+                </button>
+                <button class="tab-button" data-tab="expense">
+                  💳 New Expense
+                </button>
+                <button class="tab-button" data-tab="bonus">🎉 Bonus</button>
+              </div>
 
-          <!-- Raise Scenario -->
-          <div class="scenario-tab active" id="raise-tab">
-            <div class="scenario-input">
-              <label class="input-label">Monthly raise amount:</label>
-              <div class="input-group">
-                <span class="input-prefix">$</span>
-                <input
-                  type="number"
-                  class="scenario-number"
-                  value="200"
-                  min="0"
-                  max="2000"
-                  step="50"
-                />
-              </div>
-            </div>
+              <!-- Raise Scenario -->
+              <div class="scenario-tab active" id="raise-tab">
+                <div class="scenario-input">
+                  <label class="input-label">Monthly raise amount:</label>
+                  <div class="input-group">
+                    <span class="input-prefix">$</span>
+                    <input
+                      type="number"
+                      class="scenario-number"
+                      value="200"
+                      min="0"
+                      max="2000"
+                      step="50"
+                    />
+                  </div>
+                </div>
 
-            <div class="scenario-results-grid">
-              <div class="result-card positive">
-                <div class="result-label">New Surplus</div>
-                <div class="result-value">$1,100</div>
-                <div class="result-change">+$200 monthly</div>
+                <div class="scenario-results-grid">
+                  <div class="result-card positive">
+                    <div class="result-label">Debt-Free Date</div>
+                    <div class="result-value">Jan 2026</div>
+                    <div class="result-change">2 months earlier</div>
+                  </div>
+                  <div class="result-card positive">
+                    <div class="result-label">Interest Saved</div>
+                    <div class="result-value">$420</div>
+                    <div class="result-change">Over loan term</div>
+                  </div>
+                </div>
               </div>
-              <div class="result-card positive">
-                <div class="result-label">Debt-Free Date</div>
-                <div class="result-value">Jan 2026</div>
-                <div class="result-change">2 months earlier</div>
-              </div>
-              <div class="result-card positive">
-                <div class="result-label">Extra Interest Saved</div>
-                <div class="result-value">$420</div>
-                <div class="result-change">Over loan term</div>
-              </div>
-            </div>
-          </div>
 
-          <!-- New Expense Scenario -->
-          <div class="scenario-tab" id="expense-tab">
-            <div class="scenario-input">
-              <label class="input-label">New monthly expense:</label>
-              <div class="input-group">
-                <span class="input-prefix">$</span>
-                <input
-                  type="number"
-                  class="scenario-number"
-                  value="150"
-                  min="0"
-                  max="1000"
-                  step="25"
-                />
-              </div>
-            </div>
+              <!-- New Expense Scenario -->
+              <div class="scenario-tab" id="expense-tab">
+                <div class="scenario-input">
+                  <label class="input-label">New monthly expense:</label>
+                  <div class="input-group">
+                    <span class="input-prefix">$</span>
+                    <input
+                      type="number"
+                      class="scenario-number"
+                      value="150"
+                      min="0"
+                      max="1000"
+                      step="25"
+                    />
+                  </div>
+                </div>
 
-            <div class="scenario-results-grid">
-              <div class="result-card warning">
-                <div class="result-label">New Surplus</div>
-                <div class="result-value">$750</div>
-                <div class="result-change">-$150 monthly</div>
+                <div class="scenario-results-grid">
+                  <div class="result-card warning">
+                    <div class="result-label">New Surplus</div>
+                    <div class="result-value">$750</div>
+                    <div class="result-change">-$150 monthly</div>
+                  </div>
+                  <div class="result-card warning">
+                    <div class="result-label">Debt-Free Date</div>
+                    <div class="result-value">May 2026</div>
+                    <div class="result-change">2 months later</div>
+                  </div>
+                  <div class="result-card neutral">
+                    <div class="result-label">Still On Track</div>
+                    <div class="result-value">Yes</div>
+                    <div class="result-change">Goals achievable</div>
+                  </div>
+                </div>
               </div>
-              <div class="result-card warning">
-                <div class="result-label">Debt-Free Date</div>
-                <div class="result-value">May 2026</div>
-                <div class="result-change">2 months later</div>
-              </div>
-              <div class="result-card neutral">
-                <div class="result-label">Still On Track</div>
-                <div class="result-value">Yes</div>
-                <div class="result-change">Goals achievable</div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Bonus Scenario -->
-          <div class="scenario-tab" id="bonus-tab">
-            <div class="scenario-input">
-              <label class="input-label">One-time bonus amount:</label>
-              <div class="input-group">
-                <span class="input-prefix">$</span>
-                <input
-                  type="number"
-                  class="scenario-number"
-                  value="2000"
-                  min="0"
-                  max="10000"
-                  step="500"
-                />
-              </div>
-            </div>
+              <!-- Bonus Scenario -->
+              <div class="scenario-tab" id="bonus-tab">
+                <div class="scenario-input">
+                  <label class="input-label">One-time bonus amount:</label>
+                  <div class="input-group">
+                    <span class="input-prefix">$</span>
+                    <input
+                      type="number"
+                      class="scenario-number"
+                      value="2000"
+                      min="0"
+                      max="10000"
+                      step="500"
+                    />
+                  </div>
+                </div>
 
-            <div class="scenario-results-grid">
-              <div class="result-card positive">
-                <div class="result-label">Best Use: Credit Card</div>
-                <div class="result-value">$2,000</div>
-                <div class="result-change">Apply to 19% debt</div>
-              </div>
-              <div class="result-card positive">
-                <div class="result-label">Debt-Free Date</div>
-                <div class="result-value">Nov 2025</div>
-                <div class="result-change">4 months earlier</div>
-              </div>
-              <div class="result-card positive">
-                <div class="result-label">Interest Saved</div>
-                <div class="result-value">$760</div>
-                <div class="result-change">Over loan term</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Smart Suggestions -->
-        <div class="suggestions-section">
-          <div class="suggestions-header">
-            <h3 class="suggestions-title">Smart Recommendations</h3>
-            <p class="suggestions-subtitle">
-              Optimized next steps for your surplus
-            </p>
-          </div>
-
-          <div class="suggestion-item priority">
-            <div class="suggestion-icon">🎯</div>
-            <div class="suggestion-content">
-              <div class="suggestion-text">
-                Apply $600 extra to credit card (19% APR) for maximum interest
-                savings
-              </div>
-              <div class="suggestion-impact">
-                Saves $340 in interest, 3 months faster payoff
-              </div>
-            </div>
-          </div>
-
-          <div class="suggestion-item">
-            <div class="suggestion-icon">⚠️</div>
-            <div class="suggestion-content">
-              <div class="suggestion-text">
-                Top up irregular expense fund with $120 to fully cover car
-                insurance
-              </div>
-              <div class="suggestion-impact">
-                Prevents budget disruption next month
-              </div>
-            </div>
-          </div>
-
-          <div class="suggestion-item">
-            <div class="suggestion-icon">✈️</div>
-            <div class="suggestion-content">
-              <div class="suggestion-text">
-                Increase vacation fund to $180/month with remaining surplus
-              </div>
-              <div class="suggestion-impact">
-                Europe trip possible by Summer 2026
+                <div class="scenario-results-grid">
+                  <div class="result-card positive">
+                    <div class="result-label">Best Use: Credit Card</div>
+                    <div class="result-value">$2,000</div>
+                    <div class="result-change">Apply to 19% debt</div>
+                  </div>
+                  <div class="result-card positive">
+                    <div class="result-label">Debt-Free Date</div>
+                    <div class="result-value">Nov 2025</div>
+                    <div class="result-change">4 months earlier</div>
+                  </div>
+                  <div class="result-card positive">
+                    <div class="result-label">Interest Saved</div>
+                    <div class="result-value">$760</div>
+                    <div class="result-change">Over loan term</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Quick Goal Progress -->
-        <div class="goal-progress-widget">
-          <div class="widget-header">
-            <h3 class="widget-title">Goal Progress</h3>
-            <p class="widget-subtitle">You're ahead of schedule!</p>
+        <div class="panel-section collapsible collapsed">
+          <div class="section-header-collapsible">
+            <h3 class="section-title-collapsible">
+              <span class="priority-indicator low"></span>
+              Goal Progress
+            </h3>
+            <span class="section-toggle">▼</span>
           </div>
+          <div class="section-content">
+            <div class="goal-progress-widget">
+              <div class="widget-subtitle">You're ahead of schedule!</div>
 
-          <div class="progress-items">
-            <div class="progress-item completed">
-              <div class="progress-info">
-                <div class="progress-name">Emergency Fund</div>
-                <div class="progress-status">Complete</div>
-              </div>
-              <div class="progress-visual">
-                <div class="progress-circle completed">
-                  <span class="progress-check">✓</span>
+              <div class="progress-items">
+                <div class="progress-item completed">
+                  <div class="progress-info">
+                    <div class="progress-name">Emergency Fund</div>
+                    <div class="progress-status">
+                      Complete - Ready to redirect!
+                    </div>
+                  </div>
+                  <div class="progress-visual">
+                    <div class="progress-circle completed">
+                      <span class="progress-check">✓</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="progress-item active">
-              <div class="progress-info">
-                <div class="progress-name">Debt Freedom</div>
-                <div class="progress-status">68% complete</div>
-              </div>
-              <div class="progress-visual">
-                <div class="progress-circle">
-                  <svg class="progress-ring" width="40" height="40">
-                    <circle
-                      cx="20"
-                      cy="20"
-                      r="16"
-                      fill="none"
-                      stroke="#e2e8f0"
-                      stroke-width="3"
-                    />
-                    <circle
-                      cx="20"
-                      cy="20"
-                      r="16"
-                      fill="none"
-                      stroke="#dc2626"
-                      stroke-width="3"
-                      stroke-dasharray="100"
-                      stroke-dashoffset="32"
-                      transform="rotate(-90 20 20)"
-                    />
-                  </svg>
+                <div class="progress-item active">
+                  <div class="progress-info">
+                    <div class="progress-name">Debt Freedom</div>
+                    <div class="progress-status">
+                      68% complete (3 months ahead!)
+                    </div>
+                  </div>
+                  <div class="progress-visual">
+                    <div class="progress-circle">
+                      <svg class="progress-ring" width="40" height="40">
+                        <circle
+                          cx="20"
+                          cy="20"
+                          r="16"
+                          fill="none"
+                          stroke="#e2e8f0"
+                          stroke-width="3"
+                        />
+                        <circle
+                          cx="20"
+                          cy="20"
+                          r="16"
+                          fill="none"
+                          stroke="#dc2626"
+                          stroke-width="3"
+                          stroke-dasharray="100"
+                          stroke-dashoffset="32"
+                          transform="rotate(-90 20 20)"
+                        />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="progress-item">
-              <div class="progress-info">
-                <div class="progress-name">Vacation Fund</div>
-                <div class="progress-status">$600 of $2,000</div>
-              </div>
-              <div class="progress-visual">
-                <div class="progress-circle">
-                  <svg class="progress-ring" width="40" height="40">
-                    <circle
-                      cx="20"
-                      cy="20"
-                      r="16"
-                      fill="none"
-                      stroke="#e2e8f0"
-                      stroke-width="3"
-                    />
-                    <circle
-                      cx="20"
-                      cy="20"
-                      r="16"
-                      fill="none"
-                      stroke="#3b82f6"
-                      stroke-width="3"
-                      stroke-dasharray="100"
-                      stroke-dashoffset="70"
-                      transform="rotate(-90 20 20)"
-                    />
-                  </svg>
+                <div class="progress-item">
+                  <div class="progress-info">
+                    <div class="progress-name">Vacation Fund</div>
+                    <div class="progress-status">
+                      $600 of $2,000 - Europe trip by Summer 2026
+                    </div>
+                  </div>
+                  <div class="progress-visual">
+                    <div class="progress-circle">
+                      <svg class="progress-ring" width="40" height="40">
+                        <circle
+                          cx="20"
+                          cy="20"
+                          r="16"
+                          fill="none"
+                          stroke="#e2e8f0"
+                          stroke-width="3"
+                        />
+                        <circle
+                          cx="20"
+                          cy="20"
+                          r="16"
+                          fill="none"
+                          stroke="#3b82f6"
+                          stroke-width="3"
+                          stroke-dasharray="100"
+                          stroke-dashoffset="70"
+                          transform="rotate(-90 20 20)"
+                        />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2826,24 +3500,165 @@
       </div>
     </div>
 
+    <!-- Redistribution Modal -->
+    <div class="modal-overlay" id="redistributionModal">
+      <div class="redistribution-modal">
+        <div class="modal-header">
+          <div class="modal-icon">🎉</div>
+          <h2 class="modal-title">Emergency Fund Complete!</h2>
+          <p class="modal-subtitle">
+            Congratulations! Your $300/month is now available for reallocation.
+            Here's how we recommend optimizing your surplus for maximum impact.
+          </p>
+        </div>
+
+        <div class="reallocation-options">
+          <div class="reallocation-item recommended">
+            <div class="reallocation-priority">1</div>
+            <div class="reallocation-info">
+              <div class="reallocation-name">Credit Card Extra Payment</div>
+              <div class="reallocation-description">
+                Apply to 19% APR debt for maximum interest savings
+              </div>
+              <div class="reallocation-impact">
+                Saves $680 in interest, debt-free 4 months earlier
+              </div>
+            </div>
+            <div class="reallocation-amount">$600</div>
+          </div>
+
+          <div class="reallocation-item">
+            <div class="reallocation-priority">2</div>
+            <div class="reallocation-info">
+              <div class="reallocation-name">Top Up Irregular Fund</div>
+              <div class="reallocation-description">
+                Cover car insurance shortfall to prevent disruption
+              </div>
+              <div class="reallocation-impact">
+                Protects July budget from $120 overage
+              </div>
+            </div>
+            <div class="reallocation-amount">$120</div>
+          </div>
+
+          <div class="reallocation-item">
+            <div class="reallocation-priority">3</div>
+            <div class="reallocation-info">
+              <div class="reallocation-name">Accelerate Vacation Fund</div>
+              <div class="reallocation-description">
+                Boost monthly contribution for faster goal achievement
+              </div>
+              <div class="reallocation-impact">
+                Europe trip moves up to Summer 2026
+              </div>
+            </div>
+            <div class="reallocation-amount">$780</div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="modal-button primary" onclick="applyRecommendation()">
+            Apply Recommended Plan
+          </button>
+          <button
+            class="modal-button secondary"
+            onclick="closeRedistributionModal()"
+          >
+            Let Me Decide Later
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script>
-      // Scenario slider interaction
+      // ========== ENHANCED INTERACTIONS ==========
+
+      // Modal functionality
+      function showRedistributionModal() {
+        document.getElementById('redistributionModal').classList.add('active');
+      }
+
+      function closeRedistributionModal() {
+        document
+          .getElementById('redistributionModal')
+          .classList.remove('active');
+      }
+
+      function applyRecommendation() {
+        // Simulate applying the recommendation
+        closeRedistributionModal();
+
+        // Update UI to show changes
+        const heroSection = document.querySelector('.confidence-hero');
+        const badge = heroSection.querySelector('.confidence-badge');
+        const title = heroSection.querySelector('.confidence-title');
+
+        badge.innerHTML =
+          '<span>🚀</span><span>Optimized Allocation Applied</span>';
+        title.textContent = "You're Now 5 Months Ahead!";
+
+        // Add success animation
+        heroSection.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+          heroSection.style.transform = 'scale(1)';
+        }, 300);
+      }
+
+      // Collapsible sections in right panel
+      document
+        .querySelectorAll('.section-header-collapsible')
+        .forEach((header) => {
+          header.addEventListener('click', function () {
+            const section = this.parentElement;
+            section.classList.toggle('collapsed');
+            section.classList.toggle('expanded');
+          });
+        });
+
+      // Scenario assumptions toggle
+      document.querySelectorAll('.assumptions-header').forEach((header) => {
+        header.addEventListener('click', function () {
+          const assumptions = this.parentElement;
+          assumptions.classList.toggle('collapsed');
+          assumptions.classList.toggle('expanded');
+        });
+      });
+
+      // Irregular expenses toggle
+      document.querySelectorAll('.irregular-header').forEach((header) => {
+        header.addEventListener('click', function () {
+          const card = this.parentElement;
+          card.classList.toggle('expanded');
+          card.classList.toggle('collapsed');
+        });
+      });
+
+      // Enhanced scenario slider with more realistic updates
       const slider = document.getElementById('scenarioSlider');
       const scenarioName = document.querySelector('.scenario-name');
       const scenarioDetails = document.querySelector('.scenario-details');
+      const debtFreeDate = document.getElementById('debt-free-date');
 
       slider.addEventListener('input', function () {
         const value = this.value;
 
         if (value < 33) {
           scenarioName.textContent = 'Conservative Scenario';
-          scenarioDetails.textContent = 'Lower income, occasional overspend';
+          scenarioDetails.textContent =
+            'Lower income, occasional overspend, market volatility';
+          debtFreeDate.textContent = 'June 2026';
+          debtFreeDate.className = 'result-value';
         } else if (value < 67) {
           scenarioName.textContent = 'Current Plan Scenario';
           scenarioDetails.textContent = 'Budget followed, minimal overspend';
+          debtFreeDate.textContent = 'March 2026';
+          debtFreeDate.className = 'result-value positive';
         } else {
           scenarioName.textContent = 'Optimistic Scenario';
-          scenarioDetails.textContent = 'Higher income, perfect adherence';
+          scenarioDetails.textContent =
+            'Higher income, perfect adherence, bonuses applied';
+          debtFreeDate.textContent = 'Dec 2025';
+          debtFreeDate.className = 'result-value positive';
         }
       });
 
@@ -2856,13 +3671,25 @@
         });
       });
 
-      // Suggestion interactions
+      // Enhanced suggestion interactions with feedback
       document.querySelectorAll('.suggestion-item').forEach((item) => {
         item.addEventListener('click', function () {
+          // Visual feedback
           this.style.background = '#dbeafe';
+          this.style.transform = 'translateX(4px)';
+
+          // Show mini preview of impact
+          const impact = this.querySelector('.suggestion-impact');
+          const originalText = impact.textContent;
+          impact.textContent = '✓ ' + originalText;
+          impact.style.color = '#059669';
+
           setTimeout(() => {
             this.style.background = '#f8fafc';
-          }, 200);
+            this.style.transform = 'translateX(0)';
+            impact.textContent = originalText;
+            impact.style.color = '#3b82f6';
+          }, 1500);
         });
       });
 
@@ -2881,7 +3708,10 @@
           document
             .querySelectorAll('.scenario-tab')
             .forEach((tab) => tab.classList.remove('active'));
-          document.getElementById(`${tabName}-tab`).classList.add('active');
+          const targetTab = document.getElementById(`${tabName}-tab`);
+          if (targetTab) {
+            targetTab.classList.add('active');
+          }
         });
       });
 
@@ -2904,7 +3734,7 @@
         });
       });
 
-      // Timeframe Selector
+      // Timeframe Selector with enhanced projections
       document.querySelectorAll('.timeframe-btn').forEach((button) => {
         button.addEventListener('click', function () {
           const months = this.dataset.months;
@@ -2921,77 +3751,188 @@
       });
 
       function updateProjections(timeframe) {
-        const projectionDate = document.getElementById('projection-date');
-        const debtRemaining = document.getElementById('debt-remaining');
+        const debtFreeDate = document.getElementById('debt-free-date');
         const emergencyProjection = document.getElementById(
           'emergency-projection'
         );
-        const netWorthProjection = document.getElementById(
-          'net-worth-projection'
-        );
         const interestSaved = document.getElementById('interest-saved');
 
-        // Sample projection updates (in real app, this would be calculated)
+        // Enhanced projection updates with momentum consideration
         switch (timeframe) {
           case '6':
-            projectionDate.textContent = 'Dec 2025';
-            debtRemaining.textContent = '$2,800';
+            debtFreeDate.textContent = 'Dec 2025';
             emergencyProjection.textContent = '$12,600';
-            netWorthProjection.textContent = '$9,800';
             interestSaved.textContent = '$540';
             break;
           case '12':
-            projectionDate.textContent = 'June 2026';
-            debtRemaining.textContent = '$1,200';
+            debtFreeDate.textContent = 'March 2026';
             emergencyProjection.textContent = '$12,600';
-            netWorthProjection.textContent = '$18,400';
             interestSaved.textContent = '$1,240';
             break;
           case '36':
-            projectionDate.textContent = 'June 2028';
-            debtRemaining.textContent = '$0';
-            debtRemaining.className = 'result-value positive';
-            emergencyProjection.textContent = '$15,000';
-            netWorthProjection.textContent = '$45,200';
+            debtFreeDate.textContent = 'Debt-Free!';
+            debtFreeDate.className = 'result-value positive';
+            emergencyProjection.textContent = '$18,000';
             interestSaved.textContent = '$3,100';
             break;
           case '60':
-            projectionDate.textContent = 'June 2030';
-            debtRemaining.textContent = '$0';
-            debtRemaining.className = 'result-value positive';
-            emergencyProjection.textContent = '$18,000';
-            netWorthProjection.textContent = '$78,900';
+            debtFreeDate.textContent = 'Building Wealth';
+            debtFreeDate.className = 'result-value positive';
+            emergencyProjection.textContent = '$24,000';
             interestSaved.textContent = '$3,100';
             break;
           case 'full':
-            projectionDate.textContent = 'Debt-Free: March 2026';
-            debtRemaining.textContent = '$0';
-            debtRemaining.className = 'result-value positive';
+            debtFreeDate.textContent = 'March 2026 (3 months early!)';
+            debtFreeDate.className = 'result-value positive';
             emergencyProjection.textContent = '$12,600';
-            netWorthProjection.textContent = '$21,800';
             interestSaved.textContent = '$2,340';
             break;
           default:
-            // Default to 1 year
             break;
         }
       }
 
-      // Scenario number inputs - update results when changed
+      // Enhanced scenario number inputs with real-time feedback
       document.querySelectorAll('.scenario-number').forEach((input) => {
         input.addEventListener('input', function () {
-          // This would trigger real calculations in the actual app
-          // For demo purposes, just add a subtle animation
           const parentTab = this.closest('.scenario-tab');
           const results = parentTab.querySelectorAll('.result-card');
 
-          results.forEach((card) => {
-            card.style.transform = 'scale(1.02)';
+          // Add calculation animation
+          results.forEach((card, index) => {
             setTimeout(() => {
-              card.style.transform = 'scale(1)';
-            }, 150);
+              card.style.transform = 'scale(1.05)';
+              card.style.background = '#f0f9ff';
+              setTimeout(() => {
+                card.style.transform = 'scale(1)';
+                card.style.background = '';
+              }, 200);
+            }, index * 100);
           });
+
+          // Update values based on input (simplified calculation for demo)
+          const value = parseInt(this.value) || 0;
+          const tabId = parentTab.id;
+
+          if (tabId === 'raise-tab') {
+            const debtDate = parentTab.querySelector('.result-value');
+            if (value >= 300) {
+              debtDate.textContent = 'Nov 2025';
+            } else if (value >= 200) {
+              debtDate.textContent = 'Jan 2026';
+            } else {
+              debtDate.textContent = 'March 2026';
+            }
+          }
         });
+      });
+
+      // Smart alert interaction
+      document
+        .querySelector('.smart-alert')
+        .addEventListener('click', function () {
+          // Simulate fixing the irregular expense issue
+          this.style.background = '#f0fdf4';
+          this.style.borderColor = '#10b981';
+          this.style.color = '#059669';
+
+          const alertText = this.querySelector('.alert-text');
+          const alertAction = this.querySelector('.alert-action');
+
+          alertText.textContent =
+            "Car insurance fund topped up - you're all set!";
+          alertAction.textContent = '✓';
+          alertAction.style.background = '#10b981';
+
+          setTimeout(() => {
+            this.style.opacity = '0';
+            setTimeout(() => {
+              this.style.display = 'none';
+            }, 300);
+          }, 2000);
+        });
+
+      // Progress item interactions with enhanced feedback
+      document.querySelectorAll('.progress-item').forEach((item) => {
+        item.addEventListener('click', function () {
+          if (this.classList.contains('completed')) {
+            // Show redistribution modal for completed items
+            showRedistributionModal();
+          } else {
+            // Show progress details for incomplete items
+            const name = this.querySelector('.progress-name').textContent;
+            const status = this.querySelector('.progress-status').textContent;
+
+            // Create temporary feedback
+            const feedback = document.createElement('div');
+            feedback.style.cssText = `
+              position: absolute;
+              background: #1e293b;
+              color: white;
+              padding: 8px 12px;
+              border-radius: 8px;
+              font-size: 12px;
+              z-index: 100;
+              pointer-events: none;
+              opacity: 0;
+              transition: opacity 0.3s;
+            `;
+            feedback.textContent = `${name}: ${status}`;
+
+            document.body.appendChild(feedback);
+
+            const rect = this.getBoundingClientRect();
+            feedback.style.left = rect.left + rect.width + 10 + 'px';
+            feedback.style.top = rect.top + 'px';
+
+            setTimeout(() => (feedback.style.opacity = '1'), 10);
+            setTimeout(() => {
+              feedback.style.opacity = '0';
+              setTimeout(() => document.body.removeChild(feedback), 300);
+            }, 2000);
+          }
+        });
+      });
+
+      // Initialize dynamic content updates
+      function initializeDynamicContent() {
+        // Simulate real-time updates every 30 seconds
+        setInterval(() => {
+          // Update momentum indicators
+          const momentumBadge = document.querySelector(
+            '.confidence-badge.momentum'
+          );
+          if (momentumBadge) {
+            const indicators = [
+              '📈 Accelerating Progress',
+              '🚀 Momentum Building',
+              '⚡ Ahead of Schedule',
+              '🎯 On Target Plus'
+            ];
+            const currentText =
+              momentumBadge.querySelector('span:last-child').textContent;
+            const currentIndex = indicators.findIndex(
+              (ind) => ind === currentText
+            );
+            const nextIndex = (currentIndex + 1) % indicators.length;
+            momentumBadge.querySelector('span:last-child').textContent =
+              indicators[nextIndex];
+          }
+        }, 30000);
+      }
+
+      // Close modal when clicking outside
+      document
+        .getElementById('redistributionModal')
+        .addEventListener('click', function (e) {
+          if (e.target === this) {
+            closeRedistributionModal();
+          }
+        });
+
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', function () {
+        initializeDynamicContent();
       });
     </script>
   </body>
