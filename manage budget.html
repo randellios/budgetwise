@@ -1,0 +1,1290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Details - Compact Expense List</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: white;
+        color: black;
+      }
+
+      .wireframe-container {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+
+      .desktop-screen {
+        border: 3px solid black;
+        background: white;
+        width: 100%;
+        height: 900px;
+        position: relative;
+        display: block;
+        margin-bottom: 30px;
+      }
+
+      .screen-title {
+        background: black;
+        color: white;
+        padding: 12px;
+        font-weight: bold;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .desktop-header {
+        border-bottom: 3px solid black;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 80px;
+        background: #f8f8f8;
+      }
+
+      .logo-area {
+        font-weight: bold;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .breadcrumb {
+        font-size: 12px;
+        color: #666;
+        margin-top: 4px;
+      }
+
+      /* Main Navigation Styling */
+      .header-nav {
+        display: flex;
+        background: white;
+        border: 3px solid black;
+        border-bottom: none;
+        position: relative;
+      }
+
+      .header-nav::before {
+        content: 'NAVIGATE TO:';
+        position: absolute;
+        top: -18px;
+        left: 0;
+        font-size: 10px;
+        font-weight: bold;
+        color: #666;
+        background: #f8f8f8;
+        padding: 0 8px;
+        letter-spacing: 1px;
+      }
+
+      .header-nav-item {
+        padding: 12px 24px;
+        font-size: 15px;
+        cursor: pointer;
+        border-right: 2px solid black;
+        background: white;
+        font-weight: bold;
+        position: relative;
+        transition: all 0.2s ease;
+        min-width: 120px;
+        text-align: center;
+      }
+
+      .header-nav-item:last-child {
+        border-right: none;
+      }
+
+      .header-nav-item:hover:not(.active) {
+        background: #f0f0f0;
+        transform: translateY(-2px);
+      }
+
+      .header-nav-item.active {
+        background: black;
+        color: white;
+        position: relative;
+      }
+
+      .header-nav-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: black;
+      }
+
+      /* Navigation State Indicators */
+      .nav-status {
+        position: absolute;
+        top: -8px;
+        right: 8px;
+        font-size: 10px;
+        background: #2c5530;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 8px;
+      }
+
+      .nav-status.completed {
+        background: #2c5530;
+      }
+
+      .nav-status.in-progress {
+        background: #ff8c00;
+      }
+
+      .nav-status.available {
+        background: #666;
+      }
+
+      .desktop-layout {
+        display: flex;
+        height: calc(100% - 120px);
+      }
+
+      .sidebar {
+        width: 320px;
+        border-right: 2px solid black;
+        background: #f8f8f8;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .main-content {
+        flex: 1;
+        padding: 40px;
+        overflow-y: auto;
+      }
+
+      /* Sidebar Navigation */
+      .sidebar-nav {
+        padding: 20px 30px;
+        border-bottom: 1px solid black;
+        background: #f0f0f0;
+      }
+
+      .nav-title {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #666;
+        text-transform: uppercase;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        margin: 5px 0;
+        border: 1px solid transparent;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 0;
+      }
+
+      .nav-item:hover {
+        border-color: #ccc;
+        background: white;
+      }
+
+      .nav-item.active {
+        border-color: black;
+        background: white;
+        font-weight: bold;
+      }
+
+      .nav-icon {
+        margin-right: 12px;
+        font-size: 16px;
+        width: 20px;
+      }
+
+      /* Quick Actions in Sidebar */
+      .sidebar-section {
+        padding: 30px;
+        flex: 1;
+      }
+
+      .quick-actions {
+        margin-bottom: 30px;
+      }
+
+      .actions-title {
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-size: 16px;
+      }
+
+      .action-btn {
+        border: 1px solid black;
+        padding: 12px 16px;
+        background: white;
+        cursor: pointer;
+        font-size: 14px;
+        width: 100%;
+        margin: 5px 0;
+        text-align: left;
+      }
+
+      .action-btn:hover {
+        background: #f0f0f0;
+      }
+
+      .action-btn.primary {
+        background: black;
+        color: white;
+        font-weight: bold;
+      }
+
+      .action-btn.disabled {
+        background: #f5f5f5;
+        color: #999;
+        border-color: #ddd;
+        cursor: not-allowed;
+      }
+
+      .placeholder-section {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        background: #fafafa;
+        text-align: center;
+        color: #666;
+        font-style: italic;
+      }
+
+      /* Floating Budget Status Panel */
+      .budget-status-floating {
+        width: 320px;
+        border: 3px solid #2c5530;
+        padding: 25px;
+        background: #f8fff8;
+        position: sticky;
+        top: 20px;
+        z-index: 10;
+        height: fit-content;
+        flex-shrink: 0;
+      }
+
+      .status-header-large {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .status-icon-large {
+        font-size: 32px;
+      }
+
+      .status-title-large {
+        font-size: 20px;
+        font-weight: bold;
+        color: #2c5530;
+      }
+
+      .status-amounts-large {
+        margin-bottom: 20px;
+      }
+
+      .status-row-large {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 12px 0;
+        font-size: 16px;
+        position: relative;
+      }
+
+      .status-row-large.total-large {
+        border-top: 2px solid #2c5530;
+        padding-top: 12px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .amount-large {
+        font-weight: bold;
+        font-size: 18px;
+        color: #2c5530;
+        position: relative;
+      }
+
+      .amount-large.updating {
+        animation: pulse 1s ease-in-out;
+        color: #ff8c00;
+      }
+
+      .surplus-amount {
+        font-size: 22px !important;
+        color: #2c5530 !important;
+      }
+
+      .change-indicator {
+        position: absolute;
+        right: -60px;
+        background: #ff8c00;
+        color: white;
+        padding: 2px 8px;
+        font-size: 12px;
+        border-radius: 10px;
+        font-weight: bold;
+        animation: slideIn 0.3s ease-out;
+      }
+
+      .change-indicator.positive {
+        background: #2c5530;
+      }
+
+      .impact-summary {
+        background: white;
+        border: 1px solid #2c5530;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+      }
+
+      .impact-header {
+        font-size: 14px;
+        font-weight: bold;
+        color: #2c5530;
+        margin-bottom: 8px;
+      }
+
+      .impact-detail {
+        font-size: 13px;
+        color: #333;
+        margin: 4px 0;
+        padding-left: 15px;
+        position: relative;
+      }
+
+      .impact-detail:before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: #2c5530;
+        font-weight: bold;
+      }
+
+      .auto-save-indicator {
+        background: #e6ffe6;
+        border: 2px solid #2c5530;
+        padding: 15px;
+        font-size: 14px;
+        text-align: center;
+        color: #2c5530;
+        font-weight: bold;
+        border-radius: 5px;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes slideIn {
+        0% {
+          opacity: 0;
+          transform: translateX(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* Main Content Styles */
+      .page-title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .page-subtitle {
+        font-size: 18px;
+        margin-bottom: 30px;
+        color: #666;
+      }
+
+      .current-status-banner {
+        background: #2c5530;
+        color: white;
+        padding: 20px 30px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 2px solid black;
+      }
+
+      .status-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .status-emoji {
+        font-size: 32px;
+      }
+
+      .status-text {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .status-detail {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-top: 5px;
+      }
+
+      .status-right {
+        text-align: right;
+      }
+
+      .surplus-amount {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .surplus-label {
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      /* Compact Expense Lists */
+      .expense-container {
+        /* Removed max-width and margin auto since it's now in a flex layout */
+      }
+
+      .category-section {
+        border: 2px solid black;
+        background: white;
+        margin-bottom: 25px;
+      }
+
+      .category-section.essential {
+        border-color: #cc0000;
+        border-width: 3px;
+      }
+
+      .category-header {
+        background: #f8f8f8;
+        padding: 15px 20px;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .category-header.essential {
+        background: #ffe6e6;
+      }
+
+      .category-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .category-icon {
+        font-size: 24px;
+      }
+
+      .category-details h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .category-description {
+        font-size: 12px;
+        color: #666;
+        margin: 2px 0 0 0;
+      }
+
+      .priority-badge {
+        background: #cc0000;
+        color: white;
+        padding: 3px 6px;
+        font-size: 10px;
+        border-radius: 8px;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .category-total {
+        font-size: 16px;
+        font-weight: bold;
+        color: #2c5530;
+      }
+
+      /* Compact Expense List */
+      .expense-list {
+        padding: 10px 0;
+      }
+
+      .expense-row {
+        display: flex;
+        align-items: center;
+        padding: 8px 20px;
+        border-bottom: 1px solid #eee;
+        background: white;
+        transition: background 0.2s ease;
+      }
+
+      .expense-row:hover {
+        background: #f8f8f8;
+      }
+
+      .expense-row.editing {
+        background: #fff8f0;
+        border-left: 4px solid #ff8c00;
+      }
+
+      .expense-row.hidden {
+        opacity: 0.6;
+        background: #f5f5f5;
+      }
+
+      .expense-row.non-monthly {
+        background: #f8fbff;
+      }
+
+      .drag-handle {
+        width: 16px;
+        height: 16px;
+        cursor: grab;
+        color: #ccc;
+        margin-right: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+
+      .drag-handle:hover {
+        color: #666;
+      }
+
+      .drag-handle:active {
+        cursor: grabbing;
+      }
+
+      .expense-name {
+        flex: 1;
+        font-size: 15px;
+        font-weight: bold;
+        color: #333;
+        min-width: 200px;
+      }
+
+      .frequency-badge {
+        background: #4a90e2;
+        color: white;
+        padding: 2px 6px;
+        font-size: 9px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-right: 8px;
+      }
+
+      .hidden-badge {
+        background: #888;
+        color: white;
+        padding: 2px 6px;
+        font-size: 9px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-right: 8px;
+      }
+
+      .expense-amount {
+        width: 140px;
+        text-align: right;
+        margin-right: 15px;
+      }
+
+      .amount-field {
+        border: 1px solid #ddd;
+        padding: 6px 10px;
+        font-size: 14px;
+        width: 120px;
+        text-align: right;
+        background: white;
+        font-weight: bold;
+      }
+
+      .amount-field:focus {
+        outline: none;
+        border-color: #2c5530;
+        box-shadow: 0 0 0 1px #2c5530;
+      }
+
+      .amount-display {
+        font-size: 14px;
+        font-weight: bold;
+        color: #2c5530;
+        cursor: pointer;
+        padding: 6px 10px;
+        border: 1px solid transparent;
+        border-radius: 3px;
+      }
+
+      .amount-display:hover {
+        border-color: #ddd;
+        background: #f8f8f8;
+      }
+
+      .amount-conversion {
+        font-size: 11px;
+        color: #888;
+        font-style: italic;
+      }
+
+      .expense-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        width: 120px;
+        justify-content: flex-end;
+      }
+
+      .action-btn-small {
+        background: none;
+        border: 1px solid #ccc;
+        padding: 4px 8px;
+        font-size: 11px;
+        cursor: pointer;
+        color: #666;
+        border-radius: 3px;
+      }
+
+      .action-btn-small:hover {
+        border-color: #999;
+        color: #333;
+      }
+
+      .action-btn-small.primary {
+        background: #2c5530;
+        color: white;
+        border-color: #2c5530;
+      }
+
+      .action-btn-small.delete:hover {
+        border-color: #ff4444;
+        color: #ff4444;
+      }
+
+      .action-btn-small.hide {
+        color: #888;
+      }
+
+      .action-btn-small.unhide {
+        color: #2c5530;
+        border-color: #2c5530;
+      }
+
+      /* Expanded Edit Form */
+      .expense-edit-expanded {
+        padding: 15px 20px;
+        background: #fff8f0;
+        border-top: 1px solid #ffcc99;
+        display: none;
+      }
+
+      .expense-edit-expanded.active {
+        display: block;
+      }
+
+      .edit-form-row {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .form-group-inline {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .form-label-small {
+        font-size: 12px;
+        font-weight: bold;
+        color: #666;
+      }
+
+      .form-input-small {
+        border: 2px solid #ccc;
+        padding: 6px 10px;
+        font-size: 14px;
+        width: 120px;
+      }
+
+      .form-input-small:focus {
+        border-color: #2c5530;
+        outline: none;
+      }
+
+      .form-select-small {
+        border: 2px solid #ccc;
+        padding: 6px 10px;
+        font-size: 14px;
+        background: white;
+        width: 140px;
+      }
+
+      .range-toggle {
+        display: flex;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .range-option {
+        padding: 4px 12px;
+        background: white;
+        border: none;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      .range-option.active {
+        background: #2c5530;
+        color: white;
+      }
+
+      .range-inputs {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .range-input-small {
+        border: 2px solid #ccc;
+        padding: 6px 8px;
+        font-size: 14px;
+        width: 60px;
+        text-align: center;
+      }
+
+      .edit-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .form-btn-small {
+        border: 1px solid #ccc;
+        padding: 6px 12px;
+        background: white;
+        cursor: pointer;
+        font-size: 12px;
+        border-radius: 3px;
+      }
+
+      .form-btn-small.primary {
+        background: #2c5530;
+        color: white;
+        border-color: #2c5530;
+      }
+
+      /* Add Expense */
+      .add-expense-row {
+        padding: 12px 20px;
+        border-top: 1px solid #eee;
+        background: #fafafa;
+        text-align: center;
+      }
+
+      .add-expense-btn {
+        border: 1px solid #666;
+        padding: 8px 16px;
+        background: white;
+        font-size: 13px;
+        cursor: pointer;
+        color: #666;
+        font-weight: bold;
+        border-radius: 3px;
+      }
+
+      .add-expense-btn:hover {
+        border-color: #2c5530;
+        color: #2c5530;
+      }
+
+      /* Impact Preview */
+      .impact-preview-inline {
+        background: #f0f8ff;
+        border: 1px solid #4a90e2;
+        padding: 10px 15px;
+        margin-top: 10px;
+        font-size: 12px;
+        border-radius: 3px;
+      }
+
+      .impact-title-small {
+        font-weight: bold;
+        color: #4a90e2;
+        margin-bottom: 5px;
+      }
+
+      /* Action Bar */
+      .action-bar {
+        position: sticky;
+        bottom: 0;
+        background: #f8f8f8;
+        border-top: 2px solid black;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 40px -40px -40px -40px;
+      }
+
+      .auto-save-status {
+        font-size: 14px;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .save-icon {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #2c5530;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 15px;
+      }
+
+      .btn {
+        border: 2px solid black;
+        padding: 10px 20px;
+        background: white;
+        font-size: 14px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .btn.primary {
+        background: black;
+        color: white;
+      }
+
+      .btn.secondary {
+        border-color: #666;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wireframe-container">
+      <div class="desktop-screen">
+        <div class="screen-title">
+          DESKTOP - MY BUDGET > BUDGET DETAILS (SAVE AS YOU GO)
+        </div>
+        <div class="desktop-header">
+          <div class="logo-area">
+            <span>💰 Budget Planner</span>
+            <div class="breadcrumb">My Budget > Budget Details</div>
+          </div>
+          <div class="header-nav">
+            <div class="header-nav-item">
+              Create Budget
+              <span class="nav-status completed">✓</span>
+            </div>
+            <div class="header-nav-item active">My Budget</div>
+            <div class="header-nav-item">
+              Goals
+              <span class="nav-status in-progress">3</span>
+            </div>
+            <div class="header-nav-item">
+              Scenarios
+              <span class="nav-status available">NEW</span>
+            </div>
+          </div>
+        </div>
+        <div class="desktop-layout">
+          <div class="sidebar">
+            <!-- Navigation Section -->
+            <div class="sidebar-nav">
+              <div class="nav-title">My Budget</div>
+              <div class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>How You Stand</span>
+              </div>
+              <div class="nav-item active">
+                <span class="nav-icon">💰</span>
+                <span>Budget Details</span>
+              </div>
+              <div class="nav-item">
+                <span class="nav-icon">📅</span>
+                <span>Monthly Check-in</span>
+              </div>
+            </div>
+
+            <!-- Contextual Content -->
+            <div class="sidebar-section">
+              <div class="quick-actions">
+                <div class="actions-title">Quick Actions:</div>
+                <div class="placeholder-section">
+                  Quick action buttons<br />
+                  to be determined
+                </div>
+              </div>
+
+              <div
+                style="
+                  border: 2px solid #4a90e2;
+                  padding: 20px;
+                  background: #f8fbff;
+                  margin-top: 30px;
+                "
+              >
+                <div
+                  style="
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: #4a90e2;
+                    margin-bottom: 15px;
+                  "
+                >
+                  💡 How It Works:
+                </div>
+                <div style="font-size: 13px; margin: 10px 0; color: #333">
+                  <strong>Click amounts</strong> to edit - changes apply
+                  instantly
+                </div>
+                <div style="font-size: 13px; margin: 10px 0; color: #333">
+                  <strong>Drag ⋮⋮</strong> to reorder by importance
+                </div>
+                <div style="font-size: 13px; margin: 10px 0; color: #333">
+                  <strong>"Hide" expenses</strong> to test budget scenarios
+                </div>
+                <div style="font-size: 13px; margin: 10px 0; color: #333">
+                  <strong>"More" button</strong> for frequency & range options
+                </div>
+                <div style="font-size: 13px; margin: 10px 0; color: #333">
+                  <strong>Auto-save:</strong> Budget updates as you edit
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="main-content">
+            <div class="page-title">Manage Your Expenses</div>
+            <div class="page-subtitle">
+              Click any amount to edit - changes apply automatically
+            </div>
+
+            <!-- Current Status Banner -->
+            <div class="current-status-banner">
+              <div class="status-left">
+                <div class="status-emoji">✅</div>
+                <div>
+                  <div class="status-text">Budget is Working Well</div>
+                  <div class="status-detail">
+                    Strong foundation with healthy surplus for goals
+                  </div>
+                </div>
+              </div>
+              <div class="status-right">
+                <div class="surplus-amount">£808</div>
+                <div class="surplus-label">Monthly surplus</div>
+              </div>
+            </div>
+
+            <!-- Main Content Layout with Floating Budget Panel -->
+            <div style="display: flex; gap: 30px; align-items: flex-start">
+              <!-- Expense Lists -->
+              <div class="expense-container" style="flex: 1; max-width: 650px">
+                <!-- ESSENTIALS CATEGORY -->
+                <div class="category-section essential">
+                  <div class="category-header essential">
+                    <div class="category-info">
+                      <span class="category-icon">🏠</span>
+                      <div class="category-details">
+                        <h3>ESSENTIALS</h3>
+                        <div class="category-description">
+                          Rent, utilities, insurance, minimum debt payments
+                        </div>
+                      </div>
+                    </div>
+                    <div style="display: flex; align-items: center">
+                      <div class="priority-badge">PRIORITY</div>
+                      <div class="category-total">£1,200/month</div>
+                    </div>
+                  </div>
+
+                  <div class="expense-list">
+                    <!-- Regular expense with editable amount -->
+                    <div class="expense-row">
+                      <div class="drag-handle">⋮⋮</div>
+                      <div class="expense-name">Rent</div>
+                      <div class="expense-amount">
+                        <input type="text" class="amount-field" value="£850" />
+                      </div>
+                      <div class="expense-actions">
+                        <button class="action-btn-small">More</button>
+                        <button class="action-btn-small hide">Hide</button>
+                        <button class="action-btn-small delete">×</button>
+                      </div>
+                    </div>
+
+                    <!-- Range expense with click-to-edit -->
+                    <div class="expense-row">
+                      <div class="drag-handle">⋮⋮</div>
+                      <div class="expense-name">Utilities</div>
+                      <div class="expense-amount">
+                        <div class="amount-display">£120-180</div>
+                      </div>
+                      <div class="expense-actions">
+                        <button class="action-btn-small">More</button>
+                        <button class="action-btn-small hide">Hide</button>
+                        <button class="action-btn-small delete">×</button>
+                      </div>
+                    </div>
+
+                    <!-- Expense with expanded edit form -->
+                    <div class="expense-row editing">
+                      <div class="drag-handle">⋮⋮</div>
+                      <div class="expense-name">Council Tax</div>
+                      <div class="expense-amount">
+                        <input type="text" class="amount-field" value="£150" />
+                      </div>
+                      <div class="expense-actions">
+                        <button class="action-btn-small">More</button>
+                        <button class="action-btn-small hide">Hide</button>
+                        <button class="action-btn-small delete">×</button>
+                      </div>
+                    </div>
+
+                    <!-- Expanded edit form -->
+                    <div class="expense-edit-expanded active">
+                      <div class="edit-form-row">
+                        <div class="form-group-inline">
+                          <label class="form-label-small">Amount Type</label>
+                          <div class="range-toggle">
+                            <button class="range-option active">Exact</button>
+                            <button class="range-option">Range</button>
+                          </div>
+                        </div>
+                        <div class="form-group-inline">
+                          <label class="form-label-small">Frequency</label>
+                          <select class="form-select-small">
+                            <option>Monthly</option>
+                            <option>Quarterly</option>
+                            <option>Annually</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="impact-preview-inline">
+                        <div class="impact-title-small">
+                          Impact: No change to budget • Goals remain on track
+                        </div>
+                      </div>
+
+                      <div class="edit-actions">
+                        <button class="form-btn-small primary">Done</button>
+                      </div>
+                    </div>
+
+                    <!-- Regular expense -->
+                    <div class="expense-row">
+                      <div class="drag-handle">⋮⋮</div>
+                      <div class="expense-name">Phone Contract</div>
+                      <div class="expense-amount">
+                        <div class="amount-display">£35</div>
+                      </div>
+                      <div class="expense-actions">
+                        <button class="action-btn-small">More</button>
+                        <button class="action-btn-small hide">Hide</button>
+                        <button class="action-btn-small delete">×</button>
+                      </div>
+                    </div>
+
+                    <!-- Annual expense -->
+                    <div class="expense-row non-monthly">
+                      <div class="drag-handle">⋮⋮</div>
+                      <div class="expense-name">
+                        <span class="frequency-badge">ANNUAL</span>
+                        Home Insurance
+                      </div>
+                      <div class="expense-amount">
+                        <div class="amount-display">£480</div>
+                        <div class="amount-conversion">(£40/month)</div>
+                      </div>
+                      <div class="expense-actions">
+                        <button class="action-btn-small">More</button>
+                        <button class="action-btn-small hide">Hide</button>
+                        <button class="action-btn-small delete">×</button>
+                      </div>
+                    </div>
+
+                    <!-- Hidden expense -->
+                    <div class="expense-row hidden">
+                      <div class="drag-handle">⋮⋮</div>
+                      <div class="expense-name">
+                        <span class="hidden-badge">HIDDEN</span>
+                        Car Insurance
+                      </div>
+                      <div class="expense-amount">
+                        <div class="amount-display">£720</div>
+                      </div>
+                      <div class="expense-actions">
+                        <button class="action-btn-small">More</button>
+                        <button class="action-btn-small unhide">Show</button>
+                        <button class="action-btn-small delete">×</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="add-expense-row">
+                    <button class="add-expense-btn">
+                      + Add Essential Expense
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Other categories collapsed for space -->
+                <div
+                  style="
+                    border: 1px solid #ddd;
+                    padding: 20px;
+                    background: #fafafa;
+                    margin: 20px 0;
+                    text-align: center;
+                  "
+                >
+                  <div
+                    style="color: #666; font-style: italic; margin-bottom: 10px"
+                  >
+                    Additional categories: BASICS (£600/month) • WANTS
+                    (£142/month) • VIRTUAL FUND (£150/month)
+                  </div>
+                  <button
+                    style="
+                      border: 1px solid #666;
+                      padding: 8px 16px;
+                      background: white;
+                      color: #666;
+                      cursor: pointer;
+                    "
+                  >
+                    Expand All Categories
+                  </button>
+                  <div style="font-size: 12px; color: #999; margin-top: 8px">
+                    Same auto-save format in all categories
+                  </div>
+                </div>
+              </div>
+
+              <!-- Floating Live Budget Panel -->
+              <div class="budget-status-floating">
+                <div class="status-header-large">
+                  <span class="status-icon-large">💰</span>
+                  <div class="status-title-large">Live Budget</div>
+                </div>
+
+                <div class="status-amounts-large">
+                  <div class="status-row-large">
+                    <span>Total Income:</span>
+                    <span class="amount-large">£2,900</span>
+                  </div>
+                  <div class="status-row-large">
+                    <span>Total Expenses:</span>
+                    <span class="amount-large updating">£2,042</span>
+                    <span class="change-indicator">-£50</span>
+                  </div>
+                  <div class="status-row-large total-large">
+                    <span>Available Surplus:</span>
+                    <span class="amount-large surplus-amount">£858</span>
+                    <span class="change-indicator positive">+£50</span>
+                  </div>
+                </div>
+
+                <div class="impact-summary">
+                  <div class="impact-header">📈 Goal Impact:</div>
+                  <div class="impact-detail">Debt cleared 1 month earlier</div>
+                  <div class="impact-detail">
+                    Emergency fund completed 2 weeks sooner
+                  </div>
+                </div>
+
+                <div class="auto-save-indicator">
+                  ✓ Changes saved automatically
+                </div>
+
+                <div
+                  style="
+                    text-align: center;
+                    padding: 10px;
+                    color: #666;
+                    font-size: 11px;
+                    border-top: 1px solid #ddd;
+                    margin-top: 15px;
+                  "
+                >
+                  Updates live as you edit
+                </div>
+              </div>
+            </div>
+
+            <!-- Sticky Action Bar -->
+            <div class="action-bar">
+              <div class="auto-save-status">
+                <div class="save-icon">✓</div>
+                <span>All changes saved automatically</span>
+              </div>
+              <div class="action-buttons">
+                <button class="btn secondary">Reset to Defaults</button>
+                <button class="btn">View Goal Impact</button>
+                <button class="btn primary">Back to Dashboard</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
