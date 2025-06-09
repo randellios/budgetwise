@@ -1,0 +1,1095 @@
+/* Timeline */ .timeline-section { background: white; padding: 1.5rem;
+border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Planner - How You Stand</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        background: #f8fafc;
+        color: #1e293b;
+        line-height: 1.6;
+      }
+
+      .app-container {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Header */
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 70px;
+        background: white;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+        z-index: 100;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+      }
+
+      .settings-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: #f1f5f9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .settings-icon:hover {
+        background: #e2e8f0;
+        color: #1e293b;
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .logo-icon {
+        font-size: 1.75rem;
+      }
+
+      .logo-text {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1e293b;
+      }
+
+      .breadcrumb {
+        font-size: 0.875rem;
+        color: #64748b;
+        margin-top: 0.25rem;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 320px;
+        background: white;
+        border-right: 1px solid #e2e8f0;
+        position: fixed;
+        left: 0;
+        top: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        z-index: 50;
+      }
+
+      .sidebar-section {
+        padding: 1.5rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .sidebar-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 1rem;
+      }
+
+      .sidebar-nav-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: #64748b;
+        text-decoration: none;
+        font-weight: 500;
+        position: relative;
+      }
+
+      .sidebar-nav-item:hover {
+        background: #f1f5f9;
+        color: #1e293b;
+      }
+
+      .sidebar-nav-item.active {
+        background: #1e293b;
+        color: white;
+      }
+
+      .nav-icon {
+        margin-right: 0.75rem;
+        font-size: 1.125rem;
+      }
+
+      .nav-status {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: #10b981;
+        color: white;
+        font-size: 0.625rem;
+        padding: 2px 6px;
+        border-radius: 10px;
+        font-weight: 700;
+      }
+
+      .nav-status.in-progress {
+        background: #f59e0b;
+      }
+
+      .nav-status.available {
+        background: #6b7280;
+      }
+
+      .quick-actions {
+        margin-top: 1rem;
+      }
+
+      .action-btn {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        border: 1px solid #e2e8f0;
+        background: white;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.875rem;
+        text-align: left;
+        transition: all 0.2s ease;
+        color: #475569;
+      }
+
+      .action-btn:hover {
+        border-color: #1e293b;
+        background: #f8fafc;
+      }
+
+      .action-btn.primary {
+        background: #1e293b;
+        color: white;
+        border-color: #1e293b;
+      }
+
+      .emergency-status {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        text-align: center;
+        margin-top: 1rem;
+      }
+
+      .emergency-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .emergency-value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+      }
+
+      .emergency-label {
+        font-size: 0.875rem;
+        opacity: 0.9;
+      }
+
+      .insights-list {
+        margin-top: 1rem;
+      }
+
+      .insight-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.875rem;
+      }
+
+      .insight-item:last-child {
+        border-bottom: none;
+      }
+
+      .insight-icon {
+        margin-right: 0.75rem;
+        font-size: 1rem;
+      }
+
+      /* Main Content */
+      .main-content {
+        margin-left: 320px;
+        margin-top: 70px;
+        padding: 2rem;
+        min-height: calc(100vh - 70px);
+        max-width: 1400px;
+        width: calc(100vw - 320px);
+      }
+
+      /* Content Header */
+      .content-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        gap: 2rem;
+      }
+
+      /* Tabs */
+      .content-tabs {
+        display: flex;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        width: fit-content;
+      }
+
+      .tab-item {
+        padding: 0.75rem 1.5rem;
+        background: white;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #64748b;
+        transition: all 0.2s ease;
+        border-right: 1px solid #e2e8f0;
+      }
+
+      .tab-item:last-child {
+        border-right: none;
+      }
+
+      .tab-item:hover {
+        background: #f1f5f9;
+        color: #1e293b;
+      }
+
+      .tab-item.active {
+        background: #1e293b;
+        color: white;
+      }
+
+      /* Financial Status Banner - Less Cardy */
+      .status-banner {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        border-left: 6px solid #047857;
+      }
+
+      .status-icon-large {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .status-message {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .status-detail {
+        font-size: 1.125rem;
+        opacity: 0.9;
+      }
+
+      /* Scenario Selector */
+      .scenario-selector {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: white;
+        padding: 0.5rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .scenario-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #64748b;
+        margin-right: 0.5rem;
+      }
+
+      .scenario-option {
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+        color: #64748b;
+        border: 1px solid transparent;
+      }
+
+      .scenario-option:hover {
+        background: #f8fafc;
+      }
+
+      .scenario-option.active {
+        background: #1e293b;
+        color: white;
+        border-color: #1e293b;
+      }
+
+      .scenario-option.conservative {
+        color: #dc2626;
+      }
+
+      .scenario-option.conservative.active {
+        background: #dc2626;
+        color: white;
+        border-color: #dc2626;
+      }
+
+      .scenario-option.optimistic {
+        color: #16a34a;
+      }
+
+      .scenario-option.optimistic.active {
+        background: #16a34a;
+        color: white;
+        border-color: #16a34a;
+      }
+
+      /* Confidence Cards - Less Cardy */
+      .confidence-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 0;
+        margin-bottom: 2rem;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+      }
+
+      .confidence-card {
+        background: white;
+        padding: 1.5rem;
+        text-align: center;
+        border-right: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .confidence-card:last-child {
+        border-right: none;
+      }
+
+      @media (min-width: 1024px) {
+        .confidence-card {
+          border-bottom: none;
+        }
+      }
+
+      .confidence-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #10b981;
+        margin-bottom: 0.5rem;
+      }
+
+      .confidence-label {
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.25rem;
+      }
+
+      .confidence-context {
+        font-size: 0.875rem;
+        color: #64748b;
+      }
+
+      /* Two Column Layout - Less Cardy */
+      .insights-row {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 0;
+        margin-bottom: 2rem;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+      }
+
+      .insights-panel {
+        background: white;
+        padding: 1.5rem;
+        border-right: 1px solid #e2e8f0;
+      }
+
+      .insights-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #1e293b;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f1f5f9;
+      }
+
+      .insight-item-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #f1f5f9;
+      }
+
+      .insight-item-main:last-child {
+        border-bottom: none;
+      }
+
+      .insight-label {
+        font-weight: 500;
+        color: #475569;
+      }
+
+      .insight-value {
+        font-weight: 700;
+        color: #10b981;
+        font-size: 1.125rem;
+      }
+
+      .emergency-readiness {
+        background: #fefbf3;
+        padding: 1.5rem;
+      }
+
+      .readiness-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #1e293b;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f59e0b;
+      }
+
+      .readiness-scenario {
+        padding: 1rem 0;
+        border-bottom: 1px solid #f3f4f6;
+        margin-bottom: 0;
+      }
+
+      .readiness-scenario:last-child {
+        border-bottom: none;
+      }
+
+      .scenario-title {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #92400e;
+        margin-bottom: 0.5rem;
+      }
+
+      .scenario-result {
+        font-weight: 700;
+        color: #10b981;
+        margin-bottom: 0.25rem;
+      }
+
+      .scenario-detail {
+        font-size: 0.875rem;
+        color: #64748b;
+      }
+
+      /* Goals Section - Less Cardy */
+      .goals-container {
+        display: flex;
+        flex-direction: column;
+        background: #fafbfc;
+        padding: 1.5rem;
+      }
+
+      .goals-header {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: #1e293b;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .goals-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      @media (min-width: 768px) and (max-width: 1199px) {
+        .goals-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1px;
+        }
+      }
+
+      .goal-card {
+        background: white;
+        padding: 1.25rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .goal-card:last-child {
+        border-bottom: none;
+      }
+
+      @media (min-width: 768px) and (max-width: 1199px) {
+        .goal-card {
+          border-bottom: 1px solid #e2e8f0;
+          border-right: 1px solid #e2e8f0;
+        }
+
+        .goal-card:nth-child(even) {
+          border-right: none;
+        }
+
+        .goal-card:nth-last-child(-n + 2) {
+          border-bottom: none;
+        }
+      }
+
+      .goal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .goal-title {
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .goal-status {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        background: #10b981;
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .goal-status.ahead {
+        background: #3b82f6;
+      }
+
+      .goal-status.building {
+        background: #f59e0b;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 24px;
+        background: #f1f5f9;
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 1rem 0;
+        position: relative;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #10b981, #059669);
+        transition: width 0.3s ease;
+        border-radius: 12px;
+      }
+
+      .progress-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .goal-timeline {
+        font-size: 0.875rem;
+        color: #64748b;
+        text-align: center;
+      }
+
+      /* Roadmap and Goals Layout */
+      .roadmap-goals-section {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      @media (min-width: 1200px) {
+        .roadmap-goals-section {
+          grid-template-columns: 1fr 400px;
+        }
+      }
+
+      .timeline-header {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: #1e293b;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .timeline-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-left: 3px solid #e2e8f0;
+        margin-left: 1rem;
+        position: relative;
+      }
+
+      .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -7px;
+        top: 1.5rem;
+        width: 12px;
+        height: 12px;
+        background: #10b981;
+        border-radius: 50%;
+      }
+
+      .timeline-date {
+        width: 120px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #1e293b;
+      }
+
+      .timeline-milestone {
+        flex: 1;
+        margin-left: 1rem;
+      }
+
+      .milestone-title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        color: #1e293b;
+      }
+
+      .milestone-description {
+        font-size: 0.875rem;
+        color: #64748b;
+      }
+
+      .timeline-impact {
+        text-align: right;
+        font-weight: 600;
+        color: #10b981;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .sidebar {
+          width: 320px;
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+        }
+
+        .main-content {
+          margin-left: 0;
+          width: 100vw;
+        }
+
+        .insights-row {
+          grid-template-columns: 1fr;
+        }
+
+        .confidence-grid {
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .content-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+
+        .scenario-selector {
+          align-self: stretch;
+          justify-content: center;
+        }
+
+        .tab-item {
+          padding: 0.625rem 1rem;
+          font-size: 0.825rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header-right {
+          gap: 0.5rem;
+        }
+
+        .avatar {
+          width: 32px;
+          height: 32px;
+          font-size: 0.75rem;
+        }
+
+        .settings-icon {
+          width: 32px;
+          height: 32px;
+        }
+
+        .scenario-selector {
+          padding: 0.375rem;
+        }
+
+        .scenario-option {
+          padding: 0.375rem 0.75rem;
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo-area">
+          <span class="logo-icon">💰</span>
+          <div>
+            <div class="logo-text">Budget Planner</div>
+            <div class="breadcrumb">My Budget > How You Stand</div>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="avatar">JD</div>
+          <div class="settings-icon">⚙️</div>
+        </div>
+      </header>
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title">Navigation</div>
+          <a href="#" class="sidebar-nav-item">
+            <span class="nav-icon">📝</span>
+            <span>Create Budget</span>
+            <span class="nav-status">✓</span>
+          </a>
+          <a href="#" class="sidebar-nav-item active">
+            <span class="nav-icon">💰</span>
+            <span>My Budget</span>
+          </a>
+          <a href="#" class="sidebar-nav-item">
+            <span class="nav-icon">🎯</span>
+            <span>Goals</span>
+            <span class="nav-status in-progress">3</span>
+          </a>
+          <a href="#" class="sidebar-nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Scenarios</span>
+            <span class="nav-status available">NEW</span>
+          </a>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Financial Status</div>
+          <div class="emergency-status">
+            <div class="emergency-icon">⚡</div>
+            <div class="emergency-value">£450</div>
+            <div class="emergency-label">Emergency Buffer Active</div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Smart Suggestions</div>
+          <div class="insights-list">
+            <div class="insight-item">
+              <span class="insight-icon">✓</span>
+              <span>Credit card on track for Dec 2025</span>
+            </div>
+            <div class="insight-item">
+              <span class="insight-icon">🎯</span>
+              <span>Holiday fund 2 months ahead</span>
+            </div>
+            <div class="insight-item">
+              <span class="insight-icon">💡</span>
+              <span>Consider boosting emergency fund</span>
+            </div>
+            <div class="insight-item">
+              <span class="insight-icon">📈</span>
+              <span>£150/month buffer available</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Content Header with Tabs and Scenario Selector -->
+        <div class="content-header">
+          <div class="content-tabs">
+            <button class="tab-item active">How You Stand</button>
+            <button class="tab-item">Budget Details</button>
+            <button class="tab-item">Monthly Check-in</button>
+          </div>
+          <div class="scenario-selector">
+            <span class="scenario-label">View:</span>
+            <div class="scenario-option conservative">Conservative</div>
+            <div class="scenario-option active">Current Plan</div>
+            <div class="scenario-option optimistic">Optimistic</div>
+          </div>
+        </div>
+        <!-- Financial Status Banner -->
+        <div class="status-banner">
+          <div class="status-icon-large">✅</div>
+          <div class="status-message">Your finances are in great shape</div>
+          <div class="status-detail">
+            You're successfully building toward your goals with a solid safety
+            net
+          </div>
+        </div>
+
+        <!-- Key Financial Confidence Indicators -->
+        <div class="confidence-grid">
+          <div class="confidence-card">
+            <div class="confidence-value">£808</div>
+            <div class="confidence-label">Monthly Surplus</div>
+            <div class="confidence-context">After all expenses & goals</div>
+          </div>
+          <div class="confidence-card">
+            <div class="confidence-value">8</div>
+            <div class="confidence-label">Months to Debt Freedom</div>
+            <div class="confidence-context">Credit card cleared Dec 2025</div>
+          </div>
+          <div class="confidence-card">
+            <div class="confidence-value">£2,000</div>
+            <div class="confidence-label">Emergency Cushion</div>
+            <div class="confidence-context">Growing to £5,000 by Mar 2026</div>
+          </div>
+          <div class="confidence-card">
+            <div class="confidence-value">95%</div>
+            <div class="confidence-label">Budget Health Score</div>
+            <div class="confidence-context">Strong financial foundation</div>
+          </div>
+        </div>
+
+        <!-- Two Column: Insights + Emergency Readiness -->
+        <div class="insights-row">
+          <div class="insights-panel">
+            <div class="insights-title">
+              <span>🧠</span>
+              What This Means For You
+            </div>
+            <div class="insight-item-main">
+              <div class="insight-label">If you lost your job tomorrow:</div>
+              <div class="insight-value">3.2 months covered</div>
+            </div>
+            <div class="insight-item-main">
+              <div class="insight-label">If your car needed major repairs:</div>
+              <div class="insight-value">Fully covered</div>
+            </div>
+            <div class="insight-item-main">
+              <div class="insight-label">You're saving annually:</div>
+              <div class="insight-value">£9,696/year</div>
+            </div>
+            <div class="insight-item-main">
+              <div class="insight-label">Debt-free by:</div>
+              <div class="insight-value">December 2025</div>
+            </div>
+            <div class="insight-item-main">
+              <div class="insight-label">Extra after debt clearance:</div>
+              <div class="insight-value">£400/month</div>
+            </div>
+          </div>
+
+          <div class="emergency-readiness">
+            <div class="readiness-title">
+              <span>🚨</span>
+              Surprise Expense Coverage
+            </div>
+            <div class="readiness-scenario">
+              <div class="scenario-title">£500 Car Repair</div>
+              <div class="scenario-result">✅ Fully Covered</div>
+              <div class="scenario-detail">
+                Emergency buffer handles this easily
+              </div>
+            </div>
+            <div class="readiness-scenario">
+              <div class="scenario-title">£1,200 Boiler Replacement</div>
+              <div class="scenario-result">✅ Fully Covered</div>
+              <div class="scenario-detail">Would use 2.7 months of buffer</div>
+            </div>
+            <div class="readiness-scenario">
+              <div class="scenario-title">Job Loss (3 months)</div>
+              <div class="scenario-result">✅ Covered</div>
+              <div class="scenario-detail">
+                Emergency fund + buffer = security
+              </div>
+            </div>
+            <div class="readiness-scenario">
+              <div class="scenario-title">Major Medical Bill (£2,000)</div>
+              <div class="scenario-result">✅ Manageable</div>
+              <div class="scenario-detail">Would delay goals by 2 months</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Roadmap and Goals Section -->
+        <div class="roadmap-goals-section">
+          <!-- Timeline of Major Milestones -->
+          <div class="timeline-section">
+            <div class="timeline-header">📅 Your Financial Roadmap</div>
+            <div class="timeline-item">
+              <div class="timeline-date">August 2025</div>
+              <div class="timeline-milestone">
+                <div class="milestone-title">Holiday Fund Complete</div>
+                <div class="milestone-description">
+                  £2,000 available for vacation
+                </div>
+              </div>
+              <div class="timeline-impact">Reward yourself!</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">December 2025</div>
+              <div class="timeline-milestone">
+                <div class="milestone-title">Credit Card Debt Eliminated</div>
+                <div class="milestone-description">
+                  £400/month becomes available for other goals
+                </div>
+              </div>
+              <div class="timeline-impact">+£400/month freedom</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">March 2026</div>
+              <div class="timeline-milestone">
+                <div class="milestone-title">Emergency Fund Target Reached</div>
+                <div class="milestone-description">
+                  £5,000 safety net fully established
+                </div>
+              </div>
+              <div class="timeline-impact">Full financial security</div>
+            </div>
+          </div>
+
+          <!-- Current Goals Progress -->
+          <div class="goals-container">
+            <div class="goals-header">🎯 Current Goals Progress</div>
+            <div class="goals-grid">
+              <div class="goal-card">
+                <div class="goal-header">
+                  <div class="goal-title">🆓 Credit Card Freedom</div>
+                  <div class="goal-status">ON TRACK</div>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 73%"></div>
+                  <div class="progress-text">£1,100 of £1,500 cleared</div>
+                </div>
+                <div class="goal-timeline">
+                  8 months remaining at £150/month
+                </div>
+              </div>
+
+              <div class="goal-card">
+                <div class="goal-header">
+                  <div class="goal-title">🛡️ Emergency Security</div>
+                  <div class="goal-status building">BUILDING</div>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 40%"></div>
+                  <div class="progress-text">£2,000 of £5,000 saved</div>
+                </div>
+                <div class="goal-timeline">
+                  10 months remaining at £300/month
+                </div>
+              </div>
+
+              <div class="goal-card">
+                <div class="goal-header">
+                  <div class="goal-title">🏖️ Holiday Dreams</div>
+                  <div class="goal-status ahead">AHEAD</div>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 85%"></div>
+                  <div class="progress-text">£1,700 of £2,000 saved</div>
+                </div>
+                <div class="goal-timeline">
+                  2 months early! Ready by Aug 2025
+                </div>
+              </div>
+
+              <div class="goal-card">
+                <div class="goal-header">
+                  <div class="goal-title">⚡ Emergency Buffer</div>
+                  <div class="goal-status">ACTIVE</div>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 100%"></div>
+                  <div class="progress-text">£450/month cushion active</div>
+                </div>
+                <div class="goal-timeline">Covers 3.2 months of surprises</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
