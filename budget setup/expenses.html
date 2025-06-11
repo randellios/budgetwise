@@ -185,34 +185,6 @@
         opacity: 0.8;
       }
 
-      /* Running Total */
-      .running-total {
-        background: linear-gradient(135deg, #10b981, #059669);
-        color: white;
-        padding: 1.5rem;
-        border-radius: 12px;
-        text-align: center;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-      }
-
-      .total-title {
-        font-size: 0.875rem;
-        opacity: 0.9;
-        margin-bottom: 0.5rem;
-      }
-
-      .total-amount {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      .total-status {
-        font-size: 0.75rem;
-        opacity: 0.9;
-      }
-
       /* Tips */
       .tips-section {
         background: rgba(255, 255, 255, 0.6);
@@ -314,6 +286,11 @@
         box-shadow: 0 8px 32px rgba(239, 68, 68, 0.15);
       }
 
+      .category-section.virtual-fund {
+        border-color: #0ea5e9;
+        box-shadow: 0 8px 32px rgba(14, 165, 233, 0.15);
+      }
+
       .category-header {
         padding: 1.5rem 2rem;
         background: #f8fafc;
@@ -326,6 +303,11 @@
       .category-header.essential {
         background: #fef2f2;
         border-bottom-color: #fecaca;
+      }
+
+      .category-header.virtual-fund-header {
+        background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+        border-bottom-color: #bae6fd;
       }
 
       .category-info {
@@ -363,6 +345,19 @@
         margin-right: 1rem;
       }
 
+      .safety-badge {
+        background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-right: 1rem;
+        box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+      }
+
       .category-total {
         font-size: 1.125rem;
         font-weight: 700;
@@ -396,6 +391,18 @@
         border-color: #10b981;
         color: #10b981;
         background: #f0fdf4;
+      }
+
+      .add-expense-btn.virtual-btn {
+        background: #f0f9ff;
+        border-color: #bae6fd;
+        color: #0369a1;
+      }
+
+      .add-expense-btn.virtual-btn:hover {
+        border-color: #0ea5e9;
+        color: #0ea5e9;
+        background: #e0f2fe;
       }
 
       /* Expense Items */
@@ -488,197 +495,148 @@
         text-align: center;
       }
 
-      .summary-amount {
-        background: linear-gradient(135deg, #10b981, #059669);
-        color: white;
-        padding: 2rem;
-        border-radius: 12px;
-        text-align: center;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-      }
-
-      .amount-display {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      .amount-frequency {
-        font-size: 0.875rem;
-        opacity: 0.9;
-      }
-
-      /* Clean Summary Header */
-      .summary-header {
+      /* Budget Progress Components */
+      .budget-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
         margin-bottom: 1.5rem;
       }
 
-      .budget-overview {
-        background: rgba(248, 250, 252, 0.8);
-        border: 1px solid #e2e8f0;
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        text-align: center;
-        display: flex;
-        align-items: baseline;
-        justify-content: center;
-        gap: 0.5rem;
-        flex-wrap: wrap;
+      .budget-metrics.has-activity::before {
+        opacity: 1;
       }
 
-      .allocated-text {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #059669;
-      }
-
-      .of-text {
-        font-size: 0.875rem;
-        color: #64748b;
-        font-weight: 400;
-      }
-
-      .total-text {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #1e293b;
-      }
-
-      .summary-label {
-        font-size: 0.875rem;
-        color: #64748b;
-        font-weight: 500;
-        margin-left: 0.25rem;
-      }
-
-      .allocation-progress {
-        background: #f0fdf4;
-        border: 1px solid #bbf7d0;
-        padding: 1rem;
-        border-radius: 8px;
-        margin-bottom: 1.5rem;
-      }
-
-      .progress-header {
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: #166534;
-        margin-bottom: 0.5rem;
-      }
-
-      .progress-bar {
-        height: 8px;
-        background: #dcfce7;
-        border-radius: 4px;
-        overflow: hidden;
-        margin-bottom: 0.5rem;
-      }
-
-      .progress-fill {
-        height: 100%;
-        background: #16a34a;
-        border-radius: 4px;
-        transition: width 0.3s ease;
-      }
-
-      .progress-text {
-        font-size: 0.75rem;
-        color: #166534;
-      }
-
-      /* Clean Budget Progress */
-      .budget-progress-section {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(226, 232, 240, 0.8);
-        padding: 2rem;
+      .metric-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(226, 232, 240, 0.5);
+        padding: 1.25rem;
         border-radius: 16px;
-        margin-bottom: 1.5rem;
         text-align: center;
-      }
-
-      .progress-hero {
-        margin-bottom: 1.5rem;
-      }
-
-      .circular-budget-progress {
         position: relative;
-        width: 120px;
-        height: 120px;
-        margin: 0 auto;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
       }
 
-      .circular-track {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        background: conic-gradient(
-          #10b981 0deg,
-          #10b981 var(--fill-angle, 0deg),
-          #f1f5f9 var(--fill-angle, 0deg),
-          #f1f5f9 360deg
-        );
-        padding: 6px;
-        position: relative;
-        transition: all 0.4s ease;
-      }
-
-      .circular-track::before {
+      .metric-card::before {
         content: '';
         position: absolute;
-        top: 6px;
-        left: 6px;
-        width: 108px;
-        height: 108px;
-        background: white;
-        border-radius: 50%;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--accent-color, #e2e8f0);
+        transition: all 0.3s ease;
       }
 
-      .progress-center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 2;
+      .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        border-color: var(--accent-color, #cbd5e1);
       }
 
-      .progress-percentage {
+      .metric-card.allocated {
+        --accent-color: #10b981;
+      }
+
+      .metric-card.remaining {
+        --accent-color: #0ea5e9;
+      }
+
+      .metric-label {
+        font-size: 0.75rem;
+        color: #64748b;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.5rem;
+      }
+
+      .metric-value {
         font-size: 1.5rem;
-        font-weight: 700;
+        font-weight: 800;
         color: #1e293b;
         margin-bottom: 0.25rem;
         transition: all 0.3s ease;
       }
 
-      .progress-label {
-        font-size: 0.75rem;
-        color: #64748b;
+      .metric-card.allocated .metric-value {
+        color: #059669;
+      }
+
+      .metric-card.remaining .metric-value {
+        color: #0284c7;
+      }
+
+      .metric-value.celebrating {
+        animation: metric-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+
+      .metric-value.pulsing {
+        animation: metric-pulse 2.5s ease-in-out infinite;
+      }
+
+      @keyframes metric-bounce {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        30% {
+          transform: scale(1.1);
+        }
+        60% {
+          transform: scale(0.95);
+        }
+      }
+
+      @keyframes metric-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.03);
+          opacity: 0.9;
+        }
+      }
+
+      .metric-sublabel {
+        font-size: 0.7rem;
+        color: #94a3b8;
         font-weight: 500;
       }
 
-      .budget-stats {
-        display: flex;
-        gap: 1.5rem;
-        justify-content: center;
-        margin-bottom: 1.5rem;
+      /* Progress Visualization */
+      .progress-section {
+        margin: 1.5rem 0;
       }
 
-      .stat-item {
-        text-align: center;
-        flex: 1;
-        max-width: 160px;
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(10px);
-        padding: 1.25rem 1rem;
-        border-radius: 12px;
-        border: 1px solid rgba(226, 232, 240, 0.8);
-        transition: all 0.3s ease;
+      .progress-container {
         position: relative;
-        overflow: hidden;
+        margin-bottom: 1rem;
       }
 
-      .stat-item::before {
+      .progress-track {
+        height: 8px;
+        background: linear-gradient(90deg, #f1f5f9, #e2e8f0);
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #34d399, #10b981, #059669);
+        border-radius: 16px;
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+      }
+
+      .progress-fill::after {
         content: '';
         position: absolute;
         top: 0;
@@ -691,239 +649,254 @@
           rgba(255, 255, 255, 0.4),
           transparent
         );
-        transition: left 0.5s ease;
+        animation: progress-shimmer 3s ease-in-out infinite;
       }
 
-      .stat-item:hover::before {
-        left: 100%;
+      @keyframes progress-shimmer {
+        0% {
+          left: -100%;
+        }
+        50% {
+          left: 100%;
+        }
+        100% {
+          left: 100%;
+        }
       }
 
-      .stat-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        border-color: #10b981;
-      }
-
-      .stat-label {
-        font-size: 0.875rem;
+      .progress-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0.5rem;
+        font-size: 0.7rem;
         color: #64748b;
-        margin-bottom: 0.75rem;
-        font-weight: 600;
-        position: relative;
-        z-index: 1;
+        font-weight: 500;
       }
 
-      .stat-value {
-        font-size: 1.5rem;
+      .progress-percentage {
+        position: absolute;
+        top: -1.75rem;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
         font-weight: 700;
-        color: #1e293b;
+        color: #059669;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        transform: translateX(50%);
         transition: all 0.3s ease;
-        position: relative;
-        z-index: 1;
+        opacity: 0;
+        pointer-events: none;
       }
 
-      .stat-value.remaining {
-        color: #0369a1;
+      .progress-percentage.show {
+        opacity: 1;
       }
 
-      .stat-value.goals {
-        color: #059669;
+      /* Status Section */
+      .status-section {
+        background: rgba(248, 250, 252, 0.6);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(226, 232, 240, 0.5);
+        padding: 1.25rem;
+        border-radius: 16px;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
       }
 
-      .stat-value.celebrating {
-        animation: stat-celebration 0.6s ease-in-out;
-      }
-
-      .stat-value.pulsing {
-        animation: gentle-pulse 2s ease-in-out infinite;
-      }
-
-      @keyframes stat-celebration {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.1);
-        }
-      }
-
-      @keyframes gentle-pulse {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.02);
-        }
-      }
-
-      /* Special states for different budget health */
-      .stat-item.excellent {
-        background: linear-gradient(
-          135deg,
-          rgba(240, 253, 244, 0.9),
-          rgba(220, 252, 231, 0.9)
-        );
-        border-color: #bbf7d0;
-      }
-
-      .stat-item.excellent .stat-value.goals {
-        color: #059669;
-        animation: gentle-pulse 2s ease-in-out infinite;
-      }
-
-      .stat-item.warning {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 251, 235, 0.9),
-          rgba(254, 243, 199, 0.9)
-        );
-        border-color: #fde68a;
-      }
-
-      .stat-item.danger {
-        background: linear-gradient(
-          135deg,
-          rgba(254, 242, 242, 0.9),
-          rgba(254, 202, 202, 0.9)
-        );
-        border-color: #fca5a5;
-      }
-
-      .stat-item.danger .stat-value.remaining {
-        color: #dc2626;
-      }
-
-      .progress-status {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        padding: 1rem;
-        border-radius: 8px;
+      .status-content {
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        transition: all 0.3s ease;
+        gap: 1rem;
       }
 
       .status-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 1.25rem;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(226, 232, 240, 0.5);
+        flex-shrink: 0;
         transition: all 0.3s ease;
       }
 
-      .status-text {
+      .status-message {
+        flex: 1;
+      }
+
+      .status-title {
         font-size: 0.875rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.25rem;
+      }
+
+      .status-description {
+        font-size: 0.8rem;
         color: #64748b;
-        font-weight: 500;
         line-height: 1.4;
       }
 
-      /* Progress states */
-      .circular-track.excellent {
-        background: conic-gradient(
-          #10b981 0deg,
-          #10b981 var(--fill-angle, 0deg),
-          #f1f5f9 var(--fill-angle, 0deg),
-          #f1f5f9 360deg
+      /* State-specific styling */
+      .budget-metrics.excellent .metric-card.remaining {
+        background: linear-gradient(
+          135deg,
+          rgba(240, 253, 244, 0.8),
+          rgba(220, 252, 231, 0.6)
         );
-        box-shadow: 0 0 16px rgba(16, 185, 129, 0.2);
+        border-color: rgba(187, 247, 208, 0.6);
       }
 
-      .circular-track.good {
-        background: conic-gradient(
-          #059669 0deg,
-          #059669 var(--fill-angle, 0deg),
-          #f1f5f9 var(--fill-angle, 0deg),
-          #f1f5f9 360deg
+      .budget-metrics.excellent ~ .status-section {
+        background: linear-gradient(
+          135deg,
+          rgba(240, 253, 244, 0.8),
+          rgba(220, 252, 231, 0.6)
         );
+        border-color: rgba(187, 247, 208, 0.6);
       }
 
-      .circular-track.warning {
-        background: conic-gradient(
-          #f59e0b 0deg,
-          #f59e0b var(--fill-angle, 0deg),
-          #f1f5f9 var(--fill-angle, 0deg),
-          #f1f5f9 360deg
-        );
+      .budget-metrics.excellent ~ .status-section .status-icon {
+        background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+        border-color: rgba(16, 185, 129, 0.3);
+        color: #065f46;
       }
 
-      .circular-track.danger {
-        background: conic-gradient(
-          #ef4444 0deg,
-          #ef4444 var(--fill-angle, 0deg),
-          #f1f5f9 var(--fill-angle, 0deg),
-          #f1f5f9 360deg
-        );
+      .budget-metrics.excellent ~ .status-section .status-title {
+        color: #065f46;
       }
 
-      .progress-status.excellent {
-        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-        border-color: #bbf7d0;
-      }
-
-      .progress-status.excellent .status-text {
+      .budget-metrics.excellent ~ .status-section .status-description {
         color: #166534;
       }
 
-      .progress-status.warning {
-        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-        border-color: #fde68a;
+      .budget-metrics.warning .metric-card.remaining {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 251, 235, 0.8),
+          rgba(254, 243, 199, 0.6)
+        );
+        border-color: rgba(253, 230, 138, 0.6);
       }
 
-      .progress-status.warning .status-text {
+      .budget-metrics.warning ~ .status-section {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 251, 235, 0.8),
+          rgba(254, 243, 199, 0.6)
+        );
+        border-color: rgba(253, 230, 138, 0.6);
+      }
+
+      .budget-metrics.warning ~ .status-section .status-icon {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        border-color: rgba(245, 158, 11, 0.3);
         color: #92400e;
       }
 
-      .progress-status.danger {
-        background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
-        border-color: #fca5a5;
+      .budget-metrics.warning ~ .status-section .status-title {
+        color: #92400e;
       }
 
-      .progress-status.danger .status-text {
+      .budget-metrics.warning ~ .status-section .status-description {
+        color: #b45309;
+      }
+
+      .budget-metrics.danger .metric-card.remaining {
+        background: linear-gradient(
+          135deg,
+          rgba(254, 242, 242, 0.8),
+          rgba(254, 202, 202, 0.6)
+        );
+        border-color: rgba(252, 165, 165, 0.6);
+      }
+
+      .budget-metrics.danger ~ .status-section {
+        background: linear-gradient(
+          135deg,
+          rgba(254, 242, 242, 0.8),
+          rgba(254, 202, 202, 0.6)
+        );
+        border-color: rgba(252, 165, 165, 0.6);
+      }
+
+      .budget-metrics.danger ~ .status-section .status-icon {
+        background: linear-gradient(135deg, #fecaca, #fca5a5);
+        border-color: rgba(239, 68, 68, 0.3);
         color: #991b1b;
       }
 
-      .stat-value.celebrating {
-        animation: stat-celebration 0.6s ease-in-out;
+      .budget-metrics.danger ~ .status-section .status-title {
+        color: #991b1b;
       }
 
-      .stat-value.pulsing {
-        animation: gentle-pulse 2s ease-in-out infinite;
+      .budget-metrics.danger ~ .status-section .status-description {
+        color: #dc2626;
       }
 
-      @keyframes stat-celebration {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.1);
-        }
-      }
-
-      @keyframes gentle-pulse {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.02);
-        }
-      }
-
-      .validation-message {
-        background: #f0fdf4;
-        border: 1px solid #bbf7d0;
-        padding: 1rem;
-        border-radius: 8px;
-        margin-bottom: 1.5rem;
-      }
-
-      .validation-text {
+      /* Continue Button */
+      .continue-button {
+        width: 100%;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        font-weight: 700;
         font-size: 0.875rem;
-        color: #166534;
-        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
+      }
+
+      .continue-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.25),
+          transparent
+        );
+        transition: left 0.6s ease;
+      }
+
+      .continue-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+      }
+
+      .continue-button:hover::before {
+        left: 100%;
+      }
+
+      .continue-button:active {
+        transform: translateY(-1px);
+      }
+
+      .continue-button:disabled {
+        background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: 0 2px 8px rgba(148, 163, 184, 0.2);
+      }
+
+      .continue-button:disabled::before {
+        display: none;
       }
 
       /* Navigation Buttons */
@@ -948,18 +921,6 @@
         gap: 0.5rem;
       }
 
-      .btn-primary {
-        background: #10b981;
-        color: white;
-        border-color: #10b981;
-      }
-
-      .btn-primary:hover {
-        background: #059669;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
-      }
-
       .btn-secondary {
         background: transparent;
         color: #64748b;
@@ -970,12 +931,6 @@
         background: #f8fafc;
         color: #1e293b;
         border-color: #cbd5e1;
-      }
-
-      .btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: none !important;
       }
 
       /* Modal for adding items */
@@ -1188,6 +1143,20 @@
           width: 200px;
           justify-content: center;
         }
+
+        .budget-split {
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .allocated-amount,
+        .total-amount {
+          font-size: 1.25rem;
+        }
+
+        .remaining-amount {
+          font-size: 1.5rem;
+        }
       }
     </style>
   </head>
@@ -1361,8 +1330,8 @@
               </div>
 
               <!-- Virtual Fund -->
-              <div class="category-section">
-                <div class="category-header">
+              <div class="category-section virtual-fund">
+                <div class="category-header virtual-fund-header">
                   <div class="category-info">
                     <span class="category-icon">⚡</span>
                     <div class="category-details">
@@ -1372,7 +1341,12 @@
                       </div>
                     </div>
                   </div>
-                  <div class="category-total" id="virtual-total">£0/month</div>
+                  <div style="display: flex; align-items: center">
+                    <div class="safety-badge">SAFETY NET</div>
+                    <div class="category-total" id="virtual-total">
+                      £0/month
+                    </div>
+                  </div>
                 </div>
                 <div class="category-content">
                   <div class="expense-placeholder" id="virtual-placeholder">
@@ -1385,7 +1359,7 @@
                     style="display: none"
                   ></div>
                   <button
-                    class="add-expense-btn"
+                    class="add-expense-btn virtual-btn"
                     onclick="addExpense('virtual')"
                   >
                     + Add Virtual Fund Item
@@ -1396,62 +1370,56 @@
 
             <div class="summary-panel">
               <div class="summary-title">Budget Progress</div>
-              <div class="summary-header">
-                <div class="budget-overview">
-                  <span class="allocated-text"
-                    >£<span id="allocated-display">0</span></span
-                  >
-                  <span class="of-text">of</span>
-                  <span class="total-text">£2,900</span>
-                  <span class="summary-label">allocated</span>
+
+              <!-- Budget Progress Content -->
+              <div class="budget-metrics" id="budgetCard">
+                <div class="metric-card allocated">
+                  <div class="metric-label">Allocated</div>
+                  <div class="metric-value" id="allocatedAmount">£0</div>
+                  <div class="metric-sublabel">to expenses</div>
+                </div>
+                <div class="metric-card remaining">
+                  <div class="metric-label">Available</div>
+                  <div class="metric-value" id="remainingAmount">£2,900</div>
+                  <div class="metric-sublabel">for goals</div>
                 </div>
               </div>
 
-              <div class="budget-progress-section">
-                <div class="progress-hero">
-                  <div class="circular-budget-progress">
-                    <div class="circular-track">
-                      <div class="circular-fill" id="circular-fill"></div>
-                    </div>
-                    <div class="progress-center">
-                      <div class="progress-percentage" id="progress-percentage">
-                        0%
-                      </div>
-                      <div class="progress-label">allocated</div>
-                    </div>
+              <div class="progress-section">
+                <div class="progress-container">
+                  <div class="progress-track">
+                    <div
+                      class="progress-fill"
+                      id="progressFill"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                  <div class="progress-percentage" id="progressPercentage">
+                    0%
                   </div>
                 </div>
-
-                <div class="budget-stats">
-                  <div class="stat-item primary">
-                    <div class="stat-label">💰 Remaining</div>
-                    <div class="stat-value remaining" id="remaining-amount">
-                      £2,900
-                    </div>
-                  </div>
-                  <div class="stat-item secondary">
-                    <div class="stat-label">🎯 Available for Goals</div>
-                    <div class="stat-value goals" id="goals-available">
-                      £2,900
-                    </div>
-                  </div>
+                <div class="progress-labels">
+                  <span>£0</span>
+                  <span>£2,900</span>
                 </div>
+              </div>
 
-                <div class="progress-status" id="progress-status">
-                  <div class="status-icon" id="status-icon">💡</div>
-                  <div class="status-text" id="status-text">
-                    Start adding expenses to see your progress
+              <div class="status-section" id="statusSection">
+                <div class="status-content">
+                  <div class="status-icon" id="statusIcon">💡</div>
+                  <div class="status-message">
+                    <div class="status-title" id="statusTitle">
+                      Ready to start
+                    </div>
+                    <div class="status-description" id="statusDescription">
+                      Add your expenses to see how your budget is shaping up
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <button
-                class="btn btn-primary"
-                onclick="continueToGoals()"
-                id="step2-continue-btn"
-                disabled
-              >
-                SET YOUR GOALS →
+              <button class="continue-button" id="continueButton" disabled>
+                Set Your Goals →
               </button>
             </div>
           </div>
@@ -1716,7 +1684,7 @@
         }
 
         updateExpenseDisplay(currentCategory);
-        updateExpenseTotals();
+        updateBudgetProgress();
         closeModal();
       }
 
@@ -1765,10 +1733,10 @@
       function removeExpense(category, id) {
         expenses[category] = expenses[category].filter((exp) => exp.id !== id);
         updateExpenseDisplay(category);
-        updateExpenseTotals();
+        updateBudgetProgress();
       }
 
-      function updateExpenseTotals() {
+      function updateBudgetProgress() {
         // Calculate totals for each category
         let grandTotal = 0;
 
@@ -1785,135 +1753,95 @@
         });
 
         totalExpenses = grandTotal;
-
-        // Update sidebar - remove sidebar updates since we removed the sidebar section
-
         const remaining = totalIncome - totalExpenses;
+        const percentage = (totalExpenses / totalIncome) * 100;
         const recommendedGoalAmount = totalIncome * 0.2; // 20% for goals
-        const allocationPercentage =
-          totalIncome > 0 ? (totalExpenses / totalIncome) * 100 : 0;
 
-        // Update main summary
-        document.getElementById('allocated-display').textContent =
-          totalExpenses.toLocaleString();
+        // Update amounts and progress
+        document.getElementById('allocatedAmount').textContent =
+          `£${totalExpenses.toLocaleString()}`;
+        document.getElementById('remainingAmount').textContent =
+          `£${Math.max(0, remaining).toLocaleString()}`;
+        document.getElementById('progressFill').style.width =
+          `${Math.min(percentage, 100)}%`;
 
-        // Update circular progress with lively stats
-        updateCircularProgress(
-          allocationPercentage,
-          remaining,
-          recommendedGoalAmount
+        // Update progress percentage
+        const progressPercentage =
+          document.getElementById('progressPercentage');
+        progressPercentage.textContent = `${Math.round(percentage)}%`;
+
+        // Get elements
+        const budgetCard = document.getElementById('budgetCard'); // Now points to .budget-metrics
+        const statusSection = document.querySelector('.status-section');
+        const allocatedElement = document.getElementById('allocatedAmount');
+        const remainingElement = document.getElementById('remainingAmount');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusTitle = document.getElementById('statusTitle');
+        const statusDescription = document.getElementById('statusDescription');
+        const continueButton = document.getElementById('continueButton');
+
+        // Remove existing state classes
+        budgetCard.classList.remove(
+          'excellent',
+          'warning',
+          'danger',
+          'has-activity'
         );
+        allocatedElement.classList.remove('celebrating');
+        remainingElement.classList.remove('pulsing');
 
-        // Update continue button
+        // Show progress percentage if there's activity
         const hasExpenses = Object.values(expenses).some(
           (category) => category.length > 0
         );
-        const continueBtn = document.getElementById('step2-continue-btn');
 
-        continueBtn.disabled = !hasExpenses || remaining < 0;
-      }
-
-      function updateCircularProgress(
-        percentage,
-        remaining,
-        recommendedGoalAmount
-      ) {
-        const circularTrack = document.querySelector('.circular-track');
-        const progressPercentage = document.getElementById(
-          'progress-percentage'
-        );
-        const remainingAmount = document.getElementById('remaining-amount');
-        const goalsAvailable = document.getElementById('goals-available');
-        const progressStatus = document.getElementById('progress-status');
-        const statusIcon = document.getElementById('status-icon');
-        const statusText = document.getElementById('status-text');
-
-        // Update the circular progress
-        const fillAngle = Math.min(percentage, 100) * 3.6; // Convert percentage to degrees
-        circularTrack.style.setProperty('--fill-angle', `${fillAngle}deg`);
-        progressPercentage.textContent = `${Math.round(percentage)}%`;
-
-        // Update stats
-        remainingAmount.textContent = `£${Math.max(0, remaining).toLocaleString()}`;
-        goalsAvailable.textContent = `£${Math.max(0, remaining).toLocaleString()}`;
-
-        // Get stat items for styling
-        const statItems = document.querySelectorAll('.stat-item');
-        const remainingStatValue = document.getElementById('remaining-amount');
-        const goalsStatValue = document.getElementById('goals-available');
-
-        // Remove existing classes
-        statItems.forEach((item) => {
-          item.classList.remove('excellent', 'warning', 'danger');
-        });
-        remainingStatValue.classList.remove('celebrating', 'pulsing');
-        goalsStatValue.classList.remove('celebrating', 'pulsing');
-
-        // Remove existing state classes
-        circularTrack.classList.remove(
-          'excellent',
-          'good',
-          'warning',
-          'danger'
-        );
-        progressStatus.classList.remove(
-          'excellent',
-          'good',
-          'warning',
-          'danger'
-        );
-
-        // Determine state and update styling
-        let statusMessage = '';
-        let statusEmoji = '';
-
-        if (percentage === 0) {
-          statusEmoji = '💡';
-          statusMessage = 'Start adding expenses to see your progress';
-        } else if (remaining >= recommendedGoalAmount) {
-          // Excellent zone - 20% or more left for goals
-          circularTrack.classList.add('excellent');
-          progressStatus.classList.add('excellent');
-          statItems.forEach((item) => item.classList.add('excellent'));
-
-          statusEmoji = '🎯';
-          statusMessage = `Perfect! £${remaining.toLocaleString()} available for your goals (${Math.round((remaining / totalIncome) * 100)}% of income)`;
-
-          // Add celebration effects
-          setTimeout(() => {
-            goalsStatValue.classList.add('celebrating');
-            remainingStatValue.classList.add('pulsing');
-          }, 100);
-        } else if (remaining > 0) {
-          // Good zone - some money left but less than 20%
-          circularTrack.classList.add('good');
-          statItems.forEach((item) => item.classList.add('warning'));
-
-          statusEmoji = '👍';
-          statusMessage = `Good progress! £${remaining.toLocaleString()} remaining for goals`;
-
-          setTimeout(() => remainingStatValue.classList.add('pulsing'), 100);
-        } else if (remaining === 0) {
-          // Warning - exactly balanced
-          circularTrack.classList.add('warning');
-          progressStatus.classList.add('warning');
-          statItems.forEach((item) => item.classList.add('warning'));
-
-          statusEmoji = '⚡';
-          statusMessage =
-            'Budget perfectly balanced, but consider leaving room for goals';
+        if (hasExpenses) {
+          budgetCard.classList.add('has-activity');
+          progressPercentage.classList.add('show');
+          allocatedElement.classList.add('celebrating');
         } else {
-          // Danger - over budget
-          circularTrack.classList.add('danger');
-          progressStatus.classList.add('danger');
-          statItems.forEach((item) => item.classList.add('danger'));
-
-          statusEmoji = '⚠️';
-          statusMessage = `Over budget by £${Math.abs(remaining).toLocaleString()}. Try reducing some expenses.`;
+          progressPercentage.classList.remove('show');
         }
 
-        statusIcon.textContent = statusEmoji;
-        statusText.textContent = statusMessage;
+        // Update based on state
+        if (!hasExpenses) {
+          statusIcon.textContent = '💡';
+          statusTitle.textContent = 'Ready to start';
+          statusDescription.textContent =
+            'Add your expenses to see how your budget is shaping up';
+          continueButton.disabled = true;
+        } else {
+          continueButton.disabled = remaining < 0;
+
+          if (remaining >= recommendedGoalAmount) {
+            // Excellent state
+            budgetCard.classList.add('excellent');
+            remainingElement.classList.add('pulsing');
+            statusIcon.textContent = '🎯';
+            statusTitle.textContent = 'Excellent progress!';
+            statusDescription.textContent = `You have ${Math.round((remaining / totalIncome) * 100)}% of your income available for goals. Your financial future is looking bright!`;
+          } else if (remaining > 0) {
+            // Warning state - some money left but less than 20%
+            budgetCard.classList.add('warning');
+            statusIcon.textContent = '👍';
+            statusTitle.textContent = 'Good progress';
+            statusDescription.textContent = `You have ${Math.round((remaining / totalIncome) * 100)}% remaining. Consider reviewing your expenses to free up more for goals.`;
+          } else if (remaining === 0) {
+            // Balanced state (warning)
+            budgetCard.classList.add('warning');
+            statusIcon.textContent = '⚡';
+            statusTitle.textContent = 'Perfectly balanced';
+            statusDescription.textContent =
+              'Your budget is balanced, but consider leaving some room for unexpected goals and opportunities.';
+          } else {
+            // Over budget (danger)
+            budgetCard.classList.add('danger');
+            statusIcon.textContent = '⚠️';
+            statusTitle.textContent = 'Over budget';
+            statusDescription.textContent = `You're £${Math.abs(remaining).toLocaleString()} over budget. Try reducing some expenses to get back on track.`;
+            continueButton.disabled = true;
+          }
+        }
       }
 
       function continueToGoals() {
@@ -1950,11 +1878,13 @@
         }
       });
 
-      // Initialize
-      updateExpenseTotals();
+      // Add click handler for continue button
+      document
+        .getElementById('continueButton')
+        .addEventListener('click', continueToGoals);
 
-      // Set initial state
-      updateCircularProgress(0, totalIncome, totalIncome * 0.2);
+      // Initialize
+      updateBudgetProgress();
     </script>
   </body>
 </html>
