@@ -1,0 +1,2424 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Planner - What are your goals?</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        color: #1e293b;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .app-container {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Header */
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+        z-index: 100;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .logo-icon {
+        font-size: 1.75rem;
+      }
+
+      .logo-text {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1e293b;
+      }
+
+      .breadcrumb {
+        font-size: 0.875rem;
+        color: #64748b;
+        margin-top: 0.25rem;
+      }
+
+      .header-nav {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .nav-item {
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+        color: #64748b;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      .nav-item.active {
+        background: #1e293b;
+        color: white;
+      }
+
+      .nav-item:hover:not(.active) {
+        background: rgba(241, 245, 249, 0.8);
+        color: #1e293b;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 320px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-right: 1px solid rgba(226, 232, 240, 0.8);
+        position: fixed;
+        left: 0;
+        top: 70px;
+        bottom: 0;
+        overflow-y: auto;
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sidebar-section {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+      }
+
+      .sidebar-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 1rem;
+      }
+
+      /* Step Progress */
+      .step-progress {
+        margin-bottom: 1.5rem;
+      }
+
+      .step-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+      }
+
+      .step-item.active {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      }
+
+      .step-item.completed {
+        background: rgba(16, 185, 129, 0.1);
+        color: #059669;
+      }
+
+      .step-number {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        font-weight: 700;
+        font-size: 0.875rem;
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .step-item.active .step-number {
+        background: rgba(255, 255, 255, 0.9);
+        color: #059669;
+        border-color: rgba(255, 255, 255, 0.9);
+      }
+
+      .step-item.completed .step-number {
+        background: #10b981;
+        color: white;
+        border-color: #10b981;
+      }
+
+      .step-details h4 {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .step-description {
+        font-size: 0.75rem;
+        opacity: 0.8;
+      }
+
+      /* Budget Overview */
+      .budget-overview {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      }
+
+      .overview-title {
+        font-size: 0.875rem;
+        opacity: 0.9;
+        margin-bottom: 0.5rem;
+      }
+
+      .overview-amount {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .overview-status {
+        font-size: 0.75rem;
+        opacity: 0.9;
+      }
+
+      /* Tips */
+      .tips-section {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(10px);
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid rgba(226, 232, 240, 0.8);
+      }
+
+      .tips-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.75rem;
+      }
+
+      .tip {
+        font-size: 0.75rem;
+        color: #64748b;
+        margin-bottom: 0.5rem;
+        padding-left: 1rem;
+        position: relative;
+      }
+
+      .tip:before {
+        content: '💡';
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+      /* Main Content */
+      .main-content {
+        margin-left: 320px;
+        margin-top: 70px;
+        padding: 2rem;
+        min-height: calc(100vh - 70px);
+        max-width: calc(100vw - 320px);
+        width: calc(100vw - 320px);
+      }
+
+      /* Step Container */
+      .step-container {
+        max-width: 1152px;
+        margin: 0 auto;
+      }
+
+      .step-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .step-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 0.75rem;
+      }
+
+      .step-subtitle {
+        font-size: 1.125rem;
+        color: #64748b;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* Form Styles */
+      .form-grid {
+        display: flex;
+        gap: 3rem;
+        margin-bottom: 3rem;
+        align-items: flex-start;
+      }
+
+      .form-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        flex: 1;
+      }
+
+      .goal-category {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .goal-category:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+      }
+
+      .goal-category.essential {
+        border-color: #ef4444;
+        box-shadow: 0 8px 32px rgba(239, 68, 68, 0.15);
+      }
+
+      .goal-category.debt {
+        border-color: #f59e0b;
+        box-shadow: 0 8px 32px rgba(245, 158, 11, 0.15);
+      }
+
+      .goal-category.savings {
+        border-color: #3b82f6;
+        box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);
+      }
+
+      .goal-category.future {
+        border-color: #8b5cf6;
+        box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15);
+      }
+
+      .goal-header {
+        padding: 1.5rem 2rem;
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .goal-header.essential {
+        background: #fef2f2;
+        border-bottom-color: #fecaca;
+      }
+
+      .goal-header.debt {
+        background: #fffbeb;
+        border-bottom-color: #fed7aa;
+      }
+
+      .goal-header.savings {
+        background: #eff6ff;
+        border-bottom-color: #bfdbfe;
+      }
+
+      .goal-header.future {
+        background: #f5f3ff;
+        border-bottom-color: #c4b5fd;
+      }
+
+      .goal-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .goal-icon {
+        font-size: 1.5rem;
+      }
+
+      .goal-details h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin: 0;
+      }
+
+      .goal-description {
+        font-size: 0.875rem;
+        color: #64748b;
+        margin-top: 0.25rem;
+      }
+
+      .priority-badge {
+        background: #ef4444;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-right: 1rem;
+      }
+
+      .freedom-badge {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-right: 1rem;
+        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+      }
+
+      .dream-badge {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-right: 1rem;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+      }
+
+      .growth-badge {
+        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-right: 1rem;
+        box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+      }
+
+      .goal-total {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: #10b981;
+      }
+
+      .goal-content {
+        padding: 2rem;
+      }
+
+      .goal-placeholder {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: #64748b;
+        font-style: italic;
+      }
+
+      .add-goal-btn {
+        background: #f8fafc;
+        border: 2px dashed #e2e8f0;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        color: #64748b;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+      }
+
+      .add-goal-btn:hover {
+        border-color: #10b981;
+        color: #10b981;
+        background: #f0fdf4;
+      }
+
+      .add-goal-btn.debt-btn {
+        background: #fffbeb;
+        border-color: #fed7aa;
+        color: #92400e;
+      }
+
+      .add-goal-btn.debt-btn:hover {
+        border-color: #f59e0b;
+        color: #f59e0b;
+        background: #fef3c7;
+      }
+
+      .add-goal-btn.savings-btn {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+        color: #1d4ed8;
+      }
+
+      .add-goal-btn.savings-btn:hover {
+        border-color: #3b82f6;
+        color: #3b82f6;
+        background: #dbeafe;
+      }
+
+      .add-goal-btn.future-btn {
+        background: #f5f3ff;
+        border-color: #c4b5fd;
+        color: #7c2d12;
+      }
+
+      .add-goal-btn.future-btn:hover {
+        border-color: #8b5cf6;
+        color: #8b5cf6;
+        background: #ede9fe;
+      }
+
+      /* Goal Items */
+      .goal-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        margin-bottom: 0.75rem;
+        transition: all 0.2s ease;
+      }
+
+      .goal-item:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+      }
+
+      .goal-details-section {
+        flex: 1;
+        margin-right: 1rem;
+      }
+
+      .goal-name {
+        font-weight: 500;
+        color: #1e293b;
+        margin-bottom: 0.25rem;
+      }
+
+      .goal-interest {
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        display: inline-block;
+      }
+
+      .goal-interest.debt-interest {
+        background: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+      }
+
+      .goal-interest.growth-interest {
+        background: rgba(34, 197, 94, 0.1);
+        color: #16a34a;
+        border: 1px solid rgba(34, 197, 94, 0.2);
+      }
+
+      .goal-target {
+        font-weight: 600;
+        color: #3b82f6;
+        margin-right: 1rem;
+        min-width: 100px;
+        text-align: right;
+        font-size: 0.875rem;
+      }
+
+      .goal-allocation {
+        font-weight: 600;
+        color: #10b981;
+        margin-right: 1rem;
+        min-width: 120px;
+        text-align: right;
+        cursor: pointer;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+      }
+
+      .goal-allocation:hover {
+        background: rgba(16, 185, 129, 0.1);
+      }
+
+      .goal-timeline {
+        font-size: 0.75rem;
+        color: #64748b;
+        margin-right: 1rem;
+        min-width: 80px;
+        text-align: right;
+        font-style: italic;
+      }
+
+      .goal-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .goal-btn {
+        padding: 0.25rem 0.5rem;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: #64748b;
+      }
+
+      .goal-btn:hover {
+        border-color: #cbd5e1;
+        color: #1e293b;
+      }
+
+      .goal-btn.delete:hover {
+        border-color: #ef4444;
+        color: #ef4444;
+        background: #fef2f2;
+      }
+
+      /* Emergency Fund Direct Input Styles */
+      .emergency-setup {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .emergency-target-section,
+      .emergency-allocation-section {
+        position: relative;
+      }
+
+      .emergency-input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 1.125rem;
+        font-weight: 600;
+        text-align: center;
+        transition: all 0.2s ease;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+      }
+
+      .emergency-input:focus {
+        outline: none;
+        border-color: #ef4444;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        background: white;
+      }
+
+      .months-indicator,
+      .timeline-indicator {
+        margin-top: 0.5rem;
+        font-size: 0.75rem;
+        color: #64748b;
+        text-align: center;
+        font-weight: 500;
+      }
+
+      .months-indicator.good {
+        color: #059669;
+        font-weight: 600;
+      }
+
+      .months-indicator.excellent {
+        color: #dc2626;
+        font-weight: 600;
+      }
+
+      .timeline-indicator.active {
+        color: #ef4444;
+        font-weight: 600;
+      }
+
+      .emergency-summary {
+        background: linear-gradient(135deg, #fef2f2, #fee2e2);
+        border: 1px solid #fecaca;
+        padding: 1rem;
+        border-radius: 12px;
+        margin-top: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .summary-content {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .summary-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+
+      .summary-text {
+        flex: 1;
+      }
+
+      .summary-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #991b1b;
+        margin-bottom: 0.25rem;
+      }
+
+      .summary-description {
+        font-size: 0.75rem;
+        color: #dc2626;
+        line-height: 1.4;
+      }
+
+      /* Emergency Fund Skip Functionality */
+      .emergency-skip-section {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(226, 232, 240, 0.5);
+      }
+
+      .skip-option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+      }
+
+      .skip-option input[type='checkbox'] {
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        cursor: pointer;
+      }
+
+      .skip-label {
+        font-size: 0.875rem;
+        color: #64748b;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .skip-label:hover {
+        color: #475569;
+      }
+
+      .emergency-skipped {
+        background: rgba(248, 250, 252, 0.8);
+        border: 1px solid rgba(226, 232, 240, 0.6);
+        padding: 1.5rem;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .skipped-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .skipped-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+
+      .skipped-text {
+        flex: 1;
+      }
+
+      .skipped-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 0.25rem;
+      }
+
+      .skipped-description {
+        font-size: 0.75rem;
+        color: #64748b;
+        line-height: 1.4;
+      }
+
+      .restore-btn {
+        background: transparent;
+        border: 1px solid #e2e8f0;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        color: #64748b;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .restore-btn:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+        color: #475569;
+      }
+
+      /* Summary Panel */
+      .summary-panel {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        height: fit-content;
+        position: sticky;
+        top: 2rem;
+        width: 400px;
+        flex-shrink: 0;
+      }
+
+      .summary-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      /* Goal Progress Components */
+      .goal-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .metric-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(226, 232, 240, 0.5);
+        padding: 1.25rem;
+        border-radius: 16px;
+        text-align: center;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+      }
+
+      .metric-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--accent-color, #e2e8f0);
+        transition: all 0.3s ease;
+      }
+
+      .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        border-color: var(--accent-color, #cbd5e1);
+      }
+
+      .metric-card.allocated {
+        --accent-color: #10b981;
+      }
+
+      .metric-card.remaining {
+        --accent-color: #64748b;
+      }
+
+      .metric-label {
+        font-size: 0.75rem;
+        color: #64748b;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.5rem;
+      }
+
+      .metric-value {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 0.25rem;
+        transition: all 0.3s ease;
+      }
+
+      .metric-card.allocated .metric-value {
+        color: #059669;
+      }
+
+      .metric-card.remaining .metric-value {
+        color: #64748b;
+      }
+
+      .metric-value.celebrating {
+        animation: metric-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+
+      @keyframes metric-bounce {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        30% {
+          transform: scale(1.1);
+        }
+        60% {
+          transform: scale(0.95);
+        }
+      }
+
+      .metric-sublabel {
+        font-size: 0.7rem;
+        color: #94a3b8;
+        font-weight: 500;
+      }
+
+      /* Timeline Section */
+      .timeline-section {
+        background: rgba(248, 250, 252, 0.6);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(226, 232, 240, 0.5);
+        padding: 1.25rem;
+        border-radius: 16px;
+        margin-bottom: 1.5rem;
+      }
+
+      .timeline-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .timeline-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        font-size: 0.875rem;
+      }
+
+      .timeline-item:last-child {
+        border-bottom: none;
+      }
+
+      .timeline-goal {
+        font-weight: 500;
+        color: #1e293b;
+      }
+
+      .timeline-date {
+        font-weight: 600;
+        color: #10b981;
+      }
+
+      /* Status Section */
+      .status-section {
+        background: rgba(248, 250, 252, 0.6);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(226, 232, 240, 0.5);
+        padding: 1.25rem;
+        border-radius: 16px;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .status-content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .status-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(226, 232, 240, 0.5);
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+      }
+
+      .status-message {
+        flex: 1;
+      }
+
+      .status-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.25rem;
+      }
+
+      .status-description {
+        font-size: 0.8rem;
+        color: #64748b;
+        line-height: 1.4;
+      }
+
+      /* Continue Button */
+      .continue-button {
+        width: 100%;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
+      }
+
+      .continue-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.25),
+          transparent
+        );
+        transition: left 0.6s ease;
+      }
+
+      .continue-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+      }
+
+      .continue-button:hover::before {
+        left: 100%;
+      }
+
+      .continue-button:active {
+        transform: translateY(-1px);
+      }
+
+      .continue-button:disabled {
+        background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: 0 2px 8px rgba(148, 163, 184, 0.2);
+      }
+
+      .continue-button:disabled::before {
+        display: none;
+      }
+
+      /* Navigation Buttons */
+      .nav-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 3rem;
+      }
+
+      .btn {
+        padding: 0.875rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid transparent;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #64748b;
+        border-color: #e2e8f0;
+      }
+
+      .btn-secondary:hover {
+        background: #f8fafc;
+        color: #1e293b;
+        border-color: #cbd5e1;
+      }
+
+      /* Modal for adding goals */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal.show {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      .modal-header {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .modal-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .modal-section {
+        margin-bottom: 1rem;
+      }
+
+      .modal-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .modal-input {
+        padding: 0.75rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        width: 100%;
+      }
+
+      .modal-input:focus {
+        outline: none;
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+      }
+
+      .goal-type-selector {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .goal-type-option {
+        padding: 0.75rem;
+        background: #f8fafc;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+        color: #64748b;
+        text-align: center;
+      }
+
+      .goal-type-option.active {
+        background: #f0fdf4;
+        color: #059669;
+        border-color: #10b981;
+      }
+
+      .target-inputs {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+
+      .target-input {
+        flex: 1;
+        padding: 0.75rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 1rem;
+        text-align: center;
+        transition: all 0.2s ease;
+      }
+
+      .target-input:focus {
+        outline: none;
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+      }
+
+      .priority-select {
+        padding: 0.75rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 1rem;
+        background: white;
+        transition: all 0.2s ease;
+        width: 100%;
+      }
+
+      .priority-select:focus {
+        outline: none;
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .modal-btn {
+        flex: 1;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid transparent;
+      }
+
+      .modal-btn.primary {
+        background: #10b981;
+        color: white;
+        border-color: #10b981;
+      }
+
+      .modal-btn.primary:hover {
+        background: #059669;
+        transform: translateY(-1px);
+      }
+
+      .modal-btn.secondary {
+        background: transparent;
+        color: #64748b;
+        border-color: #e2e8f0;
+      }
+
+      .modal-btn.secondary:hover {
+        background: #f8fafc;
+        color: #1e293b;
+      }
+
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .form-grid {
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .summary-panel {
+          position: static;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease;
+        }
+
+        .main-content {
+          margin-left: 0;
+          width: 100vw;
+          max-width: 100vw;
+          padding: 1rem;
+        }
+
+        .step-title {
+          font-size: 2rem;
+        }
+
+        .nav-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .btn {
+          width: 200px;
+          justify-content: center;
+        }
+
+        .goal-metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .goal-type-selector {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo-area">
+          <span class="logo-icon">💰</span>
+          <div>
+            <div class="logo-text">Budget Planner</div>
+            <div class="breadcrumb">Create Budget > Goals</div>
+          </div>
+        </div>
+        <div class="header-nav">
+          <a href="#" class="nav-item active">Create Budget</a>
+          <a href="#" class="nav-item">My Budget</a>
+          <a href="#" class="nav-item">Goals</a>
+          <a href="#" class="nav-item">Scenarios</a>
+        </div>
+      </header>
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title">Budget Creation</div>
+          <div class="step-progress">
+            <div class="step-item completed">
+              <div class="step-number">✓</div>
+              <div class="step-details">
+                <h4>Income</h4>
+                <div class="step-description">£2,900/month</div>
+              </div>
+            </div>
+            <div class="step-item completed">
+              <div class="step-number">✓</div>
+              <div class="step-details">
+                <h4>Expenses</h4>
+                <div class="step-description">£2,092/month</div>
+              </div>
+            </div>
+            <div class="step-item active">
+              <div class="step-number">3</div>
+              <div class="step-details">
+                <h4>Goals</h4>
+                <div class="step-description">What you want to achieve</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="budget-overview">
+            <div class="overview-title">Available for Goals</div>
+            <div class="overview-amount" id="available-amount">£808</div>
+            <div class="overview-status">per month to work with</div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="tips-section">
+            <div class="tips-title">Tips:</div>
+            <div class="tip">Start with what feels most important</div>
+            <div class="tip">Every step forward is progress</div>
+            <div class="tip">You can adjust priorities anytime</div>
+            <div class="tip">Emergency fund = peace of mind</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="step-container">
+          <div class="step-header">
+            <h1 class="step-title">What are your goals?</h1>
+            <p class="step-subtitle">
+              Let's put your monthly surplus of £808 to work for your future
+            </p>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-content">
+              <!-- Emergency Fund -->
+              <div class="goal-category essential">
+                <div class="goal-header essential">
+                  <div class="goal-info">
+                    <span class="goal-icon">🛡️</span>
+                    <div class="goal-details">
+                      <h3>EMERGENCY FUND</h3>
+                      <div class="goal-description">
+                        Build a safety net for unexpected expenses
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center">
+                    <div class="priority-badge">ESSENTIAL</div>
+                    <div class="goal-total" id="emergency-total">£0/month</div>
+                  </div>
+                </div>
+                <div class="goal-content">
+                  <div class="emergency-setup" id="emergencySetup">
+                    <div class="form-group">
+                      <label class="form-label"
+                        >Target Amount (3 months of expenses recommended)</label
+                      >
+                      <div class="emergency-target-section">
+                        <input
+                          type="text"
+                          class="emergency-input"
+                          id="emergencyTarget"
+                          placeholder="£6,300"
+                          value="£6,300"
+                          oninput="updateEmergencyFund()"
+                        />
+                        <div class="months-indicator" id="monthsIndicator">
+                          3.0 months coverage
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Monthly Allocation</label>
+                      <div class="emergency-allocation-section">
+                        <input
+                          type="text"
+                          class="emergency-input"
+                          id="emergencyAllocation"
+                          placeholder="£300"
+                          oninput="updateEmergencyFund()"
+                        />
+                        <div class="timeline-indicator" id="timelineIndicator">
+                          Add amount to see timeline
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="emergency-summary"
+                      id="emergencySummary"
+                      style="display: none"
+                    >
+                      <div class="summary-content">
+                        <span class="summary-icon">🛡️</span>
+                        <div class="summary-text">
+                          <div class="summary-title">Emergency Fund Active</div>
+                          <div
+                            class="summary-description"
+                            id="summaryDescription"
+                          >
+                            Building your financial safety net
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="emergency-skip-section">
+                      <div class="skip-option">
+                        <input
+                          type="checkbox"
+                          id="skipEmergencyFund"
+                          onchange="toggleEmergencyFund()"
+                        />
+                        <label for="skipEmergencyFund" class="skip-label">
+                          I already have an emergency fund or want to skip this
+                          for now
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="emergency-skipped"
+                    id="emergencySkipped"
+                    style="display: none"
+                  >
+                    <div class="skipped-content">
+                      <span class="skipped-icon">ℹ️</span>
+                      <div class="skipped-text">
+                        <div class="skipped-title">Emergency Fund Skipped</div>
+                        <div class="skipped-description">
+                          You can always add an emergency fund goal later from
+                          your dashboard.
+                        </div>
+                      </div>
+                      <button
+                        class="restore-btn"
+                        onclick="restoreEmergencyFund()"
+                      >
+                        Add Emergency Fund
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Debt Freedom -->
+              <div class="goal-category debt">
+                <div class="goal-header debt">
+                  <div class="goal-info">
+                    <span class="goal-icon">🆓</span>
+                    <div class="goal-details">
+                      <h3>DEBT FREEDOM</h3>
+                      <div class="goal-description">
+                        Pay off credit cards, loans, and other debts
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center">
+                    <div class="freedom-badge">FREEDOM</div>
+                    <div class="goal-total" id="debt-total">£0/month</div>
+                  </div>
+                </div>
+                <div class="goal-content">
+                  <div class="goal-placeholder" id="debt-placeholder">
+                    Clear your debts to free up more money for your dreams.
+                  </div>
+                  <div
+                    class="goal-list"
+                    id="debt-list"
+                    style="display: none"
+                  ></div>
+                  <button
+                    class="add-goal-btn debt-btn"
+                    onclick="addGoal('debt')"
+                  >
+                    + Add Debt to Pay Off
+                  </button>
+                </div>
+              </div>
+
+              <!-- Savings Goals -->
+              <div class="goal-category savings">
+                <div class="goal-header savings">
+                  <div class="goal-info">
+                    <span class="goal-icon">🎯</span>
+                    <div class="goal-details">
+                      <h3>SAVINGS GOALS</h3>
+                      <div class="goal-description">
+                        Holidays, purchases, and other specific targets
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center">
+                    <div class="dream-badge">DREAMS</div>
+                    <div class="goal-total" id="savings-total">£0/month</div>
+                  </div>
+                </div>
+                <div class="goal-content">
+                  <div class="goal-placeholder" id="savings-placeholder">
+                    What would you like to save for? Holiday, car, or something
+                    special?
+                  </div>
+                  <div
+                    class="goal-list"
+                    id="savings-list"
+                    style="display: none"
+                  ></div>
+                  <button
+                    class="add-goal-btn savings-btn"
+                    onclick="addGoal('savings')"
+                  >
+                    + Add Savings Goal
+                  </button>
+                </div>
+              </div>
+
+              <!-- Future Planning -->
+              <div class="goal-category future">
+                <div class="goal-header future">
+                  <div class="goal-info">
+                    <span class="goal-icon">🚀</span>
+                    <div class="goal-details">
+                      <h3>FUTURE PLANNING</h3>
+                      <div class="goal-description">
+                        Long-term goals, investments, and retirement planning
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display: flex; align-items: center">
+                    <div class="growth-badge">GROWTH</div>
+                    <div class="goal-total" id="future-total">£0/month</div>
+                  </div>
+                </div>
+                <div class="goal-content">
+                  <div class="goal-placeholder" id="future-placeholder">
+                    Think beyond today - retirement savings, investments, or
+                    other long-term plans.
+                  </div>
+                  <div
+                    class="goal-list"
+                    id="future-list"
+                    style="display: none"
+                  ></div>
+                  <button
+                    class="add-goal-btn future-btn"
+                    onclick="addGoal('future')"
+                  >
+                    + Add Future Goal
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-panel">
+              <div class="summary-title">Goal Summary</div>
+
+              <!-- Goal Metrics -->
+              <div class="goal-metrics" id="goalCard">
+                <div class="metric-card allocated">
+                  <div class="metric-label">Allocated</div>
+                  <div class="metric-value" id="allocatedGoals">£0</div>
+                  <div class="metric-sublabel">to goals</div>
+                </div>
+                <div class="metric-card remaining">
+                  <div class="metric-label">Unallocated</div>
+                  <div class="metric-value" id="remainingBudget">£808</div>
+                  <div class="metric-sublabel">available</div>
+                </div>
+              </div>
+
+              <!-- Timeline Section -->
+              <div
+                class="timeline-section"
+                id="timelineSection"
+                style="display: none"
+              >
+                <div class="timeline-title">🎯 Your Goal Timeline</div>
+                <div id="timelineList">
+                  <!-- Timeline items will be inserted here -->
+                </div>
+              </div>
+
+              <!-- Status Section -->
+              <div class="status-section" id="statusSection">
+                <div class="status-content">
+                  <div class="status-icon" id="statusIcon">💡</div>
+                  <div class="status-message">
+                    <div class="status-title" id="statusTitle">
+                      Ready to set goals
+                    </div>
+                    <div class="status-description" id="statusDescription">
+                      You have £808/month to work with. Start with an emergency
+                      fund for peace of mind!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button class="continue-button" id="continueButton" disabled>
+                Create My Budget
+              </button>
+            </div>
+          </div>
+
+          <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="backToExpenses()">
+              ← BACK TO EXPENSES
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Modal for adding goals -->
+    <div class="modal" id="addModal">
+      <div class="modal-content">
+        <div class="modal-header" id="modalTitle">Add Goal</div>
+        <div class="modal-form">
+          <div class="modal-section">
+            <label class="modal-label">Goal Name</label>
+            <input
+              type="text"
+              class="modal-input"
+              id="goalName"
+              placeholder="e.g., Emergency Fund, Holiday to Spain"
+            />
+          </div>
+
+          <div class="modal-section" id="goalTypeSection">
+            <label class="modal-label">Goal Type</label>
+            <div class="goal-type-selector">
+              <div
+                class="goal-type-option active"
+                onclick="selectGoalType(this, 'target')"
+              >
+                Target Amount
+              </div>
+              <div
+                class="goal-type-option"
+                id="debtPayoffOption"
+                onclick="selectGoalType(this, 'debt')"
+              >
+                Debt Payoff
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-section">
+            <label class="modal-label" id="targetLabel">Target Amount</label>
+            <div class="target-inputs" id="targetInputs">
+              <input
+                type="text"
+                class="target-input"
+                id="targetAmount"
+                placeholder="£5,000"
+              />
+            </div>
+          </div>
+
+          <div class="modal-section">
+            <label class="modal-label">Monthly Allocation</label>
+            <input
+              type="text"
+              class="modal-input"
+              id="monthlyAllocation"
+              placeholder="£300"
+            />
+          </div>
+
+          <div class="modal-section">
+            <label class="modal-label" id="interestLabel"
+              >Interest Rate (% per year)</label
+            >
+            <input
+              type="text"
+              class="modal-input"
+              id="interestRate"
+              placeholder="19.9%"
+            />
+          </div>
+
+          <div class="modal-section">
+            <label class="modal-label">Priority</label>
+            <select class="priority-select" id="goalPriority">
+              <option value="high">High Priority</option>
+              <option value="medium">Medium Priority</option>
+              <option value="low">Low Priority</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="modal-btn secondary" onclick="closeModal()">
+            Cancel
+          </button>
+          <button class="modal-btn primary" onclick="saveGoal()">
+            Add Goal
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const availableBudget = 808;
+      const monthlyExpenses = 2092; // For calculating emergency fund months
+      let totalGoalAllocation = 0;
+      let currentCategory = '';
+      let currentEditingId = null;
+      let goals = {
+        emergency: { target: 0, monthlyAllocation: 0, skipped: false }, // Special case - single object
+        debt: [],
+        savings: [],
+        future: []
+      };
+
+      function toggleEmergencyFund() {
+        const checkbox = document.getElementById('skipEmergencyFund');
+        const setupSection = document.getElementById('emergencySetup');
+        const skippedSection = document.getElementById('emergencySkipped');
+
+        if (checkbox.checked) {
+          // Skip the emergency fund
+          setupSection.style.display = 'none';
+          skippedSection.style.display = 'block';
+
+          // Clear emergency fund values
+          goals.emergency = { target: 0, monthlyAllocation: 0, skipped: true };
+
+          // Clear inputs
+          document.getElementById('emergencyTarget').value = '';
+          document.getElementById('emergencyAllocation').value = '';
+        } else {
+          // Restore the emergency fund
+          restoreEmergencyFund();
+        }
+
+        updateGoalProgress();
+      }
+
+      function restoreEmergencyFund() {
+        const checkbox = document.getElementById('skipEmergencyFund');
+        const setupSection = document.getElementById('emergencySetup');
+        const skippedSection = document.getElementById('emergencySkipped');
+
+        // Uncheck the skip checkbox
+        checkbox.checked = false;
+
+        // Show setup, hide skipped
+        setupSection.style.display = 'block';
+        skippedSection.style.display = 'none';
+
+        // Restore default values
+        document.getElementById('emergencyTarget').value = '£6,300';
+        goals.emergency = {
+          target: 6300,
+          monthlyAllocation: 0,
+          skipped: false
+        };
+
+        // Update display
+        updateEmergencyFund();
+      }
+
+      function updateEmergencyFund() {
+        // Don't update if emergency fund is skipped
+        if (goals.emergency.skipped) return;
+
+        const targetInput = document.getElementById('emergencyTarget');
+        const allocationInput = document.getElementById('emergencyAllocation');
+        const monthsIndicator = document.getElementById('monthsIndicator');
+        const timelineIndicator = document.getElementById('timelineIndicator');
+        const emergencySummary = document.getElementById('emergencySummary');
+        const summaryDescription =
+          document.getElementById('summaryDescription');
+
+        // Parse values
+        const target = parseFloat(targetInput.value.replace(/[£,]/g, '')) || 0;
+        const allocation =
+          parseFloat(allocationInput.value.replace(/[£,]/g, '')) || 0;
+
+        // Update months coverage indicator
+        if (target > 0) {
+          const months = target / monthlyExpenses;
+          monthsIndicator.textContent = `${months.toFixed(1)} months coverage`;
+
+          if (months >= 6) {
+            monthsIndicator.className = 'months-indicator excellent';
+          } else if (months >= 3) {
+            monthsIndicator.className = 'months-indicator good';
+          } else {
+            monthsIndicator.className = 'months-indicator';
+          }
+        } else {
+          monthsIndicator.textContent = '0 months coverage';
+          monthsIndicator.className = 'months-indicator';
+        }
+
+        // Update timeline indicator
+        if (allocation > 0 && target > 0) {
+          const months = Math.ceil(target / allocation);
+          timelineIndicator.textContent = `${months} month${months !== 1 ? 's' : ''} to complete`;
+          timelineIndicator.className = 'timeline-indicator active';
+
+          // Show summary
+          emergencySummary.style.display = 'block';
+          summaryDescription.textContent = `£${allocation.toLocaleString()}/month building £${target.toLocaleString()} safety net`;
+        } else if (allocation > 0) {
+          timelineIndicator.textContent = 'Set target amount to see timeline';
+          timelineIndicator.className = 'timeline-indicator';
+          emergencySummary.style.display = 'none';
+        } else {
+          timelineIndicator.textContent = 'Add amount to see timeline';
+          timelineIndicator.className = 'timeline-indicator';
+          emergencySummary.style.display = 'none';
+        }
+
+        // Update goals object
+        goals.emergency = {
+          target,
+          monthlyAllocation: allocation,
+          skipped: false
+        };
+
+        // Update overall progress
+        updateGoalProgress();
+      }
+
+      function selectGoalType(element, type) {
+        // Remove active class from siblings
+        element.parentElement
+          .querySelectorAll('.goal-type-option')
+          .forEach((option) => {
+            option.classList.remove('active');
+          });
+        element.classList.add('active');
+
+        // Update UI based on type
+        const targetLabel = document.getElementById('targetLabel');
+        const targetAmount = document.getElementById('targetAmount');
+        const interestLabel = document.getElementById('interestLabel');
+        const interestRate = document.getElementById('interestRate');
+
+        if (type === 'debt') {
+          targetLabel.textContent = 'Current Debt Amount';
+          targetAmount.placeholder = '£1,500';
+          interestLabel.textContent = 'Interest Rate (% per year)';
+          interestRate.placeholder = '19.9%';
+        } else {
+          targetLabel.textContent = 'Target Amount';
+          targetAmount.placeholder = '£5,000';
+          interestLabel.textContent = 'Expected Return (% per year)';
+          interestRate.placeholder = '4.5%';
+        }
+      }
+
+      function addGoal(category) {
+        // Don't allow emergency fund through modal - it has direct inputs
+        if (category === 'emergency') return;
+
+        currentCategory = category;
+        currentEditingId = null;
+
+        const modal = document.getElementById('addModal');
+        const title = document.getElementById('modalTitle');
+        const nameInput = document.getElementById('goalName');
+        const typeSection = document.getElementById('goalTypeSection');
+        const debtPayoffOption = document.getElementById('debtPayoffOption');
+
+        // Reset modal
+        title.textContent = `Add ${category.charAt(0).toUpperCase() + category.slice(1)} Goal`;
+        nameInput.value = '';
+
+        // Show/hide debt payoff option and goal type section based on category
+        if (category === 'debt') {
+          typeSection.style.display = 'block';
+          debtPayoffOption.style.display = 'block';
+          selectGoalType(
+            document.querySelector('.goal-type-option:last-child'),
+            'debt'
+          );
+        } else {
+          // For savings and future, hide debt payoff option and only show target
+          typeSection.style.display = 'none';
+          debtPayoffOption.style.display = 'none';
+          selectGoalType(
+            document.querySelector('.goal-type-option:first-child'),
+            'target'
+          );
+        }
+
+        // Reset other fields
+        document.getElementById('targetAmount').value = '';
+        document.getElementById('monthlyAllocation').value = '';
+        document.getElementById('interestRate').value = '';
+        document.getElementById('goalPriority').value = 'high';
+
+        // Set default placeholders based on category
+        const placeholders = {
+          debt: {
+            name: 'Credit Card Debt',
+            target: '£1,500',
+            monthly: '£200',
+            interest: '19.9%'
+          },
+          savings: {
+            name: 'Holiday to Spain',
+            target: '£2,000',
+            monthly: '£150',
+            interest: '4.5%'
+          },
+          future: {
+            name: 'Retirement Savings',
+            target: '£50,000',
+            monthly: '£250',
+            interest: '7.0%'
+          }
+        };
+
+        nameInput.placeholder = placeholders[category].name;
+        document.getElementById('targetAmount').placeholder =
+          placeholders[category].target;
+        document.getElementById('monthlyAllocation').placeholder =
+          placeholders[category].monthly;
+        document.getElementById('interestRate').placeholder =
+          placeholders[category].interest;
+
+        modal.classList.add('show');
+        nameInput.focus();
+      }
+
+      function editGoal(category, id) {
+        const goal = goals[category].find((g) => g.id === id);
+        if (!goal) return;
+
+        currentCategory = category;
+        currentEditingId = id;
+
+        const modal = document.getElementById('addModal');
+        const title = document.getElementById('modalTitle');
+        const typeSection = document.getElementById('goalTypeSection');
+        const debtPayoffOption = document.getElementById('debtPayoffOption');
+
+        title.textContent = `Edit ${goal.name}`;
+        document.getElementById('goalName').value = goal.name;
+        document.getElementById('targetAmount').value = goal.target || '';
+        document.getElementById('monthlyAllocation').value =
+          goal.monthlyAllocation || '';
+        document.getElementById('interestRate').value = goal.interestRate || '';
+        document.getElementById('goalPriority').value =
+          goal.priority || 'medium';
+
+        // Set goal type and show/hide options based on category
+        const isDebt = goal.type === 'debt';
+        if (category === 'debt') {
+          typeSection.style.display = 'block';
+          debtPayoffOption.style.display = 'block';
+          selectGoalType(
+            document.querySelector('.goal-type-option:last-child'),
+            'debt'
+          );
+        } else {
+          typeSection.style.display = 'none';
+          debtPayoffOption.style.display = 'none';
+          selectGoalType(
+            document.querySelector('.goal-type-option:first-child'),
+            'target'
+          );
+        }
+
+        modal.classList.add('show');
+        document.getElementById('goalName').focus();
+      }
+
+      function closeModal() {
+        document.getElementById('addModal').classList.remove('show');
+        currentEditingId = null;
+      }
+
+      function saveGoal() {
+        const name = document.getElementById('goalName').value.trim();
+        const target =
+          parseFloat(
+            document.getElementById('targetAmount').value.replace(/[£,]/g, '')
+          ) || 0;
+        const monthlyAllocation =
+          parseFloat(
+            document
+              .getElementById('monthlyAllocation')
+              .value.replace(/[£,]/g, '')
+          ) || 0;
+        const interestRate =
+          parseFloat(
+            document.getElementById('interestRate').value.replace(/[%]/g, '')
+          ) || 0;
+        const priority = document.getElementById('goalPriority').value;
+
+        if (!name) {
+          alert('Please enter a goal name');
+          return;
+        }
+
+        if (target <= 0) {
+          alert('Please enter a valid target amount');
+          return;
+        }
+
+        if (monthlyAllocation <= 0) {
+          alert('Please enter a valid monthly allocation');
+          return;
+        }
+
+        // Check if allocation exceeds available budget
+        const currentTotal = currentEditingId
+          ? totalGoalAllocation -
+            goals[currentCategory].find((g) => g.id === currentEditingId)
+              .monthlyAllocation
+          : totalGoalAllocation;
+
+        if (currentTotal + monthlyAllocation > availableBudget) {
+          alert(
+            `Monthly allocation would exceed your available budget of £${availableBudget}`
+          );
+          return;
+        }
+
+        // Determine goal type - debt category always creates debt goals
+        const isDebtGoal = currentCategory === 'debt';
+
+        // Calculate timeline with interest
+        let months,
+          totalInterest = 0;
+
+        if (isDebtGoal && interestRate > 0) {
+          // For debt with interest, calculate payoff time with compound interest
+          const monthlyRate = interestRate / 100 / 12;
+          months = Math.ceil(
+            Math.log(1 + (target * monthlyRate) / monthlyAllocation) /
+              Math.log(1 + monthlyRate)
+          );
+          totalInterest = monthlyAllocation * months - target;
+        } else if (!isDebtGoal && interestRate > 0) {
+          // For savings/investment with compound growth
+          const monthlyRate = interestRate / 100 / 12;
+          months = Math.ceil(
+            Math.log((target / monthlyAllocation) * monthlyRate + 1) /
+              Math.log(1 + monthlyRate)
+          );
+        } else {
+          // Simple calculation without interest
+          months = Math.ceil(target / monthlyAllocation);
+        }
+
+        const completionDate = new Date();
+        completionDate.setMonth(completionDate.getMonth() + months);
+        const timelineText = `${months} month${months !== 1 ? 's' : ''}`;
+
+        const goal = {
+          id: currentEditingId || Date.now(),
+          name: name,
+          target: target,
+          monthlyAllocation: monthlyAllocation,
+          interestRate: interestRate,
+          priority: priority,
+          type: isDebtGoal ? 'debt' : 'target',
+          timeline: timelineText,
+          completionDate: completionDate,
+          category: currentCategory,
+          totalInterest: totalInterest,
+          months: months
+        };
+
+        // Add or update goal
+        if (currentEditingId) {
+          const index = goals[currentCategory].findIndex(
+            (g) => g.id === currentEditingId
+          );
+          if (index !== -1) {
+            goals[currentCategory][index] = goal;
+          }
+        } else {
+          goals[currentCategory].push(goal);
+        }
+
+        updateGoalDisplay(currentCategory);
+        updateGoalProgress();
+        closeModal();
+      }
+
+      function updateGoalDisplay(category) {
+        if (category === 'emergency') return; // Emergency fund has direct inputs
+
+        const list = document.getElementById(`${category}-list`);
+        const placeholder = document.getElementById(`${category}-placeholder`);
+        const items = goals[category];
+
+        if (items.length > 0) {
+          placeholder.style.display = 'none';
+          list.style.display = 'block';
+
+          list.innerHTML = items
+            .map((goal) => {
+              // Create interest/return display
+              let interestDisplay = '';
+              if (goal.interestRate > 0) {
+                if (goal.type === 'debt') {
+                  interestDisplay = `<div class="goal-interest debt-interest">Interest: ${goal.interestRate}% - Save £${Math.round(goal.totalInterest || 0)}</div>`;
+                } else {
+                  interestDisplay = `<div class="goal-interest growth-interest">Expected return: ${goal.interestRate}%</div>`;
+                }
+              }
+
+              return `
+              <div class="goal-item">
+                <div class="goal-details-section">
+                  <div class="goal-name">${goal.name}</div>
+                  ${interestDisplay}
+                </div>
+                <div class="goal-target">£${goal.target.toLocaleString()}</div>
+                <div class="goal-allocation" onclick="editGoal('${category}', ${goal.id})">
+                  £${goal.monthlyAllocation}/month
+                </div>
+                <div class="goal-timeline">${goal.timeline}</div>
+                <div class="goal-actions">
+                  <button class="goal-btn" onclick="editGoal('${category}', ${goal.id})">Edit</button>
+                  <button class="goal-btn delete" onclick="removeGoal('${category}', ${goal.id})">Delete</button>
+                </div>
+              </div>
+            `;
+            })
+            .join('');
+        } else {
+          placeholder.style.display = 'block';
+          list.style.display = 'none';
+        }
+      }
+
+      function removeGoal(category, id) {
+        goals[category] = goals[category].filter((g) => g.id !== id);
+        updateGoalDisplay(category);
+        updateGoalProgress();
+      }
+
+      function updateGoalProgress() {
+        // Calculate totals for each category
+        let grandTotal = 0;
+
+        // Handle emergency fund (special case) - only count if not skipped
+        const emergencyTotal = goals.emergency.skipped
+          ? 0
+          : goals.emergency.monthlyAllocation || 0;
+        grandTotal += emergencyTotal;
+        document.getElementById('emergency-total').textContent = goals.emergency
+          .skipped
+          ? 'Skipped'
+          : `£${emergencyTotal.toLocaleString()}/month`;
+
+        // Handle other categories (arrays)
+        ['debt', 'savings', 'future'].forEach((category) => {
+          const total = goals[category].reduce(
+            (sum, goal) => sum + goal.monthlyAllocation,
+            0
+          );
+          grandTotal += total;
+
+          // Update category total display
+          document.getElementById(`${category}-total`).textContent =
+            `£${total.toLocaleString()}/month`;
+        });
+
+        totalGoalAllocation = grandTotal;
+        const remaining = availableBudget - totalGoalAllocation;
+
+        // Update metrics
+        document.getElementById('allocatedGoals').textContent =
+          `£${totalGoalAllocation.toLocaleString()}`;
+        document.getElementById('remainingBudget').textContent =
+          `£${Math.max(0, remaining).toLocaleString()}`;
+
+        // Update timeline
+        updateTimeline();
+
+        // Update status
+        updateStatus();
+
+        // Update continue button - allow continuation even if emergency fund is skipped
+        const hasGoals =
+          emergencyTotal > 0 ||
+          ['debt', 'savings', 'future'].some((cat) => goals[cat].length > 0);
+        const hasAnyActivity = goals.emergency.skipped || hasGoals; // Allow if skipped or has other goals
+        document.getElementById('continueButton').disabled = !hasAnyActivity;
+      }
+
+      function updateTimeline() {
+        const timelineSection = document.getElementById('timelineSection');
+        const timelineList = document.getElementById('timelineList');
+
+        // Collect all goals and sort by completion date
+        const allGoals = [];
+
+        // Add emergency fund if it has allocation and is not skipped
+        if (
+          !goals.emergency.skipped &&
+          goals.emergency.monthlyAllocation > 0 &&
+          goals.emergency.target > 0
+        ) {
+          const months = Math.ceil(
+            goals.emergency.target / goals.emergency.monthlyAllocation
+          );
+          const completionDate = new Date();
+          completionDate.setMonth(completionDate.getMonth() + months);
+
+          allGoals.push({
+            name: 'Emergency Fund',
+            completionDate: completionDate
+          });
+        }
+
+        // Add other goals
+        ['debt', 'savings', 'future'].forEach((category) => {
+          allGoals.push(...goals[category]);
+        });
+
+        if (allGoals.length === 0) {
+          timelineSection.style.display = 'none';
+          return;
+        }
+
+        // Sort by completion date
+        allGoals.sort((a, b) => a.completionDate - b.completionDate);
+
+        // Show only next 4 goals
+        const nextGoals = allGoals.slice(0, 4);
+
+        timelineList.innerHTML = nextGoals
+          .map((goal) => {
+            const dateStr = goal.completionDate.toLocaleDateString('en-GB', {
+              month: 'short',
+              year: 'numeric'
+            });
+            return `
+            <div class="timeline-item">
+              <div class="timeline-goal">${goal.name}</div>
+              <div class="timeline-date">${dateStr}</div>
+            </div>
+          `;
+          })
+          .join('');
+
+        timelineSection.style.display = 'block';
+      }
+
+      function updateStatus() {
+        const statusIcon = document.getElementById('statusIcon');
+        const statusTitle = document.getElementById('statusTitle');
+        const statusDescription = document.getElementById('statusDescription');
+        const remaining = availableBudget - totalGoalAllocation;
+
+        const hasGoals = totalGoalAllocation > 0;
+        const hasEmergencyFund =
+          !goals.emergency.skipped && goals.emergency.monthlyAllocation > 0;
+        const emergencyFundSkipped = goals.emergency.skipped;
+
+        if (!hasGoals && !emergencyFundSkipped) {
+          statusIcon.textContent = '💡';
+          statusTitle.textContent = 'Ready to set goals';
+          statusDescription.textContent =
+            'You have £808/month to work with. Start with an emergency fund for peace of mind!';
+        } else if (emergencyFundSkipped && !hasGoals) {
+          statusIcon.textContent = '🎯';
+          statusTitle.textContent = 'Ready for other goals';
+          statusDescription.textContent =
+            "You've skipped the emergency fund. Consider adding debt payoff, savings, or future planning goals.";
+        } else if (!hasEmergencyFund && !emergencyFundSkipped) {
+          statusIcon.textContent = '🛡️';
+          statusTitle.textContent = 'Consider an emergency fund';
+          statusDescription.textContent =
+            'An emergency fund provides financial security and peace of mind for unexpected expenses.';
+        } else if (emergencyFundSkipped && hasGoals) {
+          statusIcon.textContent = '⚠️';
+          statusTitle.textContent = 'No emergency safety net';
+          statusDescription.textContent =
+            "You've skipped the emergency fund. Consider if you have adequate protection against unexpected expenses.";
+        } else if (remaining > 100) {
+          statusIcon.textContent = '🎯';
+          statusTitle.textContent = 'Great progress!';
+          statusDescription.textContent = `You still have £${remaining}/month available. Consider adding more goals or increasing allocations.`;
+        } else if (remaining >= 0) {
+          statusIcon.textContent = '✨';
+          statusTitle.textContent = 'Excellent allocation!';
+          statusDescription.textContent =
+            "Your budget is well-allocated across meaningful goals. You're building a great financial future!";
+        } else {
+          statusIcon.textContent = '⚠️';
+          statusTitle.textContent = 'Over-allocated';
+          statusDescription.textContent = `You're £${Math.abs(remaining)} over your available budget. Consider reducing some allocations.`;
+        }
+      }
+
+      function createBudget() {
+        const totalGoalCategories =
+          (goals.emergency.skipped
+            ? 0
+            : goals.emergency.monthlyAllocation > 0
+              ? 1
+              : 0) +
+          ['debt', 'savings', 'future'].reduce(
+            (sum, cat) => sum + goals[cat].length,
+            0
+          );
+
+        const emergencyStatus = goals.emergency.skipped
+          ? 'Skipped'
+          : goals.emergency.monthlyAllocation > 0
+            ? 'Active'
+            : 'Not set';
+
+        alert(
+          `🎉 Congratulations! Your budget has been created successfully!\n\nIncome: £2,900/month\nExpenses: £2,092/month\nEmergency Fund: ${emergencyStatus}\nOther Goals: ${totalGoalCategories - (emergencyStatus === 'Active' ? 1 : 0)} goals with £${totalGoalAllocation}/month allocated\n\nYou'll now see your personalized financial dashboard with projections and insights.`
+        );
+      }
+
+      function backToExpenses() {
+        alert('Going back to expenses step...');
+      }
+
+      // Close modal when clicking outside
+      document
+        .getElementById('addModal')
+        .addEventListener('click', function (e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+
+      // Handle Enter key in modal
+      document.addEventListener('keydown', function (e) {
+        if (
+          e.key === 'Enter' &&
+          document.getElementById('addModal').classList.contains('show')
+        ) {
+          saveGoal();
+        } else if (e.key === 'Escape') {
+          closeModal();
+        }
+      });
+
+      // Add click handler for continue button
+      document
+        .getElementById('continueButton')
+        .addEventListener('click', createBudget);
+
+      // Initialize
+      updateGoalProgress();
+    </script>
+  </body>
+</html>
