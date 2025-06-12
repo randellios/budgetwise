@@ -1,0 +1,609 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Planner - Tune Budget (Enhanced)</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo-area">
+          <span class="logo-icon">💰</span>
+          <div>
+            <div class="logo-text">Budget Planner</div>
+            <div class="breadcrumb">Tune Budget</div>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="avatar">SJ</div>
+          <div class="settings-icon">⚙️</div>
+        </div>
+      </header>
+
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title">Navigation</div>
+          <a href="#" class="sidebar-nav-item">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+          </a>
+          <a href="#" class="sidebar-nav-item active">
+            <span class="nav-icon">⚙️</span>
+            <span>Tune Budget</span>
+          </a>
+          <a href="#" class="sidebar-nav-item">
+            <span class="nav-icon">🎯</span>
+            <span>Goals</span>
+          </a>
+          <a href="#" class="sidebar-nav-item">
+            <span class="nav-icon">📊</span>
+            <span>Scenarios</span>
+          </a>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Current Budget</div>
+          <div class="budget-summary">
+            <div class="summary-row">
+              <span class="summary-label">Income</span>
+              <span class="summary-value" id="sidebar-income">£2,900</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Expenses</span>
+              <span class="summary-value" id="sidebar-expenses">£2,092</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Goals</span>
+              <span class="summary-value" id="sidebar-goals">£658</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Surplus</span>
+              <span class="summary-value" id="sidebar-surplus">£150</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="impact-preview">
+            <div class="impact-title">Impact Preview</div>
+            <div class="impact-item">
+              <span>Credit Card Payoff</span>
+              <span class="impact-change neutral" id="preview-debt"
+                >Dec 2025</span
+              >
+            </div>
+            <div class="impact-item">
+              <span>Emergency Fund</span>
+              <span class="impact-change neutral" id="preview-emergency"
+                >Mar 2026</span
+              >
+            </div>
+            <div class="impact-item">
+              <span>Holiday Fund</span>
+              <span class="impact-change positive" id="preview-holiday"
+                >2 months early</span
+              >
+            </div>
+            <div class="impact-item">
+              <span>Monthly Buffer</span>
+              <span class="impact-change neutral" id="preview-buffer"
+                >£150</span
+              >
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="page-header">
+          <h1 class="page-title">Tune Your Budget</h1>
+          <p class="page-subtitle">
+            Adjust your spending and see how it affects your financial goals in
+            real-time
+          </p>
+        </div>
+
+        <div class="content-grid">
+          <div class="budget-sections">
+            <!-- Income Section -->
+            <div class="budget-section">
+              <div class="section-header income">
+                <div class="section-info">
+                  <span class="section-icon">💼</span>
+                  <div class="section-details">
+                    <h3>Income</h3>
+                    <div class="section-description">
+                      Your monthly income sources
+                    </div>
+                  </div>
+                </div>
+                <div class="section-total" id="income-total">£2,900</div>
+              </div>
+              <div class="section-content">
+                <div class="budget-item">
+                  <div>
+                    <div class="item-name">Employment</div>
+                    <div class="item-frequency">Monthly salary after tax</div>
+                  </div>
+                  <div class="item-amount">£2,500</div>
+                  <div class="item-actions">
+                    <button class="item-btn edit">Edit</button>
+                  </div>
+                </div>
+                <div class="budget-item">
+                  <div>
+                    <div class="item-name">Freelance Work</div>
+                    <div class="item-frequency">Variable income</div>
+                  </div>
+                  <div class="item-amount">£200-£600</div>
+                  <div class="item-actions">
+                    <button class="item-btn edit">Edit</button>
+                    <button class="item-btn delete">Delete</button>
+                  </div>
+                </div>
+                <button class="add-item-btn">+ Add Income Source</button>
+              </div>
+            </div>
+
+            <!-- Expenses Section -->
+            <div class="budget-section">
+              <div class="section-header expenses">
+                <div class="section-info">
+                  <span class="section-icon">🏠</span>
+                  <div class="section-details">
+                    <h3>Expenses</h3>
+                    <div class="section-description">
+                      Monthly spending - adjust with sliders
+                    </div>
+                  </div>
+                </div>
+                <div class="section-total" id="expenses-total">£2,092</div>
+              </div>
+              <div class="section-content">
+                <!-- Essentials Category -->
+                <div class="expense-category">
+                  <div class="category-header">
+                    <span class="category-icon">🔴</span>
+                    <div class="category-info">
+                      <h4>ESSENTIALS</h4>
+                      <span class="category-total" id="essentials-total"
+                        >£1,500</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="budget-item">
+                    <div class="item-name">Rent</div>
+                    <div class="item-amount">£1,200</div>
+                    <div class="item-slider">
+                      <input
+                        type="range"
+                        class="budget-slider"
+                        min="1000"
+                        max="1500"
+                        value="1200"
+                        data-item="rent"
+                        data-category="essentials"
+                        oninput="updateBudgetItem(this)"
+                      />
+                    </div>
+                    <div class="item-actions">
+                      <button class="item-btn edit">Edit</button>
+                    </div>
+                  </div>
+
+                  <div class="budget-item">
+                    <div class="item-name">Utilities</div>
+                    <div class="item-amount">£150</div>
+                    <div class="item-slider">
+                      <input
+                        type="range"
+                        class="budget-slider"
+                        min="100"
+                        max="250"
+                        value="150"
+                        data-item="utilities"
+                        data-category="essentials"
+                        oninput="updateBudgetItem(this)"
+                      />
+                    </div>
+                    <div class="item-actions">
+                      <button class="item-btn edit">Edit</button>
+                    </div>
+                  </div>
+
+                  <div class="budget-item">
+                    <div class="item-name">Insurance</div>
+                    <div class="item-amount">£150</div>
+                    <div class="item-slider">
+                      <input
+                        type="range"
+                        class="budget-slider"
+                        min="50"
+                        max="300"
+                        value="150"
+                        data-item="insurance"
+                        data-category="essentials"
+                        oninput="updateBudgetItem(this)"
+                      />
+                    </div>
+                    <div class="item-actions">
+                      <button class="item-btn edit">Edit</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Basics Category -->
+                <div class="expense-category">
+                  <div class="category-header">
+                    <span class="category-icon">🟡</span>
+                    <div class="category-info">
+                      <h4>BASICS</h4>
+                      <span class="category-total" id="basics-total">£550</span>
+                    </div>
+                  </div>
+
+                  <div class="budget-item">
+                    <div class="item-name">Groceries</div>
+                    <div class="item-amount">£300</div>
+                    <div class="item-slider">
+                      <input
+                        type="range"
+                        class="budget-slider"
+                        min="200"
+                        max="500"
+                        value="300"
+                        data-item="groceries"
+                        data-category="basics"
+                        oninput="updateBudgetItem(this)"
+                      />
+                    </div>
+                    <div class="item-actions">
+                      <button class="item-btn edit">Edit</button>
+                    </div>
+                  </div>
+
+                  <div class="budget-item">
+                    <div class="item-name">Transport</div>
+                    <div class="item-amount">£250</div>
+                    <div class="item-slider">
+                      <input
+                        type="range"
+                        class="budget-slider"
+                        min="150"
+                        max="400"
+                        value="250"
+                        data-item="transport"
+                        data-category="basics"
+                        oninput="updateBudgetItem(this)"
+                      />
+                    </div>
+                    <div class="item-actions">
+                      <button class="item-btn edit">Edit</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Wants Category -->
+                <div class="expense-category">
+                  <div class="category-header">
+                    <span class="category-icon">🟢</span>
+                    <div class="category-info">
+                      <h4>WANTS</h4>
+                      <span class="category-total" id="wants-total">£192</span>
+                    </div>
+                  </div>
+
+                  <div class="budget-item">
+                    <div class="item-name">Entertainment</div>
+                    <div class="item-amount">£192</div>
+                    <div class="item-slider">
+                      <input
+                        type="range"
+                        class="budget-slider"
+                        min="50"
+                        max="400"
+                        value="192"
+                        data-item="entertainment"
+                        data-category="wants"
+                        oninput="updateBudgetItem(this)"
+                      />
+                    </div>
+                    <div class="item-actions">
+                      <button class="item-btn edit">Edit</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Virtual Fund Category -->
+                <div class="expense-category virtual-fund">
+                  <div class="category-header">
+                    <span class="category-icon">⚡</span>
+                    <div class="category-info">
+                      <h4>VIRTUAL FUND</h4>
+                      <span
+                        class="category-total"
+                        id="virtualfund-category-total"
+                        >£150</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="budget-item">
+                    <div class="item-name">Emergency Buffer</div>
+                    <div class="item-amount">£150</div>
+                    <div class="item-slider">
+                      <input
+                        type="range"
+                        class="budget-slider"
+                        min="0"
+                        max="300"
+                        value="150"
+                        data-item="virtualfund"
+                        data-category="virtualfund"
+                        oninput="updateBudgetItem(this)"
+                      />
+                    </div>
+                    <div class="item-actions">
+                      <button class="item-btn edit">Edit</button>
+                    </div>
+                  </div>
+                </div>
+
+                <button class="add-item-btn">+ Add Expense</button>
+              </div>
+            </div>
+
+            <!-- Goals Section -->
+            <div class="budget-section">
+              <div class="section-header goals">
+                <div class="section-info">
+                  <span class="section-icon">🎯</span>
+                  <div class="section-details">
+                    <h3>Goals</h3>
+                    <div class="section-description">
+                      Adjust goal allocations
+                    </div>
+                  </div>
+                </div>
+                <div class="section-total" id="goals-total">£658</div>
+              </div>
+              <div class="section-content">
+                <div class="budget-item">
+                  <div>
+                    <div class="item-name">Emergency Fund</div>
+                    <div class="item-frequency">Target: £5,000</div>
+                  </div>
+                  <div class="item-amount">£300</div>
+                  <div class="item-slider">
+                    <div class="slider-container">
+                      <input
+                        type="range"
+                        class="budget-slider"
+                        min="0"
+                        max="500"
+                        value="300"
+                        data-item="emergency"
+                        oninput="updateBudgetItem(this)"
+                      />
+                    </div>
+                    <div class="slider-value">£0 - £500</div>
+                  </div>
+                  <div class="item-actions">
+                    <button class="item-btn edit">Edit</button>
+                  </div>
+                </div>
+
+                <div class="budget-item">
+                  <div>
+                    <div class="item-name">Credit Card Debt</div>
+                    <div class="item-frequency">Balance: £1,500 @ 19.9%</div>
+                  </div>
+                  <div class="item-amount">£208</div>
+                  <div class="item-slider">
+                    <div class="slider-container">
+                      <input
+                        type="range"
+                        class="budget-slider"
+                        min="50"
+                        max="400"
+                        value="208"
+                        data-item="debt"
+                        oninput="updateBudgetItem(this)"
+                      />
+                    </div>
+                    <div class="slider-value">£50 - £400</div>
+                  </div>
+                  <div class="item-actions">
+                    <button class="item-btn edit">Edit</button>
+                  </div>
+                </div>
+
+                <div class="budget-item">
+                  <div>
+                    <div class="item-name">Holiday Fund</div>
+                    <div class="item-frequency">Target: £2,000</div>
+                  </div>
+                  <div class="item-amount">£150</div>
+                  <div class="item-slider">
+                    <div class="slider-container">
+                      <input
+                        type="range"
+                        class="budget-slider"
+                        min="0"
+                        max="300"
+                        value="150"
+                        data-item="holiday"
+                        oninput="updateBudgetItem(this)"
+                      />
+                    </div>
+                    <div class="slider-value">£0 - £300</div>
+                  </div>
+                  <div class="item-actions">
+                    <button class="item-btn edit">Edit</button>
+                    <button class="item-btn delete">Delete</button>
+                  </div>
+                </div>
+
+                <button class="add-item-btn">+ Add Goal</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Impact Panel -->
+          <div class="impact-panel">
+            <h2 class="impact-title-main">Budget Impact</h2>
+
+            <!-- Allocated Income Progress -->
+            <div class="health-score">
+              <div class="progress-container">
+                <div class="score-circle" id="allocationCircle">
+                  <div class="score-value" id="allocationPercentage">95%</div>
+                </div>
+                <div class="allocation-figures" id="allocationFigures">
+                  <div class="allocated-amount">£2,750</div>
+                  <div class="total-income">of £2,900</div>
+                </div>
+              </div>
+              <div class="score-label">Income Allocated</div>
+            </div>
+
+            <!-- Impact Metrics -->
+            <div class="impact-metrics">
+              <div class="impact-card">
+                <div class="impact-label">Debt Freedom</div>
+                <div class="impact-value" id="debt-freedom-value">Dec 2025</div>
+                <div
+                  class="impact-change-text neutral"
+                  id="debt-freedom-change"
+                >
+                  On track
+                </div>
+              </div>
+
+              <div class="impact-card">
+                <div class="impact-label">Saving Funds</div>
+                <div class="impact-value" id="saving-funds-value">£450</div>
+                <div
+                  class="impact-change-text neutral"
+                  id="saving-funds-change"
+                >
+                  Per month
+                </div>
+              </div>
+
+              <div class="impact-card">
+                <div class="impact-label">Emergency Buffer</div>
+                <div class="impact-value" id="buffer-value">3.2 months</div>
+                <div class="impact-change-text neutral" id="buffer-change">
+                  Secure
+                </div>
+              </div>
+            </div>
+
+            <!-- 50/30/20 Rule Monitoring -->
+            <div class="rule-monitoring">
+              <div class="rule-title">50/30/20 Rule Status</div>
+              <div class="rule-breakdown">
+                <div class="rule-item">
+                  <div class="rule-category">
+                    <span class="rule-icon">🏠</span>
+                    <span class="rule-label">Needs (50%)</span>
+                  </div>
+                  <div class="rule-progress">
+                    <div class="rule-bar">
+                      <div
+                        class="rule-fill needs"
+                        id="needsFill"
+                        style="width: 45%"
+                      ></div>
+                    </div>
+                    <div class="rule-percentage" id="needsPercentage">45%</div>
+                  </div>
+                </div>
+
+                <div class="rule-item">
+                  <div class="rule-category">
+                    <span class="rule-icon">🎯</span>
+                    <span class="rule-label">Wants (30%)</span>
+                  </div>
+                  <div class="rule-progress">
+                    <div class="rule-bar">
+                      <div
+                        class="rule-fill wants"
+                        id="wantsFill"
+                        style="width: 15%"
+                      ></div>
+                    </div>
+                    <div class="rule-percentage" id="wantsPercentage">15%</div>
+                  </div>
+                </div>
+
+                <div class="rule-item">
+                  <div class="rule-category">
+                    <span class="rule-icon">💰</span>
+                    <span class="rule-label">Savings (20%)</span>
+                  </div>
+                  <div class="rule-progress">
+                    <div class="rule-bar">
+                      <div
+                        class="rule-fill savings"
+                        id="savingsFill"
+                        style="width: 25%"
+                      ></div>
+                    </div>
+                    <div class="rule-percentage" id="savingsPercentage">
+                      25%
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rule-status" id="ruleStatus">
+                <div class="status-icon">✅</div>
+                <div class="status-text">
+                  Great balance! You're exceeding the savings target.
+                </div>
+              </div>
+            </div>
+
+            <!-- Goals Timeline -->
+            <div class="goals-timeline">
+              <div class="timeline-title">🎯 Goal Completion Timeline</div>
+              <div class="timeline-item">
+                <div class="timeline-goal">Holiday Fund</div>
+                <div class="timeline-date" id="holiday-timeline">Aug 2025</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-goal">Credit Card Clear</div>
+                <div class="timeline-date" id="debt-timeline">Dec 2025</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-goal">Emergency Fund</div>
+                <div class="timeline-date" id="emergency-timeline">
+                  Mar 2026
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button class="action-btn secondary" onclick="resetBudget()">
+                Reset
+              </button>
+              <button class="action-btn primary" onclick="saveBudget()">
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
